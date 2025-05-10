@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema({
     comment: String,
     rating: Number,
   }],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
 }, { timestamps: true });
 
 export default mongoose.model("Product", productSchema);

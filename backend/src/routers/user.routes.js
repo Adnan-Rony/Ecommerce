@@ -25,7 +25,7 @@ router.put("/profile/:id",verifyToken, updateUserProfile);
 //admin routes
 router.get("/",verifyToken, getAllUsers);
 router.put("/makeadmin/:id",verifyToken, checkAdmin, makeAdmin);
-router.put("/:id",verifyToken, checkAdmin, deleteUser);
+router.delete("/:id",verifyToken, checkAdmin, deleteUser);
 
 
 

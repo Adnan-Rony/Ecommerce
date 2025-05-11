@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, deleteProduct, getAllProducts, getProductById } from '../controllers/products.controller.js';
+import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../controllers/products.controller.js';
 import { verifyToken } from './../middleware/verifyToken.js';
 import { checkAdmin } from './../middleware/checkAdmin.js';
 
@@ -16,6 +16,7 @@ router.post("/create",verifyToken,checkAdmin,createProduct)
 
 //admin
 router.delete("/delete/:id",verifyToken,checkAdmin,deleteProduct)
+router.put("/:id",verifyToken,checkAdmin,updateProduct)
 
 
 

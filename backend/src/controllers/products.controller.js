@@ -36,7 +36,7 @@ export const createProduct = async (req, res) => {
     const product = new ProductModel({
       name,
       price,
-      description: description || '', // Default to an empty string if not provided
+      description: description || '', 
       category,
       images,
       brand,
@@ -153,3 +153,51 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  try {
+    const product = await ProductModel.findById(id);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    const user = await usersModel.findById(req.user.id);
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Unauthorized: User not found" });
+    }
+
+    const isOwner = product.createdBy?.toString() === user._id.toString();
+    const isAdmin = user.role === "admin";
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ success: false, message: "Forbidden: Not allowed to update this product" });
+    }
+
+    // Optional: Validate numeric fields
+    if (updates.price && (isNaN(updates.price) || updates.price < 0)) {
+      return res.status(400).json({ success: false, message: "Invalid price value." });
+    }
+    if (updates.stock && (isNaN(updates.stock) || updates.stock < 0)) {
+      return res.status(400).json({ success: false, message: "Invalid stock value." });
+    }
+
+    // Optional: Ensure images is an array if provided
+    if (updates.images && !Array.isArray(updates.images)) {
+      return res.status(400).json({ success: false, message: "Images must be an array." });
+    }
+
+    // Perform update
+    const updatedProduct = await ProductModel.findByIdAndUpdate(id, updates, { new: true });
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (err) {
+    console.error("Product update failed:", err);
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};

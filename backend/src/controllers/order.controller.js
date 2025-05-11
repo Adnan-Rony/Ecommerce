@@ -5,39 +5,41 @@ import OrderModel from "../models/Order.model.js";
 
 export const placeOrder = async (req, res) => {
   const userId = req.user.id;
-  const { shippingAddress } = req.body;
+  const { shippingAddress, paymentMethod } = req.body;
 
   if (!shippingAddress || !shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
     return res.status(400).json({ success: false, message: "Shipping address is incomplete." });
   }
 
+  if (!paymentMethod || !['COD', 'Online'].includes(paymentMethod)) {
+    return res.status(400).json({ success: false, message: "Invalid or missing payment method." });
+  }
+
   try {
-    // Get user's cart
     const cart = await CartModel.findOne({ user: userId }).populate("products.product");
 
     if (!cart || cart.products.length === 0) {
       return res.status(400).json({ success: false, message: "Cart is empty." });
     }
 
-    // Calculate total amount
     const totalAmount = cart.products.reduce((total, item) => {
       return total + item.product.price * item.quantity;
     }, 0);
 
-    // Create order
     const order = new OrderModel({
       user: userId,
       items: cart.products.map(item => ({
         product: item.product._id,
-        quantity: item.quantity
+        quantity: item.quantity,
       })),
       shippingAddress,
       totalAmount,
+      paymentMethod,
+      paymentStatus: paymentMethod === 'COD' ? 'pending' : 'paid' // You may enhance this using Stripe webhook for real-time status
     });
 
     await order.save();
 
-    // Clear cart after order placed
     cart.products = [];
     await cart.save();
 
@@ -55,6 +57,7 @@ export const placeOrder = async (req, res) => {
     });
   }
 };
+
 
 
 

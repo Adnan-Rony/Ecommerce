@@ -73,15 +73,60 @@ export const createProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find()
-    .populate('reviews.user','name email') // Populate user details in reviews
-     .populate('createdBy', 'name email') 
+    const {
+      search,
+      category,
+      minPrice,
+      maxPrice,
+      ratings,
+      sort = 'createdAt',
+      order = 'desc',
+    } = req.query;
+
+    const filter = {};
+
+    // Search by name or brand
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { brand: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    // Filter by category
+    if (category) {
+      filter.category = category;
+    }
+   
+
+    // Filter by minimum rating
+    if (ratings) {
+      filter.ratings = { $gte: Number(ratings) };
+    }
+
+    // Filter by price range
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    // Fetch and populate with sorting
+    const products = await ProductModel.find(filter)
+      .sort({ [sort]: order === 'asc' ? 1 : -1 })
+      .populate('reviews.user', 'name email')
+      .populate('createdBy', 'name email');
 
     res.status(200).json({ success: true, products });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to fetch products', error: err.message });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch products',
+      error: err.message
+    });
   }
 };
+
 
 
 

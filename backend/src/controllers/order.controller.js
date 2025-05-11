@@ -55,3 +55,55 @@ export const placeOrder = async (req, res) => {
     });
   }
 };
+
+
+
+export const getUserOrders = async (req, res) => {
+  try {
+    const orders = await OrderModel.find({ user: req.user.id }).populate("items.product");
+    res.status(200).json({ success: true, orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};
+
+
+export const getSingleOrder = async (req, res) => {
+  try {
+    const order = await OrderModel.findById(req.params.id)
+      .populate("user", "name email")
+      .populate("items.product");
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+
+    res.status(200).json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};
+
+
+export const updateOrderStatus = async (req, res) => {
+  const { status } = req.body;
+
+  if (!["pending", "shipped", "delivered", "cancelled"].includes(status)) {
+    return res.status(400).json({ success: false, message: "Invalid status value" });
+  }
+
+  try {
+    const order = await OrderModel.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+
+    order.status = status;
+    await order.save();
+
+    res.status(200).json({ success: true, message: "Order status updated", order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};

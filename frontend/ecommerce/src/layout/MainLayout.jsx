@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 const MainLayout = () => {
   return (
     <div>
-      <main className="max-w-screen mx-auto">
+      <main className="container  mx-auto">
         <Outlet />
       </main>
     </div>

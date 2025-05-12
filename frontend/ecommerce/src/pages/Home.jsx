@@ -1,9 +1,14 @@
-import React from 'react';
+import Categories from "../components/home/Categories.jsx";
+import Hero from "../components/home/Hero.jsx";
+
 
 const Home = () => {
     return (
-        <div>
-            <p>home</p>
+        <div className="">
+            <Hero></Hero>
+
+            <Categories></Categories>
+            
         </div>
     );
 };

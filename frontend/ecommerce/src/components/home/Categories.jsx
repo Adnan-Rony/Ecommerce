@@ -1,5 +1,8 @@
 import React from "react";
 import img from "../../assets/Smartphone-Mobile-PNG-Image-Background.png"
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
+
 const Categories = () => {
   const categories = [
     { name: "Mobile", img: img },
@@ -24,14 +27,15 @@ const Categories = () => {
 
         <div className="grid lg:grid-cols-6 grid-cols-3 justify-center sm:justify-start gap-6 my-4 ">
           {categories.map((cat, index) => (
+            <SkeletonTheme  baseColor="#202020" highlightColor="#444">
             <div
               key={index}
               className="flex flex-col items-center hover:scale-105 transition-transform"
             >
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full shadow-md flex items-center justify-center overflow-hidden bg-gray-100">
                 <img
-                  src={cat.img}
-                  alt={cat.name}
+                  src={cat.img }
+                  alt={cat.name }
                   className="object-contain w-full h-full"
                 />
               </div>
@@ -39,6 +43,7 @@ const Categories = () => {
                 {cat.name}
               </span>
             </div>
+            </SkeletonTheme>
           ))}
         </div>
       </div>

@@ -33,7 +33,7 @@ const SingleProduct = () => {
           <div className="flex justify-content item-center">
             {/* <button className='btn '>1</button> */}
             <button className="btn bg-black text-white">Add To Cart</button>
-          </div>{" "}
+          </div>
           <hr className="" />
           <div className="mt-2">
             <p>

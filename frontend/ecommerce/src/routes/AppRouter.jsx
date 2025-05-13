@@ -4,29 +4,39 @@ import Home from "../pages/Home.jsx";
 import SingleProduct from "../pages/SingleProduct.jsx";
 import AllCategories from "../pages/AllCategories.jsx";
 import Checkout from "../pages/Checkout.jsx";
+import Login from "../pages/Login.jsx";
 
+import SingUp from "../pages/SingUp.jsx";
 
-export const AppRouter=createBrowserRouter([
-    {
-        path:"/",
-        element:<MainLayout></MainLayout>,
-        children:[
-                {
-                    path:"/",
-                    element:<Home></Home>
-                },
-                {
-                    path:"/categories",
-                    element:<SingleProduct/>
-                },
-                {
-                    path:"/allcategories",
-                    element:<AllCategories/>
-                },
-                {
-                    path:"/checkout",
-                    element:<Checkout/>
-                }
-        ]
-    }
-])
+export const AppRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout></MainLayout>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/categories",
+        element: <SingleProduct />,
+      },
+      {
+        path: "/allcategories",
+        element: <AllCategories />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path:"/SingUp",
+    element:<SingUp/>
+  }
+]);

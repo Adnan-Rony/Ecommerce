@@ -1,20 +1,26 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { UseRegister } from "../features/users/userQueries.js";
 import toast from "react-hot-toast";
 
 const SingUp = () => {
   const { register, handleSubmit, reset } = useForm();
+  const navigate=useNavigate()
 
-  const { mutate: registerUser, isPending, isSuccess, error } = UseRegister();
+  const { mutate: registerUser, isPending,  } = UseRegister();
 
 
   const onSubmit = (data) => {
     registerUser(data, {
       onSuccess: () => {
         reset(); // Reset form on success
+        toast.success("registered successfully");
+        navigate('/')
         console.log("User registered successfully");
       },
+       onError: () => {
+        toast.error("register failed!");
+      }
     });
   };
 
@@ -73,10 +79,7 @@ const SingUp = () => {
               >
                 {isPending ? "Registering..." : "Register"}
               </button>
-              {isSuccess && (
-                toast.success("register successful!")
-              )}
-              {error && <p className="text-red-500">{error.message}</p>}
+              
             </div>
           </form>
 

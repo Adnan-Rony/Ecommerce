@@ -3,7 +3,7 @@ import img from "../../assets/Smartphone-Mobile-PNG-Image-Background.png"
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const Categories = () => {
+const  Categories = () => {
   const categories = [
     { name: "Mobile", img: img },
     { name: "Cosmetics", img: img },

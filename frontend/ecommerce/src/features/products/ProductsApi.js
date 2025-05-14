@@ -7,7 +7,7 @@ export const fetchProducts=async()=>{
 }
 
 export const fetchProductById = async (id) => {
-  const res = await axiosInstance.get(`/products/${id}`);
+  const res = await axiosInstance.get(`/product/${id}`);
   return res.data;
 };
 
@@ -28,3 +28,11 @@ export const deleteProduct=async(id)=>{
     const res=await axiosInstance.delete(`/product/${id}`)
     return res.data
 }
+
+
+export const searchProducts = async (searchTerm) => {
+  const res = await axiosInstance.get(`/product`, {
+    params: { search: searchTerm },
+  });
+  return res.data;
+};

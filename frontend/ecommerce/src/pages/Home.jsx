@@ -1,6 +1,8 @@
 import Card from "../components/home/Card.jsx";
 import Categories from "../components/home/Categories.jsx";
 import Hero from "../components/home/Hero.jsx";
+import PromoBanner from "../components/home/PromoBanner.jsx";
+import LoginModal from "./Logintwo.jsx";
 
 
 const Home = () => {
@@ -12,6 +14,8 @@ const Home = () => {
 
       <Categories></Categories>
       <Card></Card>
+      <PromoBanner></PromoBanner>
+     
       
     </div>
   );

@@ -8,6 +8,7 @@ import Recommadation from "../components/Products/Recommadation.jsx";
 import { UseFetchProductsById } from "../features/products/ProductsQuery.js";
 import { useParams } from "react-router";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import AddToCart from "../components/AddToCart.jsx";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const SingleProduct = () => {
 
 
 
-  const { data: product, isLoading, isError } = UseFetchProductsById(id);
+  const { data: products, isLoading, isError } = UseFetchProductsById(id);
 
 
 
@@ -28,11 +29,11 @@ const SingleProduct = () => {
            
       <div className="grid lg:grid-cols-2 justify-center grid-cols-1 gap- p-4">
         <div className="p-4 flex justify-center">
-          {product.images &&
-          Array.isArray(product.images) &&
-          product.images.length > 0 ? (
+          {products.images &&
+          Array.isArray(products.images) &&
+          products.images.length > 0 ? (
             <Carousel className="w-full max-w-md">
-              {product.images.map((url, index) => (
+              {products.images.map((url, index) => (
                 <div key={index}>
                   <img
                     src={url}
@@ -49,23 +50,29 @@ const SingleProduct = () => {
 
         <div className="space-y-4 my-10 ">
           <div>
-            <p className="text-xl">{product.name}</p>
-            <p className="font-bold text-2xl">$ {product.price}</p>
+            <p className="text-xl">{products.name}</p>
+            <p className="font-bold text-2xl">$ {products.price}</p>
           </div>
+
+          
           <div className="flex justify-content item-center">
-            {/* <button className='btn '>1</button> */}
-            <button className="btn bg-black text-white">Add To Cart</button>
+            {/* import add to cart */}
+            <AddToCart  product={products}></AddToCart>
           </div>
+
+
+
+
           <hr className="" />
           <div className="mt-2">
-            <p>{product.description}</p>
+            <p>{products.description}</p>
 
             <div className="my-2">
               <p className="text-xl font-semibold">Detailed Specification:</p>
               <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
-                <li>Brand: {product.brand}</li>
-                <li>Category: {product.category}</li>
-                <li>Stock: {product.stock}</li>
+                <li>Brand: {products.brand}</li>
+                <li>Category: {products.category}</li>
+                <li>Stock: {products.stock}</li>
               </ul>
             </div>
           </div>

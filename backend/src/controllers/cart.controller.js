@@ -45,16 +45,33 @@ export const getCart = async (req, res) => {
   try {
     const cart = await CartModel.findOne({ user: userId }).populate({
       path: "products.product",
-      select: "name price images category brand" 
+      select: "name price images category brand"
     });
 
     if (!cart) {
-      return res.status(200).json({ success: true, cart: { products: [] } });
+      return res.status(200).json({
+        success: true,
+        cart: {
+          products: [],
+          totalPrice: 0
+        }
+      });
     }
+
+    // Calculate total price
+    const totalPrice = cart.products.reduce((acc, item) => {
+      if (item.product && item.product.price) {
+        return acc + item.product.price * item.quantity;
+      }
+      return acc;
+    }, 0);
 
     res.status(200).json({
       success: true,
-      cart,
+      cart: {
+        ...cart.toObject(),
+        totalPrice
+      }
     });
   } catch (err) {
     console.error("Error fetching cart:", err);
@@ -65,6 +82,7 @@ export const getCart = async (req, res) => {
     });
   }
 };
+
 
 
 export const updateCartItem = async (req, res) => {

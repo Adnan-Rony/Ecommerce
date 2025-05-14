@@ -9,7 +9,7 @@ export const myorderFetch=async()=>{
 
 
 export const ordercreate=async(orderId)=>{
-    const res=await axiosInstance.get('/order/create',orderId)
+    const res=await axiosInstance.post('/order/create',orderId)
     return res.data
 }
 
@@ -20,7 +20,7 @@ export const singleMyorder=async(orderId)=>{
 
 
 export const updateStatus=async({orderId,updateStatus})=>{
-    const res=await axiosInstance.get(`order/status/${orderId}`,updateStatus)
+    const res=await axiosInstance.put(`order/status/${orderId}`,updateStatus)
     return res.data
 }
 

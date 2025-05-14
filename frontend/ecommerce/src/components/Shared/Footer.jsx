@@ -29,7 +29,7 @@ const Footer = () => {
             <li>Hardware</li>
             <li>Cameras</li>
             <li>Headphones</li>
-            <li>Bathroom</li>
+         
           </ul>
         </div>
 
@@ -41,7 +41,7 @@ const Footer = () => {
             <li>Stores</li>
             <li>Our contacts</li>
             <li>Delivery & Return</li>
-            <li>Outlet</li>
+          
           </ul>
         </div>
 

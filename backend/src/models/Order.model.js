@@ -14,6 +14,10 @@ const orderSchema = new mongoose.Schema({
     city: String,
     postalCode: String,
     country: String,
+    name:String,
+    email:String,
+    phone:String,
+    note:String
   },
   totalAmount: Number,
   status: {

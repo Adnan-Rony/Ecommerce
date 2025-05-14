@@ -16,7 +16,7 @@ const Navber = () => {
         <div className="flex items-center gap-2 flex-1">
           {/* Logo */}
           <Link to="/">
-            <h1 className="font-semibold text-xl whitespace-nowrap">Techlio</h1>
+            <h1 className="font-semibold text-xl whitespace-nowrap"> <span className="text-blue-600">⦿</span>    Techlio.</h1>
           </Link>
 
           {/* Search Bar */}

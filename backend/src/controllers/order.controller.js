@@ -7,7 +7,7 @@ export const placeOrder = async (req, res) => {
   const userId = req.user.id;
   const { shippingAddress, paymentMethod } = req.body;
 
-  if (!shippingAddress || !shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
+  if (!shippingAddress || !shippingAddress.address || !shippingAddress.city || !shippingAddress.country || !shippingAddress.name || !shippingAddress.email || !shippingAddress.phone) {
     return res.status(400).json({ success: false, message: "Shipping address is incomplete." });
   }
 

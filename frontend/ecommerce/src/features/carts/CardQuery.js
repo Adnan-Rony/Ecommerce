@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { AddToCart, AllCart } from "./CartsApi.js";
+import { AddToCart, AllCart, DeleteCart } from "./CartsApi.js";
 
 
 
@@ -24,3 +24,16 @@ export const UseFetchAllCart=()=>{
         
     })
 }
+
+
+export const useDeleteCartItem = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: DeleteCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    },
+  });
+}
+

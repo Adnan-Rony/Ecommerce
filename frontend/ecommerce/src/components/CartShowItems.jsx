@@ -2,6 +2,7 @@ import React, { } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import CartItemsAll from "./CartItemsAll";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
+import { Link } from "react-router";
 
 const CartShowItems = () => {
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
@@ -40,7 +41,7 @@ const CartShowItems = () => {
           {/* Overlay to close drawer on click */}
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
 
-          <div className="w-80 sm:w-96 bg-white text-gray-800 h-full flex flex-col overflow-y-auto p-4 shadow-lg">
+          <div className="w-80 sm:w-96 bg-gray-100 text-gray-800 h-full flex flex-col overflow-y-auto p-4 shadow-lg">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold">Your Cart</h2>
@@ -53,12 +54,16 @@ const CartShowItems = () => {
             </div>
 
             {/* Cart Items List */}
-            <CartItemsAll refetch={refetch} />
+           <div className="">
+             <CartItemsAll refetch={refetch} />
+           </div>
 
             <div className="mt-auto pt-4 border-t">
+             <Link to="/checkout">
               <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 transition">
                 Proceed to Checkout
               </button>
+             </Link>
             </div>
           </div>
         </div>

@@ -18,7 +18,9 @@ export const UpdateCart=async({CartId,UpdatedCart})=>{
 }
 
 //modify this 
-export const DeleteCart=async(CartId)=>{
-    const res=await axiosInstance.delete(`/cart/item`,CartId)
-    return res.data
-}
+export const DeleteCart = async (productId) => {
+  return await axiosInstance.delete("/cart/item", {
+    data: { productId },
+  });
+};
+

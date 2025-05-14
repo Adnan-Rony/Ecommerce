@@ -1,14 +1,25 @@
 
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
+import { MdDelete } from "react-icons/md";
+import { useDeleteCartItem } from './../features/carts/CardQuery';
+import { toast } from 'react-hot-toast';
 
-const CartItemsAll = () => {
+const CartItemsAll = ({productId}) => {
   const { data, isLoading, isError } = UseFetchAllCart();
+  const { mutate: deleteCartItem, isPending } = useDeleteCartItem();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Failed to load cart.</p>;
 
   // Safely extract cart items
    const cartItems = data?.cart?.products || [];
+
+   const handleDelete = (productId) => {
+    deleteCartItem(productId, {
+      onSuccess: () => toast.success('Item removed from cart'),
+      onError: () => toast.error('Failed to remove item'),
+    });
+  };
 
   return (
     <div>
@@ -64,12 +75,14 @@ const CartItemsAll = () => {
                   Add another Size
                 </button>
 
-                <button className="text-red-600 hover:text-red-800">
-                  Remove
+                <button 
+                onClick={()=>handleDelete(item?.product?._id)}  disabled={isPending}
+                 className="text-red-600 hover:text-red-800">
+                  <MdDelete className="text-2xl" />
                 </button>
 
 
-                
+
               </div>
             </div>
           ))}

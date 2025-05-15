@@ -30,7 +30,7 @@ const Hero = () => {
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
                   <div
-                    className="absolute inset-0 bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-110 rounded-xl"
+                    className="absolute inset-0 bg-center bg-cover bg-no-repeat "
                     style={{ backgroundImage: `url(${img})` }}
                   />
                 </div>

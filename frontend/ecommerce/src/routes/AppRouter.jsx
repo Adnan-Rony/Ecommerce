@@ -7,6 +7,8 @@ import Checkout from "../pages/Checkout.jsx";
 import Login from "../pages/Login.jsx";
 
 import SingUp from "../pages/SingUp.jsx";
+import CreateProducts from "../pages/CreateProducts.jsx";
+import AdminDashboard from "../pages/AdminDashboard.jsx";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -29,6 +31,10 @@ export const AppRouter = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/createProduct",
+        element: <CreateProducts />,
+      },
     ],
   },
   {
@@ -38,5 +44,13 @@ export const AppRouter = createBrowserRouter([
   {
     path:"/SingUp",
     element:<SingUp/>
-  }
+  },
+
+{
+  path:"/dashboard",
+  element:<AdminDashboard/>
+}
+
+
+
 ]);

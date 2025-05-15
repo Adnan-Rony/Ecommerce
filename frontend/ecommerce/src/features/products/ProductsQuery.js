@@ -1,6 +1,6 @@
-import {   useQuery } from "@tanstack/react-query";
+import {   useMutation, useQuery } from "@tanstack/react-query";
 
-import { fetchProductById, fetchProducts, searchProducts } from "./ProductsApi.js";
+import { createProduct, fetchProductById, fetchProducts, searchProducts } from "./ProductsApi.js";
 
 
 
@@ -11,6 +11,12 @@ export const UseFetchProducts = () => {
      select: (data) => data.products,
   });
 };
+
+export const UseCreateProduct=()=>{
+  return useMutation({
+    mutationFn:createProduct
+  })
+}
 
 
 

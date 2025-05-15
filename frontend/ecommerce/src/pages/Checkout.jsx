@@ -6,12 +6,15 @@ import { UseMyOrderCreate, UseMyOrders } from "../features/order/OrderQuery.js";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
+import { useNavigate } from "react-router";
 
 const Checkout = () => {
   const { register, handleSubmit, watch } = useForm();
   const { mutate, isPending, isSuccess } = UseMyOrderCreate();
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
+const navigate=useNavigate()
 
+  if(isLoading) return <p>loading.....</p>
   console.log(data);
 
   const selectedPayment = watch("paymentMethod");
@@ -34,7 +37,8 @@ const Checkout = () => {
       // totalPrice: 1200
     };
     toast.success("Order Confirm");
-    console.log("Payload being sent:", payload);
+    navigate("/")
+
     mutate(payload);
   };
 

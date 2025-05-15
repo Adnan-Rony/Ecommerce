@@ -36,7 +36,7 @@ const CartItemsAll = ({productId}) => {
               {/* Product Info */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 <img
-                  src={item?.products?.images?.[0] }
+                  src={item?.products?.images[0] }
                   alt={item?.product?.name}
                   className="w-24 h-28 object-cover rounded mx-auto sm:mx-0"
                 />

@@ -7,6 +7,11 @@ export const myorderFetch=async()=>{
     return res.data
 }
 
+export const AllOrderFetch=async()=>{
+    const res=await axiosInstance.get('/order/allorders')
+    return res.data
+}
+
 
 export const ordercreate=async(orderId)=>{
     const res=await axiosInstance.post('/order/create',orderId)

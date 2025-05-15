@@ -31,10 +31,6 @@ export const AppRouter = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
-      {
-        path: "/createProduct",
-        element: <CreateProducts />,
-      },
     ],
   },
   {
@@ -42,15 +38,18 @@ export const AppRouter = createBrowserRouter([
     element: <Login />,
   },
   {
-    path:"/SingUp",
-    element:<SingUp/>
+    path: "/SingUp",
+    element: <SingUp />,
   },
 
-{
-  path:"/dashboard",
-  element:<AdminDashboard/>
-}
-
-
-
+  {
+    path: "/dashboard",
+    element: <AdminDashboard />,
+    children: [
+      {
+        path: "/dashboard/createProduct",
+        element: <CreateProducts />,
+      },
+    ],
+  },
 ]);

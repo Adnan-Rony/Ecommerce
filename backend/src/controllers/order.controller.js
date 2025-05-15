@@ -65,12 +65,27 @@ export const placeOrder = async (req, res) => {
 
 export const getUserOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.find({ user: req.user.id }).populate("items.product");
+    const orders = await OrderModel.find({ user: req.user.id })
+    .populate("items.product")
+    .populate("user","name email")
     res.status(200).json({ success: true, orders });
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
+
+export const getUserAllOrders = async (req, res) => {
+  try {
+    const orders = await OrderModel.find({})
+      .populate("user", "name email")
+      .populate("items.product");
+
+    res.status(200).json({ success: true, orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};
+
 
 
 export const getSingleOrder = async (req, res) => {

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { myorderFetch, ordercreate } from "./OrderApi.js"
+import { AllOrderFetch, myorderFetch, ordercreate } from "./OrderApi.js"
 
 
 export const UseMyOrders=()=>{
@@ -16,3 +16,10 @@ export const UseMyOrderCreate=()=>{
         mutationFn:ordercreate
     })
 }
+
+
+export const UseAllOrderFetch=()=>{
+    return useQuery({
+         queryKey: ['all-orders'], 
+        queryFn:AllOrderFetch
+    })}

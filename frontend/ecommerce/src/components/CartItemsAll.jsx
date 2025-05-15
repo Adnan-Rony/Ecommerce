@@ -36,7 +36,7 @@ const CartItemsAll = ({productId}) => {
               {/* Product Info */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 <img
-                  src={item?.products?.images[0] }
+                  src={item?.product?.images[0] }
                   alt={item?.product?.name}
                   className="w-24 h-28 object-cover rounded mx-auto sm:mx-0"
                 />
@@ -70,10 +70,8 @@ const CartItemsAll = ({productId}) => {
               </div>
 
               {/* Actions */}
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                <button className="flex items-center gap-2 text-white bg-black px-4 py-1.5 text-sm rounded shadow hover:bg-gray-800 w-full sm:w-auto justify-center">
-                  Add another Size
-                </button>
+              <div className="flex flex-col sm:flex-row justify-end items-center gap-2">
+                
 
                 <button 
                 onClick={()=>handleDelete(item?.product?._id)}  disabled={isPending}

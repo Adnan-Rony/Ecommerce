@@ -7,8 +7,11 @@ import Checkout from "../pages/Checkout.jsx";
 import Login from "../pages/Login.jsx";
 
 import SingUp from "../pages/SingUp.jsx";
-import CreateProducts from "../pages/CreateProducts.jsx";
+
 import AdminDashboard from "../pages/AdminDashboard.jsx";
+import MyOrderOverview from "../pages/MyOrderOverview.jsx";
+import WishlistPage from "../pages/WishlistPage.jsx";
+
 
 export const AppRouter = createBrowserRouter([
   {
@@ -31,8 +34,18 @@ export const AppRouter = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/myorder",
+        element: <MyOrderOverview />,
+      },
+      {
+        path: "/wishlist",
+        element: <WishlistPage />,
+      },
+      
     ],
   },
+
   {
     path: "/login",
     element: <Login />,
@@ -46,10 +59,7 @@ export const AppRouter = createBrowserRouter([
     path: "/dashboard",
     element: <AdminDashboard />,
     children: [
-      {
-        path: "/dashboard/createProduct",
-        element: <CreateProducts />,
-      },
+      
     ],
   },
 ]);

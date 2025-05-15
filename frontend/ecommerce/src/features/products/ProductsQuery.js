@@ -1,6 +1,6 @@
-import {   useMutation, useQuery } from "@tanstack/react-query";
+import {   useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createProduct, fetchProductById, fetchProducts, searchProducts } from "./ProductsApi.js";
+import { createProduct, deleteProduct, fetchProductById, fetchProducts, searchProducts } from "./ProductsApi.js";
 
 
 
@@ -25,8 +25,20 @@ export const UseFetchProductsById = (id) => {
     queryKey: ["product", id],
     queryFn: () => fetchProductById(id),
     enabled: !!id,
-    // extract the actual product from response
+  
     select: (data) => data.product,
+  });
+};
+
+
+export const UseDeleteProductsById = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]); // Adjust to your actual query key
+    },
   });
 };
 

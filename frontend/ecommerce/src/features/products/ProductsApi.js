@@ -25,7 +25,7 @@ export const updateProduct=async({id,updatedData})=>{
 }
 
 export const deleteProduct=async(id)=>{
-    const res=await axiosInstance.delete(`/product/${id}`)
+    const res=await axiosInstance.delete(`/product/delete/${id}`)
     return res.data
 }
 

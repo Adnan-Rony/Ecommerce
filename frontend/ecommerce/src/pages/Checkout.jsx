@@ -12,9 +12,9 @@ const Checkout = () => {
   const { register, handleSubmit, watch } = useForm();
   const { mutate, isPending, isSuccess } = UseMyOrderCreate();
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
-const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  if(isLoading) return <p>loading.....</p>
+  if (isLoading) return <p>loading.....</p>;
   console.log(data);
 
   const selectedPayment = watch("paymentMethod");
@@ -37,7 +37,7 @@ const navigate=useNavigate()
       // totalPrice: 1200
     };
     toast.success("Order Confirm");
-    navigate("/")
+    navigate("/");
 
     mutate(payload);
   };
@@ -114,41 +114,40 @@ const navigate=useNavigate()
               </div>
             </div>
 
-            {/* Price Breakdown */}
             <div className="bg-gray-200 mt-8 p-4 rounded-md shadow-sm">
-              <p className="text-gray-800 text-center">
-                Your total payable amount is
-                <p className="text-green-600 font-bold lg:text-3xl text-xl">
-                  ৳1200
-                </p>
-              </p>
-              <p className="mt-2 font-semibold text-center text-2xl">
-                Breakdown
-              </p>
-              <table className="table w-full mt-2 text-sm">
-                <thead>
-                  <tr>
-                    <th>Purpose</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Total</td>
-                    <td>৳1140</td>
-                  </tr>
-                  <tr>
-                    <td>Shipping</td>
-                    <td>৳60</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p className="mt-2 text-green-600 font-medium">
-                You will get the delivery{" "}
-                <span className="font-bold">within 2-3 Days</span> after
-                confirmation.
-              </p>
-            </div>
+                  <p className="text-gray-800 text-center">
+                    Your total payable amount is
+                    <p className="text-green-600 font-bold lg:text-3xl text-xl">
+                     {data?.cart?.totalPrice}
+                    </p>
+                  </p>
+                  <p className="mt-2 font-semibold text-center text-2xl">
+                    Breakdown
+                  </p>
+                  <table className="table w-full mt-2 text-sm">
+                    <thead>
+                      <tr>
+                        <th>Purpose</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Total</td>
+                        <td>${data?.cart?.totalPrice}</td>
+                      </tr>
+                      <tr>
+                        <td>Shipping</td>
+                        <td>00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p className="mt-2 text-green-600 font-medium">
+                    You will get the delivery{" "}
+                    <span className="font-bold">within 2-3 Days</span> after
+                    confirmation.
+                  </p>
+                </div>
 
             {/* Payment Options */}
             <div className="my-4">
@@ -206,19 +205,16 @@ const navigate=useNavigate()
             data.cart.products.map((item) => (
               <div key={item._id} className="space-y-4">
                 <p className="my-4">{item.product.name}</p>
-               <div className="flex items-center justify-between gap-2 ">
-                 <img
-                  src={item.product.images[0]} // Taking the first image
-                  alt={item.product.name}
-                  className="lg:w-24 w-24 rounded-2xl object-cover"
-                />
-                <div className="flex gap-2">
-                  <p>{item.quantity}</p>X <span>{item.product.price}</span>
-                  </div> 
-               </div>
-                
-                
-               
+                <div className="flex items-center justify-between gap-2 ">
+                  <img
+                    src={item.product.images[0]} // Taking the first image
+                    alt={item.product.name}
+                    className="lg:w-24 w-24 rounded-2xl object-cover"
+                  />
+                  <div className="flex gap-2">
+                    <p>{item.quantity}</p>X <span>{item.product.price}</span>
+                  </div>
+                </div>
               </div>
             ))
           ) : (
@@ -240,9 +236,7 @@ const navigate=useNavigate()
             <hr className="border-t-2 py-2 border-gray-300" />
             <div className="flex justify-between text-xl font-bold">
               <span>Payable:</span>
-              <span className="text-green-600">
-                ৳{data?.cart?.totalPrice }
-              </span>
+              <span className="text-green-600">৳{data?.cart?.totalPrice}</span>
             </div>
           </div>
         </div>

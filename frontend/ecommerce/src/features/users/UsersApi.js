@@ -11,10 +11,15 @@ export const RegisterUser=async(userId)=>{
     return res.data
 }
 
-export const LogoutUser=async(userId)=>{
-    const res=await axiosInstance.post('/users/logout',userId)
-    return res.data
-}
+export const LogoutUser = async () => {
+
+  await axiosInstance.post('/users/logout');
+
+
+  localStorage.removeItem('accessToken');
+
+ 
+};
 
 export const CurrentUser=async(userId)=>{
     const res=await axiosInstance.get('/users/profile',userId)

@@ -87,7 +87,7 @@ const SingUp = () => {
             <p>
               Allready have an account?
               <Link className="ml-2 text-blue-600" to="/login">
-                Sign up
+                Login
               </Link>
             </p>
           </div>

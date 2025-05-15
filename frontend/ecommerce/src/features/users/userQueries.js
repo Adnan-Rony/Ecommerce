@@ -13,10 +13,13 @@ export const UseRegister=()=>useMutation({
     mutationFn:RegisterUser
 })
 
+
 //Logout
 export const Uselogout=()=>useMutation({
     mutationFn:LogoutUser
 })
+
+
 
 export const UseCurrentUser=()=>
     useQuery({
@@ -32,7 +35,7 @@ export const useFetchUsers = () =>
   });
 
 // Admin: make admin
-export const useMakeAdmin = () =>
+export const UseMakeAdmin = () =>
   useMutation({
     mutationFn: MakeAdminUser,
   });

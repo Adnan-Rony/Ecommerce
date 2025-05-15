@@ -2,10 +2,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { UseCreateProduct } from "../features/products/ProductsQuery.js";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const CreateProducts = () => {
   const { register, handleSubmit, reset } = useForm();
   const { mutate, isPending } = UseCreateProduct();
+  const navigate = useNavigate();
+
+
 
   const onSubmit = (data) => {
     const images = [data.image1, data.image2, data.image3, ].filter(
@@ -155,12 +159,12 @@ const CreateProducts = () => {
 
           {/* Buttons */}
           <div className="flex justify-end gap-4">
-            <button
+            {/* <button 
               type="button"
               className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100"
             >
               Cancel
-            </button>
+            </button> */}
             <button
               type="submit"
               disabled={isPending}

@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // ✅ Use react-router-dom instead of react-router
 import { UseAddToCart } from "../features/carts/CardQuery.js";
+import { MdBookmarkAdd } from "react-icons/md";
 
 import AddToCart from "./AddToCart.jsx";
+import { UseWishlistCreate } from "../features/wishlist/wishlistQuery.js";
+import toast from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
-    const [hovered, setHovered] = useState(false);
+  const { mutate: addToWishlist, isPending } = UseWishlistCreate();
+
+const handleWishlistAdd = () => {
+  addToWishlist({ productId: product._id }, {
+    onSuccess: () => toast.success("Added to wishlist"),
+    onError: () => toast.error("Failed to add to wishlist"),
+  });
+};
+
+
+
+
+  const [hovered, setHovered] = useState(false);
 
   const primaryImage = product.images?.[0];
   const secondaryImage = product.images?.[1] || primaryImage;
-  
 
   return (
-     <div
+    <div
       className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between min-h-[380px]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -38,8 +52,15 @@ const ProductCard = ({ product }) => {
         ✔ In stock ({product.stock})
       </p>
 
-      <div className="text-sm text-gray-800 mb-2">
-        <span className="text-blue-600 font-bold">${product.price}</span>
+      <div className="text-sm  text-gray-800 justify-between mb-2 flex items-center gap-2">
+        <p className="text-blue-600 font-bold">${product.price}</p>
+        <button
+          onClick={handleWishlistAdd}
+          disabled={isPending}
+          title="Add to Wishlist"
+        >
+          <MdBookmarkAdd className="text-xl text-blue-500 hover:text-blue-700" />
+        </button>
       </div>
 
       <div className="mt-auto">

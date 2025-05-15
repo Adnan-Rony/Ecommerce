@@ -7,9 +7,10 @@ const Footer = () => {
         
         {/* Logo & Description */}
         <div>
-          <h2 className="text-2xl font-bold text-black mb-2">
-            <span className="text-blue-600">⦿</span>    Techlio.
-          </h2>
+          <h1 className="font-bold text-2xl whitespace-nowrap">
+            <span className="text-blue-600">Tech</span>
+            <span className="text-black">Dev.</span>
+          </h1>
           <p className="mb-4">Condimentum adipiscing vel neque dis nam parturient orci at scelerisque.</p>
           <p className="font-semibold mb-2">Subscribe us</p>
           <div className="flex gap-2 text-white text-lg">

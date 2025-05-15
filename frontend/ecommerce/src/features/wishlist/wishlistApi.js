@@ -8,7 +8,7 @@ export const getAllWishlist=async()=>{
 }
 
 export const AddWishlist=async(wishlistId)=>{
-    const res=await axiosInstance.get('/wishlist/add',wishlistId)
+    const res=await axiosInstance.post('/wishlist/add',wishlistId)
     return res.data
 }
 
@@ -17,3 +17,5 @@ export const DeleteWishlist=async(wishlistId)=>{
     const res=await axiosInstance.get(`/wishlist/${wishlistId}`)
     return res.data
 }
+
+

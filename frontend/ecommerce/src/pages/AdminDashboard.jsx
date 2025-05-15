@@ -14,7 +14,10 @@ const AdminDashboard = () => {
       <div className="w-full md:w-64 bg-white shadow-md p-4 md:p-6">
         <div className="mb-6">
         <Link to="/" >
-        <h1 className="font-semibold text-xl whitespace-nowrap"> <span className="text-blue-600">⦿</span>    Techlio.</h1>
+       <h1 className="font-bold text-2xl whitespace-nowrap">
+            <span className="text-blue-600">Tech</span>
+            <span className="text-black">Dev.</span>
+          </h1>
         </Link>
         </div>
         <nav className="flex md:flex-col gap-2">
@@ -58,6 +61,16 @@ const AdminDashboard = () => {
           >
             Orders
           </button>
+          <button
+            className={`w-full text-left px-3 py-2 rounded ${
+              activeTab === "create"
+                ? "bg-[#1e4db7] text-white"
+                : "hover:bg-blue-100"
+            }`}
+            onClick={() => setActiveTab("create")}
+          >
+            Post Products
+          </button>
         </nav>
       </div>
 
@@ -85,6 +98,11 @@ const AdminDashboard = () => {
         {activeTab === "Orders" &&  (
           <div>
             <AllConfirmOrders/>
+          </div>
+        )}
+        {activeTab === "create" &&  (
+          <div>
+            <CreateProducts/>
           </div>
         )}
 

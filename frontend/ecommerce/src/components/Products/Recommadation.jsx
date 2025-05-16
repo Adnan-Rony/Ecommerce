@@ -1,183 +1,38 @@
-import React from "react";
-import img from "../../assets/apple-iphone-14-plus-blue-1.jpg";
-import { Link } from "react-router";
-const Recommadation = () => {
+// src/components/RecommendedProducts.js
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useRecommendedProducts } from "../../features/products/ProductsQuery.js";
+
+const RecommendedProducts = () => {
+  const { id: productId } = useParams();
+  const { data: recommendedProducts, isLoading, error } = useRecommendedProducts(productId);
+
+  useEffect(() => {
+    console.log("Product ID:", productId);
+    console.log("Recommended Products:", recommendedProducts);
+  }, [productId, recommendedProducts]);
+
+  if (isLoading) return <p className="text-center text-gray-600">Loading recommendations...</p>;
+  if (error) return <p className="text-center text-red-500">Failed to load recommendations.</p>;
+
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
-        <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-          <Link>
-            <div className="relative">
-              <img
-                className="w-full h-40 object-contain mb-3"
-                src={img}
-                alt=""
-              />
-            </div>
-          </Link>
-
-          <h3 className="text-sm font-semibold text-gray-900">
-            Apple MacBook Pro 16″ M1 Pro
-          </h3>
-          <p className="text-xs text-gray-500 mb-1">Device</p>
-
-          <div className="flex items-center text-yellow-400 text-sm mb-1">
-            ☆ ☆ ☆ ☆
+    <div className="mt-10">
+      <h2 className="text-2xl font-bold mb-4">You May Also Like</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {recommendedProducts?.map((product) => (
+          <div key={product._id} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="w-full h-48 object-cover rounded-md mb-2"
+            />
+            <h3 className="text-lg font-semibold">{product.name}</h3>
+            <p className="text-gray-700">৳ {product.price}</p>
           </div>
-
-          <p className="text-green-600 text-sm mb-1">
-            <h1> ✔ In stock</h1>
-          </p>
-
-          <div className="text-sm text-gray-800 mb-2">
-            <span className="text-blue-600 font-bold">
-              <p>$200</p>
-            </span>
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 text-sm mb-2">
-            Add To Cart
-          </button>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-          <Link>
-            <div className="relative">
-              <img
-                className="w-full h-40 object-contain mb-3"
-                src={img}
-                alt=""
-              />
-            </div>
-          </Link>
-
-          <h3 className="text-sm font-semibold text-gray-900">
-            Apple MacBook Pro 16″ M1 Pro
-          </h3>
-          <p className="text-xs text-gray-500 mb-1">Device</p>
-
-          <div className="flex items-center text-yellow-400 text-sm mb-1">
-            ☆ ☆ ☆ ☆
-          </div>
-
-          <p className="text-green-600 text-sm mb-1">
-            <h1> ✔ In stock</h1>
-          </p>
-
-          <div className="text-sm text-gray-800 mb-2">
-            <span className="text-blue-600 font-bold">
-              <p>$200</p>
-            </span>
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 text-sm mb-2">
-            Add To Cart
-          </button>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-          <Link>
-            <div className="relative">
-              <img
-                className="w-full h-40 object-contain mb-3"
-                src={img}
-                alt=""
-              />
-            </div>
-          </Link>
-
-          <h3 className="text-sm font-semibold text-gray-900">
-            Apple MacBook Pro 16″ M1 Pro
-          </h3>
-          <p className="text-xs text-gray-500 mb-1">Device</p>
-
-          <div className="flex items-center text-yellow-400 text-sm mb-1">
-            ☆ ☆ ☆ ☆
-          </div>
-
-          <p className="text-green-600 text-sm mb-1">
-            <h1> ✔ In stock</h1>
-          </p>
-
-          <div className="text-sm text-gray-800 mb-2">
-            <span className="text-blue-600 font-bold">
-              <p>$200</p>
-            </span>
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 text-sm mb-2">
-            Add To Cart
-          </button>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-          <Link>
-            <div className="relative">
-              <img
-                className="w-full h-40 object-contain mb-3"
-                src={img}
-                alt=""
-              />
-            </div>
-          </Link>
-
-          <h3 className="text-sm font-semibold text-gray-900">
-            Apple MacBook Pro 16″ M1 Pro
-          </h3>
-          <p className="text-xs text-gray-500 mb-1">Device</p>
-
-          <div className="flex items-center text-yellow-400 text-sm mb-1">
-            ☆ ☆ ☆ ☆
-          </div>
-
-          <p className="text-green-600 text-sm mb-1">
-            <h1> ✔ In stock</h1>
-          </p>
-
-          <div className="text-sm text-gray-800 mb-2">
-            <span className="text-blue-600 font-bold">
-              <p>$200</p>
-            </span>
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 text-sm mb-2">
-            Add To Cart
-          </button>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-          <Link>
-            <div className="relative">
-              <img
-                className="w-full h-40 object-contain mb-3"
-                src={img}
-                alt=""
-              />
-            </div>
-          </Link>
-
-          <h3 className="text-sm font-semibold text-gray-900">
-            Apple MacBook Pro 16″ M1 Pro
-          </h3>
-          <p className="text-xs text-gray-500 mb-1">Device</p>
-
-          <div className="flex items-center text-yellow-400 text-sm mb-1">
-            ☆ ☆ ☆ ☆
-          </div>
-
-          <p className="text-green-600 text-sm mb-1">
-            <h1> ✔ In stock</h1>
-          </p>
-
-          <div className="text-sm text-gray-800 mb-2">
-            <span className="text-blue-600 font-bold">
-              <p>$200</p>
-            </span>
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 text-sm mb-2">
-            Add To Cart
-          </button>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default Recommadation;
+export default RecommendedProducts;

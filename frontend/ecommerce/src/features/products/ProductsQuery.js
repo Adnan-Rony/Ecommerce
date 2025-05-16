@@ -1,6 +1,6 @@
 import {   useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createProduct, deleteProduct, fetchProductById, fetchProducts, searchProducts } from "./ProductsApi.js";
+import { createProduct, deleteProduct, fetchProductById, fetchProducts, fetchRecommendedProductById, searchProducts } from "./ProductsApi.js";
 
 
 
@@ -48,5 +48,14 @@ export const useSearchProducts = (searchTerm) => {
     queryKey: ["searchProducts", searchTerm],
     queryFn: () => searchProducts(searchTerm),
     enabled: !!searchTerm?.trim(),
+  });
+};
+
+
+export const useRecommendedProducts = (id) => {
+  return useQuery({
+    queryKey: ["recommended-products", id],
+    queryFn: () => fetchRecommendedProductById(id),
+    enabled: !!id, 
   });
 };

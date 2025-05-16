@@ -36,3 +36,10 @@ export const searchProducts = async (searchTerm) => {
   });
   return res.data;
 };
+
+
+
+export const fetchRecommendedProductById = async (id) => {
+  const res = await axiosInstance.get(`/product/recommendations/${id}`);
+  return res.data;
+};

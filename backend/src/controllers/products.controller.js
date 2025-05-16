@@ -246,3 +246,23 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
+
+
+export const getRecommendedProducts = async (req, res) => {
+  try {
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const recommendedProducts = await ProductModel.find({
+      category: product.category,
+      _id: { $ne: product._id }, 
+    }).limit(5);
+
+    res.status(200).json(recommendedProducts);
+  } catch (error) {
+    console.error("Error getting recommended products:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

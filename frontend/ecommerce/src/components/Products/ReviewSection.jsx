@@ -1,43 +1,44 @@
 import React from "react";
-import img from "../../assets/1328396.png";
-const ReviewSection = () => {
+import img from "../../assets/user-1.jpg";
+const ReviewSection = ({ reviews = [], }) => {
+
+
+  
   return (
     <div>
       <div className="max-w-6xl mx-auto p-6 grid lg:grid-cols-2 grid-cols-1 gap-6">
         {/* Existing review */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-6">Customer Reviews</h2>
-          <p className="text-sm text-gray-700 mb-1">
-            1 review for <strong>iPhone 12 Pro Moment Case – Olive</strong>
-          </p>
-          <div className="flex items-start gap-4 my-4">
+           <h2 className="text-2xl font-semibold mb-6">Customer Reviews</h2>
+     
+
+      {reviews.length === 0 ? (
+        <p className="text-sm text-gray-500 mt-2">No reviews yet.</p>
+      ) : (
+        reviews.map((review) => (
+          <div key={review._id} className="flex items-start gap-4 my-4">
             <img src={img} alt="Reviewer" className="rounded-full w-12 h-12" />
             <div>
-              <p className="font-semibold">
-                Mr. Mackay{" "}
-                <span className="text-sm text-gray-500">
-                  — September 2, 2022
-                </span>
-              </p>
+              <p className="font-semibold">Anonymous</p>
               <div className="flex space-x-1 text-yellow-500 text-sm mb-2">
                 {Array(5)
                   .fill(0)
                   .map((_, i) => (
-                    <span key={i}>★</span>
+                    <span key={i}>{i < Math.round(review.rating) ? "★" : "☆"}</span>
                   ))}
               </div>
-              <p className="text-gray-700 text-sm">
-                At worst the discussion is at least working towards the final
-                goal of your site where questions about lorem ipsum don’t.
-                Summing up, if the copy is diverting attention from the design
-                it’s because it’. If the copy becomes distracting in the design
-                then you are doing something wrong or they are discussing copy
-                changes. It might be a bit annoying but you could tell them that
-                that discussion would be best suited for another time.
-              </p>
+              <p className="text-gray-700 text-sm">{review.comment}</p>
             </div>
           </div>
-        </div>
+        ))
+      )}
+    </div>
+
+      
+
+
+
+
 
         {/* Review form */}
         <form className="space-y-4">

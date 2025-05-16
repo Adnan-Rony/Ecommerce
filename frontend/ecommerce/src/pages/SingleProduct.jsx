@@ -4,29 +4,23 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; //
 import { Carousel } from "react-responsive-carousel";
 
 import ReviewSection from "../components/Products/ReviewSection.jsx";
-import Recommadation from "../components/Products/Recommadation.jsx";
+
 import { UseFetchProductsById } from "../features/products/ProductsQuery.js";
 import { useParams } from "react-router";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import AddToCart from "../components/AddToCart.jsx";
+import RecommendedProducts from "../components/Products/Recommadation.jsx";
 
 const SingleProduct = () => {
   const { id } = useParams();
 
-
-
-
   const { data: products, isLoading, isError } = UseFetchProductsById(id);
-
-
-
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   if (isError) return <p>Error loading product</p>;
 
   return (
     <div>
-           
       <div className="grid lg:grid-cols-2 justify-center grid-cols-1 gap- p-4">
         <div className="p-4 flex justify-center">
           {products.images &&
@@ -54,14 +48,10 @@ const SingleProduct = () => {
             <p className="font-bold text-2xl">$ {products.price}</p>
           </div>
 
-          
           <div className="flex justify-content item-center">
             {/* import add to cart */}
-            <AddToCart  product={products}></AddToCart>
+            <AddToCart product={products}></AddToCart>
           </div>
-
-
-
 
           <hr className="" />
           <div className="mt-2">
@@ -81,12 +71,13 @@ const SingleProduct = () => {
 
       <hr className="my-4" />
       <div>
-        <ReviewSection></ReviewSection>
+        <ReviewSection
+          reviews={products.reviews}
+         
+        ></ReviewSection>
       </div>
       <hr className="my-2" />
-      <div className="my-4">
-        <Recommadation></Recommadation>
-      </div>
+      <div className="my-4"><RecommendedProducts></RecommendedProducts></div>
     </div>
   );
 };

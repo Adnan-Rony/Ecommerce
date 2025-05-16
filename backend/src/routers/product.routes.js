@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../controllers/products.controller.js';
+import { createProduct, deleteProduct, getAllProducts, getProductById, getRecommendedProducts, updateProduct } from '../controllers/products.controller.js';
 import { verifyToken } from './../middleware/verifyToken.js';
 import { checkAdmin } from './../middleware/checkAdmin.js';
 
@@ -9,6 +9,8 @@ const router = express.Router();
 //users
 router.get("/",getAllProducts)
 router.get("/:id",getProductById)
+
+router.get("/recommendations/:id",getRecommendedProducts)
 
 
 //user but protected

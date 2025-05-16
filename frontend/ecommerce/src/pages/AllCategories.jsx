@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import img from "../assets/apple-macbook-air-13-space-gray-1-2-80x80.jpg";
-import img3 from "../assets/outlet-580x326.png";
+import bannerBg from "../assets/slide-1.jpg";
 import { UseFetchProducts } from "../features/products/ProductsQuery.js";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import ProductCard from "../components/ProductCard.jsx";
@@ -21,18 +21,24 @@ const AllCategories = ({product}) => {
 
   return (
     <div className="bg-gray-50">
-      <div className="grid grid-cols-2 justify-between items-center mb-6 border p-4 bg-blue-400 rounded-2xl text-white">
-        <div>
-          <p className="text-3xl font-semibold">Outlet Store</p>
-          <p>
-            Here you will find discounted products that have been found to have
-            minor damage that does not affect performance.
-          </p>
-        </div>
-        <div>
-          <img src={img3} alt="Outlet Banner" />
+  <div
+      className="w-full h-[300px] flex items-center justify-between px-10 rounded-2xl overflow-hidden text-white bg-cover bg-center"
+      style={{ backgroundImage: `url(${bannerBg})` }}
+    >
+      
+      <div className="max-w-md">
+        <h2 className="text-4xl font-bold mb-2">Laptop UltraSlim i5 14</h2>
+        <p className="text-sm mb-4">
+          Discount on the line of laptops and tablets of the Elite series
+        </p>
+        <div className="flex items-center gap-4 text-lg">
+          <span className="line-through text-gray-300">$2220</span>
+          <span className="text-blue-400 font-semibold">$1800</span>
         </div>
       </div>
+
+     
+    </div>
 
       {Object.entries(groupedProducts).map(([category, items]) => (
         <div key={category} className="mb-10">

@@ -10,6 +10,7 @@ import cartRoutes from './routers/cart.routes.js';
 import orderRoutes from './routers/order.routes.js';
 import wishRoutes from './routers/wishlistRoutes.js';
 import adminRoutes from './routers/admin.routes.js';
+import reviewRoutes from './routers/review.routes.js';
 
 dotenv.config()
 const app =express()
@@ -36,6 +37,7 @@ app.use("/api/v1/cart",cartRoutes)
 app.use("/api/v1/order",orderRoutes)
 app.use("/api/v1/wishlist",wishRoutes)
 app.use("/api/v1/admin",adminRoutes)
+app.use("/api/v1/review",reviewRoutes)
 
 
 

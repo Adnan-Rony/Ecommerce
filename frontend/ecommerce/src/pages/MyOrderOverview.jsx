@@ -4,7 +4,7 @@ import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 const MyOrderOverview = () => {
   const { data, isLoading, isError } = UseMyOrders();
-  const [selectedOrder, setSelectedOrder] = useState(null); // for modal
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <p className="text-red-500">Failed to load orders.</p>;
@@ -44,12 +44,16 @@ const MyOrderOverview = () => {
               <tr key={item._id} className="border-b hover:bg-gray-50">
                 <td className="p-2">{index + 1}</td>
                 <td className="px-6 py-4">
-                  <img className="w-12" src={item.items[0]?.product?.images[0]} alt="product" />
+                  <img
+                    className="w-12"
+                    src={item.items[0]?.product?.images?.[0] || '/fallback.jpg'}
+                    alt="product"
+                  />
                 </td>
                 <td className="px-6 py-4">
-                  {item.items.map((i) => i.product.name).join(', ')}
+                  {item.items.map((i) => i.product?.name || 'Unknown').join(', ')}
                 </td>
-                <td className="px-6 py-4">{item.shippingAddress?.phone}</td>
+                <td className="px-6 py-4">{item.shippingAddress?.phone || 'N/A'}</td>
                 <td className="px-6 py-4">${item.totalAmount}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4">{item.paymentStatus}</td>
@@ -87,28 +91,52 @@ const MyOrderOverview = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h3 className="font-semibold mb-1">Shipping Address</h3>
-                <p>{selectedOrder.shippingAddress.name}</p>
-                <p>{selectedOrder.shippingAddress.phone}</p>
-                <p>{selectedOrder.shippingAddress.address}, {selectedOrder.shippingAddress.city}</p>
-                <p>{selectedOrder.shippingAddress.country}</p>
+                {selectedOrder.shippingAddress ? (
+                  <>
+                    <p>{selectedOrder.shippingAddress.name}</p>
+                    <p>{selectedOrder.shippingAddress.phone}</p>
+                    <p>
+                      {selectedOrder.shippingAddress.address},{" "}
+                      {selectedOrder.shippingAddress.city}
+                    </p>
+                    <p>{selectedOrder.shippingAddress.country}</p>
+                  </>
+                ) : (
+                  <p className="text-red-500">No shipping address available.</p>
+                )}
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Payment Info</h3>
-                <p>Method: {selectedOrder.paymentMethod}</p>
-                <p>Status: {selectedOrder.paymentStatus}</p>
-                <p>Total: ${selectedOrder.totalAmount}</p>
-                <p>Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
+                <p>Method: {selectedOrder.paymentMethod || 'N/A'}</p>
+                <p>Status: {selectedOrder.paymentStatus || 'N/A'}</p>
+                <p>Total: ${selectedOrder.totalAmount || 0}</p>
+                <p>
+                  Date:{" "}
+                  {selectedOrder.createdAt
+                    ? new Date(selectedOrder.createdAt).toLocaleDateString()
+                    : 'N/A'}
+                </p>
               </div>
             </div>
 
             <h3 className="font-semibold mt-6 mb-2">Items</h3>
             <div className="grid grid-cols-1 gap-3">
-              {selectedOrder.items.map((item) => (
-                <div key={item._id} className="flex items-center border p-2 rounded-md">
-                  <img src={item.product.images[0]} className="w-16 h-16 object-cover mr-4" />
+              {selectedOrder.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center border p-2 rounded-md"
+                >
+                  <img
+                    src={item.product?.images?.[0] || '/fallback.jpg'}
+                    alt="product"
+                    className="w-16 h-16 object-cover mr-4"
+                  />
                   <div>
-                    <p className="font-medium">{item.product.name}</p>
-                    <p>Qty: {item.quantity} — ${item.product.price}</p>
+                    <p className="font-medium">{item.product?.name || 'Unknown'}</p>
+                    <p>
+                      quantity: {item.quantity} — $
+                      {item.product?.price ? item.product.price : '0'}
+                    </p>
                   </div>
                 </div>
               ))}

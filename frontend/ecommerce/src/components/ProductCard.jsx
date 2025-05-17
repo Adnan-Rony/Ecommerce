@@ -1,26 +1,46 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ Use react-router-dom instead of react-router
-import { UseAddToCart } from "../features/carts/CardQuery.js";
+import { Link, useNavigate } from "react-router-dom";
 import { MdBookmarkAdd } from "react-icons/md";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 import AddToCart from "./AddToCart.jsx";
 import { UseWishlistCreate } from "../features/wishlist/wishlistQuery.js";
-import toast from "react-hot-toast";
+import { UseCurrentUser } from "../features/users/userQueries.js";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+    const { data: user, isLoading: userLoading } = UseCurrentUser();
   const { mutate: addToWishlist, isPending } = UseWishlistCreate();
-
-const handleWishlistAdd = () => {
-  addToWishlist({ productId: product._id }, {
-    onSuccess: () => toast.success("Added to wishlist"),
-    onError: () => toast.error("Failed to add to wishlist"),
-  });
-};
-
-
-
-
   const [hovered, setHovered] = useState(false);
+
+  const handleWishlistAdd = () => {
+  
+
+    if (!user) {
+      Swal.fire({
+        title: "Not Logged In",
+        text: "You need to log in to add to your wishlist.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Login",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
+    addToWishlist(
+      { productId: product._id },
+      {
+        onSuccess: () => toast.success("Added to wishlist"),
+        onError: () => toast.error("Failed to add to wishlist"),
+      }
+    );
+  };
 
   const primaryImage = product.images?.[0];
   const secondaryImage = product.images?.[1] || primaryImage;
@@ -52,7 +72,7 @@ const handleWishlistAdd = () => {
         ✔ In stock ({product.stock})
       </p>
 
-      <div className="text-sm  text-gray-800 justify-between mb-2 flex items-center gap-2">
+      <div className="text-sm text-gray-800 justify-between mb-2 flex items-center gap-2">
         <p className="text-blue-600 font-bold">${product.price}</p>
         <button
           onClick={handleWishlistAdd}

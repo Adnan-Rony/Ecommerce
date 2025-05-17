@@ -1,5 +1,5 @@
 import ProductModel from "../models/Product.model.js";
-import usersModel from "../models/users.model.js";
+import usersModel from "../models/Users.model.js";
 
 
 

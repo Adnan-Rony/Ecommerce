@@ -1,36 +1,60 @@
 import React from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import { UseAddToCart } from "../features/carts/CardQuery.js";
+import { UseCurrentUser } from "../features/users/userQueries.js";
+
 
 const AddToCart = ({ product, refetch }) => {
-  const { mutate: addCart, isPending } = UseAddToCart();
+  const navigate = useNavigate();
+  const { mutate: addCart, isLoading } = UseAddToCart();
+  const { data: user, isLoading: userLoading } = UseCurrentUser();
+
+
 
   const handleAddToCart = () => {
-    const cartItem = {
-      productId: product._id,
-      quantity: 1,
-    };
+    if (!user) {
+      Swal.fire({
+        title: "Not Logged In",
+        text: "Please log in to add products to your cart.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Login",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
 
-    addCart(cartItem, {
-      onSuccess: () => {
-        toast.success("Product added to cart!");
-        // Refetch the cart data to update the cart count
-        refetch();
-      },
-     
-    });
+    // Optional: Wait until user is fully fetched before allowing cart mutation
+    if (userLoading) return;
+
+    addCart(
+      { productId: product._id, quantity: 1 },
+      {
+        onSuccess: () => {
+          toast.success("Product added to cart!");
+          if (refetch) refetch();
+        },
+        onError: () => {
+          toast.error("Failed to add product to cart.");
+        },
+      }
+    );
   };
 
   return (
-    <div>
-      <button
-        onClick={handleAddToCart}
-        disabled={isPending}
-        className="w-full bg-blue-600 p-2 text-white py-1.5 rounded hover:bg-blue-700 text-sm"
-      >
-        {isPending ? "Adding..." : "Add To Cart"}
-      </button>
-    </div>
+    <button
+      onClick={handleAddToCart}
+      disabled={isLoading}
+      className="w-full bg-blue-600 p-2 text-white py-1.5 rounded hover:bg-blue-700 text-sm"
+    >
+      {isLoading ? "Adding..." : "Add To Cart"}
+    </button>
   );
 };
 

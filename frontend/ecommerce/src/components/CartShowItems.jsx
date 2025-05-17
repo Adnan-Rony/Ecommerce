@@ -1,4 +1,4 @@
-import React, { } from "react";
+import React from "react";
 import { IoCartOutline } from "react-icons/io5";
 import CartItemsAll from "./CartItemsAll";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
@@ -6,11 +6,6 @@ import { Link } from "react-router";
 
 const CartShowItems = () => {
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
-
-
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Failed to load cart.</p>;
 
   // Get the number of items in the cart
   const cartItemsCount = data?.cart?.products?.length || 0;
@@ -24,7 +19,7 @@ const CartShowItems = () => {
         <div className="drawer-content">
           <label
             htmlFor="cart-drawer"
-            className="btn btn-primary drawer-button fixed right-4 bottom-4 sm:top-1/2 sm:right-0 sm:transform sm:-translate-y-1/2 z-50 shadow-lg"
+            className="btn btn-primary drawer-button fixed bottom-4 right-4 sm:top-1/2 sm:bottom-auto sm:right-2 sm:transform sm:-translate-y-1/2 z-50 shadow-lg"
           >
             {/* Display the cart count */}
             {cartItemsCount > 0 && (
@@ -32,7 +27,7 @@ const CartShowItems = () => {
                 {cartItemsCount}
               </span>
             )}
-            <IoCartOutline className="text-xl sm:text-3xl" />
+            <IoCartOutline className="text- sm:text-3xl" />
           </label>
         </div>
 
@@ -54,16 +49,23 @@ const CartShowItems = () => {
             </div>
 
             {/* Cart Items List */}
-           <div className="">
-             <CartItemsAll refetch={refetch} />
-           </div>
+            <div className="">
+              <CartItemsAll refetch={refetch} />
+            </div>
 
             <div className="mt-auto pt-4 border-t">
-             <Link to="/checkout">
-              <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                Proceed to Checkout
-              </button>
-             </Link>
+              <Link to={cartItemsCount === 0 ? "#" : "/checkout"}>
+                <button
+                  disabled={cartItemsCount === 0}
+                  className={`w-full py-2 rounded text-white ${
+                    cartItemsCount === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-blue-700 transition"
+                  }`}
+                >
+                  Proceed to Checkout
+                </button>
+              </Link>
             </div>
           </div>
         </div>

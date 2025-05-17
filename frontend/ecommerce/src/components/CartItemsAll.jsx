@@ -8,8 +8,8 @@ const CartItemsAll = ({productId}) => {
   const { data, isLoading, isError } = UseFetchAllCart();
   const { mutate: deleteCartItem, isPending } = useDeleteCartItem();
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Failed to load cart.</p>;
+  if (isLoading) return <p>No item in Cart</p>;
+  if (isError) return <p>No item in Cart</p>;
 
   // Safely extract cart items
    const cartItems = data?.cart?.products || [];
@@ -74,7 +74,9 @@ const CartItemsAll = ({productId}) => {
                 
 
                 <button 
-                onClick={()=>handleDelete(item?.product?._id)}  disabled={isPending}
+                onClick={()=>handleDelete(item?.product?._id)} 
+                
+                disabled={isPending}
                  className="text-red-600 hover:text-red-800">
                   <MdDelete className="text-2xl" />
                 </button>

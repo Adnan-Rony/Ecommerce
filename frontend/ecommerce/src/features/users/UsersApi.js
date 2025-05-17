@@ -21,10 +21,11 @@ export const LogoutUser = async () => {
  
 };
 
-export const CurrentUser=async(userId)=>{
-    const res=await axiosInstance.get('/users/profile',userId)
-    return res.data
-}
+export const CurrentUser = async () => {
+  const res = await axiosInstance.get('/users/profile');
+  return res.data;
+};
+
 
 export const FetchAdminUser=async(userId)=>{
     const res=await axiosInstance.get('/users',userId)

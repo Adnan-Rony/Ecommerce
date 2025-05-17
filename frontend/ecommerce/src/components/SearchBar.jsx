@@ -17,7 +17,7 @@ const SearchBar = () => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Search  products by Titles..."
-        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-200"
       />
 
       {/* Dropdown */}

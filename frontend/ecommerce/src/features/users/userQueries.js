@@ -25,6 +25,7 @@ export const UseCurrentUser=()=>
     useQuery({
     queryKey:["currentUser"],
     queryFn:CurrentUser
+    
 })
 
 

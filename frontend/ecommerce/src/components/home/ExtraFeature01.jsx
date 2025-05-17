@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { UseFetchProducts } from "../../features/products/ProductsQuery.js";
 
 const ExtraFeature01 = () => {
-  const { data: products, isLoading, isError } = UseFetchProducts();
+  const { data: products, } = UseFetchProducts();
 
   const filteredProducts = products?.filter(
     (product) => product.brand === "apple"
@@ -46,10 +46,10 @@ const ExtraFeature01 = () => {
             }}
             spaceBetween={15}
             autoplay={{
-              delay: 3500,
+              delay: 1500,
               disableOnInteraction: false,
             }}
-            loop={true}
+           loop={filteredProducts?.length > 4} // ✅ Only enable loop if enough slides
             modules={[Autoplay]}
             className="px-4"
           >

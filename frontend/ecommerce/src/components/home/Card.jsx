@@ -34,6 +34,8 @@ const Card = ({ product }) => {
           ))}
         </div>
       </div>
+
+      
     </div>
   );
 };

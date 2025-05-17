@@ -26,8 +26,8 @@ const AllCategories = ({product}) => {
       style={{ backgroundImage: `url(${bannerBg})` }}
     >
       
-      <div className="max-w-md">
-        <h2 className="text-4xl font-bold mb-2">Laptop UltraSlim i5 14</h2>
+      <div className="lg:max-w-md max-w-60">
+        <h2 className="lg:text-4xl text-xl font-bold mb-2">Laptop UltraSlim i5 14</h2>
         <p className="text-sm mb-4">
           Discount on the line of laptops and tablets of the Elite series
         </p>
@@ -41,14 +41,14 @@ const AllCategories = ({product}) => {
     </div>
 
       {Object.entries(groupedProducts).map(([category, items]) => (
-        <div key={category} className="mb-10">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">{category}</h2>
-            <Link to={`/categories/${category.toLowerCase()}`}>
+        <div key={category} className="lg:mb-10 mb-4">
+          <div className="flex justify-between items-center mb-4 my-4 p-1">
+            <h2 className="lg:text-2xl text-xl font-semibold">{category}</h2>
+            {/* <Link to={`/categories/${category.toLowerCase()}`}>
               <button className="btn btn-ghost rounded-2xl">
                 More Products
               </button>
-            </Link>
+            </Link> */}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">

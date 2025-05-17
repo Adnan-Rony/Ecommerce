@@ -4,6 +4,7 @@ import UserOverviews from "../components/Dashboard/UserOverviews.jsx";
 import AllProductsOverviews from "../components/Dashboard/AllProductsOverview.jsx";
 import AllConfirmOrders from "../components/Dashboard/AllConfirmOrder.jsx";
 import { Link } from 'react-router-dom';
+import DashboardOverview from "./DashboardOverview.jsx";
 
 const AdminDashboard = () => {
  
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
         
         {activeTab === "overview" &&  (
           <div>
-            <p>overview</p>
+            <DashboardOverview></DashboardOverview>
           </div>
         )}
 

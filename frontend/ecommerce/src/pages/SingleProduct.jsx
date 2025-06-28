@@ -21,7 +21,7 @@ const SingleProduct = () => {
   if (isError) return <p>Error loading product</p>;
 
   return (
-    <div>
+    <div className="max-w-screen-xl  mx-auto">
       <div className="grid lg:grid-cols-2 justify-center grid-cols-1 gap- p-4">
         <div className="p-4 flex justify-center">
           {products.images &&

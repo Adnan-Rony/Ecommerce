@@ -11,15 +11,21 @@ const Card = ({ product }) => {
 
   return (
     <div>
-      <div className="px-4 py-10 bg-gray-50">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">New Arrivals</h2>
+      <div className=" my-10 bg-gray-50">
+        <div className="">
+          {/* <h2 className="text-2xl font-semibold">New Arrivals</h2> */}
+          <div className=" mb-8 text-center">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              New Arrivals
+            </h2>
+            <p className="text-gray-500">Explore New Arrivals products</p>
+          </div>
 
-          <Link to="/allcategories">
+          {/* <Link to="/allcategories">
             <button className="btn btn-ghost rounded-2xl">
               More Products{" "}
             </button>
-          </Link>
+          </Link> */}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {isLoading
@@ -31,6 +37,14 @@ const Card = ({ product }) => {
                 .map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link to="/allcategories">
+            <button className="px-6 py-2 border border-blue-600 text-blue-600 rounded-full hover:bg-[#1d4c9e] hover:text-white transition">
+              More Products
+            </button>
+          </Link>
         </div>
       </div>
     </div>

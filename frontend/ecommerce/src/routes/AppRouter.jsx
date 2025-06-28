@@ -14,6 +14,9 @@ import AllCategories from "../pages/ProductsPage/AllCategories.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
 import ContactUs from "../pages/ContactUs.jsx";
 
+import AllBlogsPage from "../pages/AllBlogsPage.jsx";
+import UserDashboard from "../components/Dashboard/UserDashboard.jsx";
+
 export const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -44,6 +47,10 @@ export const AppRouter = createBrowserRouter([
         element: <WishlistPage />,
       },
       {
+        path: "/blogs",
+        element: <AllBlogsPage />,
+      },
+      {
         path: "/blogs/:id",
         element: <BlogDetails />,
       },
@@ -51,10 +58,7 @@ export const AppRouter = createBrowserRouter([
         path: "/contact",
         element: <ContactUs />,
       },
-    ],
-  },
-
-  {
+      {
     path: "/login",
     element: <Login />,
   },
@@ -62,10 +66,26 @@ export const AppRouter = createBrowserRouter([
     path: "/SingUp",
     element: <SingUp />,
   },
+    ],
+  },
+
+  // {
+  //   path: "/login",
+  //   element: <Login />,
+  // },
+  // {
+  //   path: "/SingUp",
+  //   element: <SingUp />,
+  // },
 
   {
     path: "/dashboard",
     element: <AdminDashboard />,
+    children: [],
+  },
+  {
+    path: "/userdashboard",
+    element: <UserDashboard />,
     children: [],
   },
 ]);

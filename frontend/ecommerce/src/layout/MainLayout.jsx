@@ -5,11 +5,12 @@ import Navber from "../components/Shared/Navber.jsx";
 import Footer from "../components/Shared/Footer.jsx";
 
 const MainLayout = () => {
+  // max-w-screen-xl  mx-auto
   return (
     <div className="bg-gray-50">
       <Navber></Navber>
       <main
-        className="max-w-screen-xl mx-auto bg-gray-50 lg:p-0
+        className=" bg-gray-50 lg:p-0
         "
       >
         <Outlet />

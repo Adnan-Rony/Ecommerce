@@ -8,6 +8,8 @@ import { UseFetchProducts } from "../../features/products/ProductsQuery.js";
 import BannerCardLoader from "../loader/bannerCardLoader.jsx";
 
 
+
+
 const ExtraFeature01 = () => {
   const { data: products, isLoading } = UseFetchProducts();
 
@@ -16,8 +18,8 @@ const ExtraFeature01 = () => {
   );
 
   return (
-    <div className="bg-gradient-to-r py-4 from-[#f6cece] to-[#e4efff] ">
-      <div className="max-w-screen-xl mx-auto py-6">
+    <div className="bg-gradient-to-r  from-[#f6cece] to-[#e4efff] ">
+      <div className="max-w-screen-xl mx-auto ">
         <div className=" grid lg:grid-cols-2 grid-cols-1 gap-2 items-center lg:p-0 p-4">
           <div className="">
             <img src={img} className="lg:w-full w-64" alt="" />
@@ -31,7 +33,7 @@ const ExtraFeature01 = () => {
               Hurry and get discounts on all Apple devices up to 20%
             </p>
             <Link to="/allcategories">
-              <button className="btn bg-blue-500 text-white">
+              <button className="btn bg-[#1d4c9e] text-white">
                 Go Shopping
               </button>
             </Link>

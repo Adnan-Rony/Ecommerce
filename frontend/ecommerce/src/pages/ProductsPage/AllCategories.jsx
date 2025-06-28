@@ -58,7 +58,7 @@ const AllCategories = () => {
   if (isError) return <p>Error fetching products</p>;
 
   return (
-    <div className="bg-gray-50">
+    <div className="max-w-screen-xl  mx-auto">
       {/* Banner */}
       <div
         className="w-full h-[300px] flex items-center justify-between px-10 overflow-hidden text-white bg-cover bg-center"

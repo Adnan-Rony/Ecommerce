@@ -1,80 +1,92 @@
-import { FaFacebookF, FaXTwitter, FaInstagram, FaYoutube } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaXTwitter,
+  FaInstagram,
+  FaYoutube,
+  FaWhatsapp,
+  FaGithub,
+} from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white py-10 px-4 md:px-20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 text-sm text-gray-600">
-        
-        {/* Logo & Description */}
+    <footer className="bg-gray-100 text-gray-700 pt-12 pb-6 px-4 md:px-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        {/* Logo + About */}
         <div>
-          <h1 className="font-bold text-2xl whitespace-nowrap">
-            <span className="text-blue-600">Tech</span>
-            <span className="text-black">Dev.</span>
-          </h1>
-          <p className="mb-4">Condimentum adipiscing vel neque dis nam parturient orci at scelerisque.</p>
-          <p className="font-semibold mb-2">Subscribe us</p>
-          <div className="flex gap-2 text-white text-lg">
-            <span className="bg-blue-600 p-2 rounded-full"><FaFacebookF /></span>
-            <span className="bg-black p-2 rounded-full"><FaXTwitter /></span>
-            <span className="bg-pink-500 p-2 rounded-full"><FaInstagram /></span>
-            <span className="bg-red-600 p-2 rounded-full"><FaYoutube /></span>
+          <Link to="/" className="text-2xl font-bold text-blue-600 mb-4 block">
+            Tech<span className="text-black">Dev.</span>
+          </Link>
+          <p className="text-sm mb-4">
+            Discover the best tech products, get support, and enjoy seamless shopping.
+          </p>
+          <p className="font-medium mb-2">Follow Us</p>
+          <div className="flex gap-3 text-white text-lg">
+            <a
+              href="https://www.facebook.com/adnanrony19/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 p-2 rounded-full"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://api.whatsapp.com/send?phone=+8801747430447"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 p-2 rounded-full"
+            >
+              <FaWhatsapp />
+            </a>
+            <a
+              href="https://github.com/Adnan-Rony"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-black p-2 rounded-full"
+            >
+              <FaGithub />
+            </a>
           </div>
         </div>
 
         {/* Categories */}
         <div>
-          <h3 className="text-black font-semibold mb-3">Categories</h3>
-          <ul className="space-y-2">
-            <li>Smartphones</li>
-            <li>Laptops</li>
-            <li>Hardware</li>
-            <li>Cameras</li>
-            <li>Headphones</li>
-         
+          <h4 className="text-lg font-semibold mb-4 text-gray-900">Categories</h4>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/allcategories?category=smartphones">Smartphones</Link></li>
+            <li><Link to="/allcategories?category=laptops">Laptops</Link></li>
+            <li><Link to="/allcategories?category=hardware">Hardware</Link></li>
+            <li><Link to="/allcategories?category=cameras">Cameras</Link></li>
+            <li><Link to="/allcategories?category=headphones">Headphones</Link></li>
           </ul>
         </div>
 
-        {/* Useful Links 1 */}
+        {/* Useful Links */}
         <div>
-          <h3 className="text-black font-semibold mb-3">Useful Links</h3>
-          <ul className="space-y-2">
-            <li>Promotions</li>
-            <li>Stores</li>
-            <li>Our contacts</li>
-            <li>Delivery & Return</li>
-          
+          <h4 className="text-lg font-semibold mb-4 text-gray-900">Useful Links</h4>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/blogs">Blog</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/wishlist">Wishlist</Link></li>
+            <li><Link to="/checkout">Checkout</Link></li>
+            <li><Link to="/myorder">My Orders</Link></li>
           </ul>
         </div>
 
-        {/* Useful Links 2 */}
+        {/* Contact Info */}
         <div>
-          <h3 className="text-black font-semibold mb-3">Useful Links</h3>
-          <ul className="space-y-2">
-            <li>Blog</li>
-            <li>Our contacts</li>
-            <li>Promotions</li>
-            <li>Stores</li>
-            <li>Delivery & Return</li>
+          <h4 className="text-lg font-semibold mb-4 text-gray-900">Contact Info</h4>
+          <ul className="space-y-2 text-sm">
+            <li><span className="font-medium">Phone:</span> +880 1747 430 447</li>
+            <li><span className="font-medium">Email:</span> adnanrony19@gmail.com</li>
+            <li><span className="font-medium">Address:</span> Mirpur 01, Dhaka 1209</li>
           </ul>
         </div>
+      </div>
 
-        {/* App Downloads */}
-        <div>
-          <h3 className="text-black font-semibold mb-3">Download App on Mobile:</h3>
-          <p className="mb-3 text-gray-500">15% discount on your first purchase</p>
-          <div className="flex gap-2">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-              alt="Google Play"
-              className="w-32"
-            />
-            <img
-              src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-              alt="App Store"
-              className="w-32"
-            />
-          </div>
-        </div>
+      {/* Footer Bottom */}
+      <div className="border-t border-gray-300 mt-10 pt-4 text-center text-sm text-gray-500">
+        © {new Date().getFullYear()} TechDev. All rights reserved.
       </div>
     </footer>
   );

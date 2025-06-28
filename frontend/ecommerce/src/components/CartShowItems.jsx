@@ -59,8 +59,8 @@ const CartShowItems = () => {
                   disabled={cartItemsCount === 0}
                   className={`w-full py-2 rounded text-white ${
                     cartItemsCount === 0
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-blue-700 transition"
+                      ? "bg-[#1d4c9e] cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-[#1d4c9e] transition"
                   }`}
                 >
                   Proceed to Checkout

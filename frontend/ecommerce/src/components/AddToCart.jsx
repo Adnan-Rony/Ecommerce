@@ -51,7 +51,7 @@ const AddToCart = ({ product, refetch }) => {
     <button
       onClick={handleAddToCart}
       disabled={isLoading}
-      className="w-full bg-blue-600 p-2 text-white py-1.5 rounded hover:bg-blue-700 text-sm"
+      className="w-full bg-[#1d4c9e] p-2 text-white py-1.5 rounded hover:bg-blue-700 text-sm"
     >
       {isLoading ? "Adding..." : "Add To Cart"}
     </button>

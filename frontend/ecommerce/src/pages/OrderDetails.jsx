@@ -17,7 +17,9 @@ const OrderDetails = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+
+    <div className='max-w-screen-xl  mx-auto'>
+<div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
       <div className="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 relative">
         <button
           onClick={closeModal}
@@ -61,6 +63,8 @@ const OrderDetails = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 };
 

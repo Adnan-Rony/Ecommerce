@@ -22,20 +22,20 @@ const ContactUs = () => {
       .then(
         (result) => {
           setIsSending(false);
-          setSuccessMsg("✅ Message sent successfully!");
+          setSuccessMsg("Message sent successfully!");
           formRef.current.reset();
         },
         (error) => {
           setIsSending(false);
-          setSuccessMsg("❌ Failed to send message. Please try again.");
+          setSuccessMsg(" Failed to send message. Please try again.");
         }
       );
   };
 
   return (
-    <div className="  min-h-screen py-16 px-4">
+    <div className="bg-gradient-to-r  from-[#f6cece] to-[#e4efff]   min-h-screen py-16 px-4">
       <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl p-8 md:p-12">
-        <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Contact Us</h2>
+        <h2 className="text-4xl font-semibold text-center text-gray-800 mb-12">Contact Us</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left: Contact Form */}

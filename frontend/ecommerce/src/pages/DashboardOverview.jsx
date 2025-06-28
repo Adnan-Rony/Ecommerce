@@ -2,7 +2,7 @@ import React from "react";
 import { FiShoppingCart, FiUsers, FiPackage, FiDollarSign } from "react-icons/fi";
 
 const DashboardOverview = () => {
-  // Example metrics – replace these values with data fetched from your API
+ 
   const metrics = [
     {
       title: "Total Sales",
@@ -31,7 +31,8 @@ const DashboardOverview = () => {
   ];
 
   return (
-    <div className="p-4 md:p-6 bg-gray-100">
+    <div className="">
+   <div className="p-4 md:p-6 bg-gray-100">
       <h2 className="text-xl md:text-2xl font-semibold mb-4">Dashboard Overview</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {metrics.map((metric, index) => (
@@ -50,6 +51,8 @@ const DashboardOverview = () => {
         ))}
       </div>
     </div>
+    </div>
+ 
   );
 };
 

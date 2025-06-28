@@ -71,13 +71,13 @@ const ProductCard = ({ product }) => {
       </p>
 
       <div className="text-sm text-gray-800 justify-between mb-2 flex items-center gap-2">
-        <p className="text-blue-600 font-bold">${product.price}</p>
+        <p className="text-[#1d4c9e] font-bold">${product.price}</p>
         <button
           onClick={handleWishlistAdd}
           disabled={isPending}
           title="Add to Wishlist"
         >
-          <MdBookmarkAdd className="text-xl text-blue-500 hover:text-blue-700" />
+          <MdBookmarkAdd className="text-xl text-[#1d4c9e] hover:text-blue-700" />
         </button>
       </div>
 

@@ -1,25 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import CreateProducts from "./CreateProducts.jsx";
-import UserOverviews from "../components/Dashboard/UserOverviews.jsx";
-import AllProductsOverviews from "../components/Dashboard/AllProductsOverview.jsx";
-import AllConfirmOrders from "../components/Dashboard/AllConfirmOrder.jsx";
-import DashboardOverview from "./DashboardOverview.jsx";
-
-import {
-  LayoutDashboard,
-  PackageSearch,
-  Users,
-  ClipboardList,
-  PlusCircle,
-  LogOut
-} from "lucide-react";
-import { Uselogout } from "../features/users/userQueries.js";
+import { LayoutDashboard, ShoppingBag, Heart, UserCog } from "lucide-react";
+import WishlistPage from "../../pages/WishlistPage.jsx";
+import MyOrderOverview from "../../pages/MyOrderOverview.jsx";
+import { Uselogout } from "../../features/users/userQueries.js";
 import Swal from "sweetalert2";
 
-const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+const UserDashboard = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
   const { mutate: logout } = Uselogout();
   const navigate = useNavigate();
 
@@ -31,25 +19,31 @@ const AdminDashboard = () => {
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, logout"
+      confirmButtonText: "Yes, logout",
     }).then((result) => {
       if (result.isConfirmed) {
         logout(undefined, {
           onSuccess: () => {
-            Swal.fire("Logged out!", "You have been successfully logged out.", "success");
+            Swal.fire(
+              "Logged out!",
+              "You have been successfully logged out.",
+              "success"
+            );
             navigate("/login");
-          }
+          },
         });
       }
     });
   };
 
   const navItems = [
-    { id: "overview", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
-    { id: "product", label: "All Products", icon: <PackageSearch size={18} /> },
-    { id: "users", label: "Users", icon: <Users size={18} /> },
-    { id: "Orders", label: "Orders", icon: <ClipboardList size={18} /> },
-    { id: "create", label: "Post Products", icon: <PlusCircle size={18} /> },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    { id: "orders", label: "My Orders", icon: <ShoppingBag size={18} /> },
+    { id: "wishlist", label: "Wishlist", icon: <Heart size={18} /> },
   ];
 
   return (
@@ -83,10 +77,10 @@ const AdminDashboard = () => {
 
           {/* Logout Button */}
           <button
-            className="w-full flex items-center gap-2 px-3 py-2 rounded  hover:bg-red-100 "
+            className="w-full flex items-center gap-2 px-3 py-2 rounded  hover:bg-red-100"
             onClick={handleLogout}
           >
-            <LogOut size={18} />
+            <UserCog size={18} />
             <span>Logout</span>
           </button>
         </nav>
@@ -94,14 +88,14 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-        {activeTab === "overview" && <DashboardOverview />}
-        {activeTab === "product" && <AllProductsOverviews />}
-        {activeTab === "users" && <UserOverviews />}
-        {activeTab === "Orders" && <AllConfirmOrders />}
-        {activeTab === "create" && <CreateProducts />}
+        {activeTab === "dashboard" && (
+          <h2 className="text-xl font-bold">Welcome to your Dashboard</h2>
+        )}
+        {activeTab === "orders" && <MyOrderOverview />}
+        {activeTab === "wishlist" && <WishlistPage />}
       </div>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default UserDashboard;

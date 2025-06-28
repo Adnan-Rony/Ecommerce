@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { UseMyOrders } from '../features/order/OrderQuery.js';
-import LoadingSpinner from '../components/LoadingSpinner.jsx';
+import React, { useState } from "react";
+import { UseMyOrders } from "../features/order/OrderQuery.js";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import OrderDetailsModalSkeleton from "../components/loader/OrderTableSkeleton.jsx";
 
 const MyOrderOverview = () => {
   const { data, isLoading, isError } = UseMyOrders();
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) return <OrderDetailsModalSkeleton/>
   if (isError) return <p className="text-red-500">Failed to load orders.</p>;
 
   const orders = data?.orders || [];
@@ -46,14 +47,18 @@ const MyOrderOverview = () => {
                 <td className="px-6 py-4">
                   <img
                     className="w-12"
-                    src={item.items[0]?.product?.images?.[0] || '/fallback.jpg'}
+                    src={item.items[0]?.product?.images?.[0] || "/fallback.jpg"}
                     alt="product"
                   />
                 </td>
                 <td className="px-6 py-4">
-                  {item.items.map((i) => i.product?.name || 'Unknown').join(', ')}
+                  {item.items
+                    .map((i) => i.product?.name || "Unknown")
+                    .join(", ")}
                 </td>
-                <td className="px-6 py-4">{item.shippingAddress?.phone || 'N/A'}</td>
+                <td className="px-6 py-4">
+                  {item.shippingAddress?.phone || "N/A"}
+                </td>
                 <td className="px-6 py-4">${item.totalAmount}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4">{item.paymentStatus}</td>
@@ -86,7 +91,9 @@ const MyOrderOverview = () => {
             </button>
 
             <h2 className="text-xl font-semibold mb-2">Order Details</h2>
-            <p className="text-sm text-gray-500 mb-4">Order ID: {selectedOrder._id}</p>
+            <p className="text-sm text-gray-500 mb-4">
+              Order ID: {selectedOrder._id}
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -107,14 +114,14 @@ const MyOrderOverview = () => {
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Payment Info</h3>
-                <p>Method: {selectedOrder.paymentMethod || 'N/A'}</p>
-                <p>Status: {selectedOrder.paymentStatus || 'N/A'}</p>
+                <p>Method: {selectedOrder.paymentMethod || "N/A"}</p>
+                <p>Status: {selectedOrder.paymentStatus || "N/A"}</p>
                 <p>Total: ${selectedOrder.totalAmount || 0}</p>
                 <p>
                   Date:{" "}
                   {selectedOrder.createdAt
                     ? new Date(selectedOrder.createdAt).toLocaleDateString()
-                    : 'N/A'}
+                    : "N/A"}
                 </p>
               </div>
             </div>
@@ -127,15 +134,17 @@ const MyOrderOverview = () => {
                   className="flex items-center border p-2 rounded-md"
                 >
                   <img
-                    src={item.product?.images?.[0] || '/fallback.jpg'}
+                    src={item.product?.images?.[0] || "/fallback.jpg"}
                     alt="product"
                     className="w-16 h-16 object-cover mr-4"
                   />
                   <div>
-                    <p className="font-medium">{item.product?.name || 'Unknown'}</p>
+                    <p className="font-medium">
+                      {item.product?.name || "Unknown"}
+                    </p>
                     <p>
                       quantity: {item.quantity} — $
-                      {item.product?.price ? item.product.price : '0'}
+                      {item.product?.price ? item.product.price : "0"}
                     </p>
                   </div>
                 </div>

@@ -7,14 +7,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
 import { useNavigate } from "react-router";
+import CheckoutPageSkeleton from "../components/loader/CheckoutPageSkeleton.jsx";
 
 const Checkout = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch, } = useForm();
   const { mutate, isPending, isSuccess } = UseMyOrderCreate();
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
   const navigate = useNavigate();
 
-  if (isLoading) return <p>loading.....</p>;
+  if (isLoading) return <CheckoutPageSkeleton/>
   console.log(data);
 
   const selectedPayment = watch("paymentMethod");

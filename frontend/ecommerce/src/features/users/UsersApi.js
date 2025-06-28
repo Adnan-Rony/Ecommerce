@@ -1,5 +1,6 @@
 import axiosInstance from "../../api/axiosInstance.js"
 
+
 export const LoginUser=async(user)=>{
     const res=await axiosInstance.post('/users/login',user)
     return res.data

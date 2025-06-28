@@ -2,95 +2,161 @@ import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { UseRegister } from "../features/users/userQueries.js";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const SingUp = () => {
-  const { register, handleSubmit, reset } = useForm();
-  const navigate=useNavigate()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
 
-  const { mutate: registerUser, isPending,  } = UseRegister();
-
+  const { mutate: registerUser, isPending } = UseRegister();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {
     registerUser(data, {
       onSuccess: () => {
         reset(); // Reset form on success
         toast.success("registered successfully");
-        navigate('/')
+        navigate("/");
         console.log("User registered successfully");
       },
-       onError: () => {
-        toast.error("register failed!");
-      }
+      onError: (err) => {
+        const message =
+          err?.response?.data?.message || err?.message || "Unknown error";
+        toast.error(message);
+      },
     });
   };
 
-
   return (
     <div>
-      <div className="min-h-screen rounded-3xl flex items-center justify-center bg-gray-200 ">
-        <div className="w-full max-w-lg mx-auto lg:p-4 p-6 bg-white rounded-3xl shadow-md">
-          <div className="space-y-2 text-center">
-            <p className="text-3xl font-semibold">Welcome Back!</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
+          <div className="mb-6 text-center">
+            <h2 className="text-3xl font-bold text-gray-800">
+              Create an Account
+            </h2>
+            <p className="text-sm text-gray-500">Register to get started</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="my-6 p-2">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-semibold mb-2">
-                User Name
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* Username */}
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Username
               </label>
               <input
-                {...register("name")}
+                id="name"
+                {...register("name", { required: "Username is required" })}
                 type="text"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Username"
-                required
+                placeholder="Your username"
+                className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-semibold mb-2">
+
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
-                {...register("email")}
+                id="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Invalid email address",
+                  },
+                })}
                 type="email"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="email"
-                required
+                placeholder="you@example.com"
+                className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
-            <div className="mb-4 relative">
-              <label className="block mb-1 font-semibold text-sm text-gray-700">
+            {/* Password */}
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
-                {...register("password")}
-                required
-                type="password"
-                placeholder="Enter your password"
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-200"
+                id="password"
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                  validate: {
+                    hasUpperCase: (value) =>
+                      /[A-Z]/.test(value) || "Must include an uppercase letter",
+                    hasLowerCase: (value) =>
+                      /[a-z]/.test(value) || "Must include a lowercase letter",
+                    hasNumber: (value) =>
+                      /\d/.test(value) || "Must include a number",
+                    hasSpecialChar: (value) =>
+                      /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                      "Must include a special character",
+                  },
+                })}
+                placeholder="••••••••"
+                className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[40px] cursor-pointer text-gray-500"
+              >
+                {showPassword ? <FiEye /> : <FiEyeOff />}
+              </span>
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex items-center justify-between">
-              <button
-                type="submit"
-                className="bg-black text-white w-full p-2 rounded-full focus:outline-none focus:shadow-outline"
-              >
-                {isPending ? "Registering..." : "Register"}
-              </button>
-              
-            </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+            >
+              {isPending ? "Registering..." : "Register"}
+            </button>
           </form>
 
-          <div className="mt-4 text-center">
-            <p>
-              Allready have an account?
-              <Link className="ml-2 text-blue-600" to="/login">
-                Login
-              </Link>
-            </p>
-          </div>
+          {/* Footer */}
+          <p className="mt-6 text-sm text-center text-gray-600">
+            Already have an account?
+            <Link to="/login" className="text-blue-600 hover:underline ml-1">
+              Log In
+            </Link>
+          </p>
         </div>
       </div>
     </div>

@@ -5,16 +5,18 @@ import "swiper/css/scrollbar";
 import { Scrollbar, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { UseFetchProducts } from "../../features/products/ProductsQuery.js";
+import BannerCardLoader from "../loader/bannerCardLoader.jsx";
+
 
 const ExtraFeature01 = () => {
-  const { data: products, } = UseFetchProducts();
+  const { data: products, isLoading } = UseFetchProducts();
 
   const filteredProducts = products?.filter(
     (product) => product.brand === "apple"
   );
 
   return (
-    <div className="bg-gradient-to-r py-4 from-[#f6cece] to-[#e4efff] my-10">
+    <div className="bg-gradient-to-r py-4 from-[#f6cece] to-[#e4efff] ">
       <div className="max-w-screen-xl mx-auto py-6">
         <div className=" grid lg:grid-cols-2 grid-cols-1 gap-2 items-center lg:p-0 p-4">
           <div className="">
@@ -36,44 +38,48 @@ const ExtraFeature01 = () => {
           </div>
         </div>
 
-        <div className="py-6 ">
-          <Swiper
-            slidesPerView={1}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 4 },
-            }}
-            spaceBetween={15}
-            autoplay={{
-              delay: 1500,
-              disableOnInteraction: false,
-            }}
-           loop={filteredProducts?.length > 4} // ✅ Only enable loop if enough slides
-            modules={[Autoplay]}
-            className="px-4"
-          >
-            {filteredProducts?.map((product, index) => (
-              <SwiperSlide key={index}>
-                <Link to={`/product/${product._id}`}>
-                <div className="flex justify-between px-4 bg-white  rounded-xl items-center gap-2 shadow hover:shadow-lg transition w-full lg:max-w-[300px] min-h-[140px]">
-                  <img
-                    className="w-20 h-20 object-cover"
-                    src={product.images[0]}
-                    alt={product.name}
-                  />
-                  <div className="flex flex-col justify-between">
-                    <p className="font-semibold text-sm">{product.name}</p>
-                    <p className="text-yellow-500 text-sm">☆ ☆ ☆ ☆</p>
-                    <p className="text-blue-500 font-semibold">
-                      ${product.price}
-                    </p>
-                  </div>
-                </div>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        <div className="py-6">
+          {isLoading ? (
+            <BannerCardLoader />
+          ) : (
+            <Swiper
+              slidesPerView={1}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 4 },
+              }}
+              spaceBetween={15}
+              autoplay={{
+                delay: 1500,
+                disableOnInteraction: false,
+              }}
+              loop={filteredProducts?.length > 4}
+              modules={[Autoplay]}
+              className="px-4"
+            >
+              {filteredProducts?.map((product, index) => (
+                <SwiperSlide key={index}>
+                  <Link to={`/product/${product._id}`}>
+                    <div className="flex justify-between px-4 bg-white rounded-xl items-center gap-2 shadow hover:shadow-lg transition w-full lg:max-w-[300px] min-h-[140px]">
+                      <img
+                        className="w-20 h-20 object-cover"
+                        src={product.images[0]}
+                        alt={product.name}
+                      />
+                      <div className="flex flex-col justify-between">
+                        <p className="font-semibold text-sm">{product.name}</p>
+                        <p className="text-yellow-500 text-sm">☆ ☆ ☆ ☆</p>
+                        <p className="text-blue-500 font-semibold">
+                          ${product.price}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </div>
       </div>
     </div>

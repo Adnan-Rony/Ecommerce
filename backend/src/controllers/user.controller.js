@@ -30,13 +30,13 @@ export const registerUser = async (req, res) => {
 
     const token = generateToken(user);
 
-    // Set token in a cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
-    });
+ res.cookie('token', token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  maxAge: 5 * 24 * 60 * 60 * 1000,
+});
+
 
     return res.status(201).json({
       success: true,
@@ -68,13 +68,13 @@ export const loginUser = async (req, res) => {
 
     const token = generateToken(user);
 
-    // Set token in a cookie
-    res.cookie('token', token, {
-      httpOnly: true, // Prevent JavaScript access
-      secure: process.env.NODE_ENV === 'production', // HTTPS in production
-      sameSite: 'strict', // CSRF protection
-      maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days, matching expiresIn: '5d'
-    });
+res.cookie('token', token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  maxAge: 5 * 24 * 60 * 60 * 1000,
+});
+
 
     console.log("✅ Logged in user:", user.email);
     res.status(200).json({
@@ -93,13 +93,15 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ success: false, message: 'Login failed', error: err.message });
   }
 };
+
 export const logoutUser = (req, res) => {
      console.log("✅ User logged out");
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-  });
+res.clearCookie("token", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+});
+
 
   return res.status(200).json({
     success: true,

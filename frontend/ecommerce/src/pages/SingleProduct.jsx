@@ -10,13 +10,14 @@ import { useParams } from "react-router";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import AddToCart from "../components/AddToCart.jsx";
 import RecommendedProducts from "../components/Products/Recommadation.jsx";
+import DetailsPageLoading from "../components/loader/DetailsPageLoading.jsx";
 
 const SingleProduct = () => {
   const { id } = useParams();
 
   const { data: products, isLoading, isError } = UseFetchProductsById(id);
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (isLoading) return <DetailsPageLoading/>
   if (isError) return <p>Error loading product</p>;
 
   return (
@@ -43,12 +44,12 @@ const SingleProduct = () => {
         </div>
 
         <div className="space-y-4 my-10 ">
-          <div>
+          <div className="space-y-2">
             <p className="text-xl">{products.name}</p>
             <p className="font-bold text-2xl">$ {products.price}</p>
           </div>
 
-          <div className="flex justify-content item-center">
+          <div className="flex justify-content item-center w-32">
             {/* import add to cart */}
             <AddToCart product={products}></AddToCart>
           </div>

@@ -4,24 +4,32 @@ import { UseLogin } from "../features/users/userQueries.js";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit, reset, setValue } = useForm();
 
-    const navigate=useNavigate()
-  const { register, handleSubmit, reset } = useForm();
-
-  const { mutate: loginUser, isPending, } = UseLogin();
+  const { mutate: loginUser, isPending } = UseLogin();
 
   const onSubmit = (data) => {
     loginUser(data, {
       onSuccess: () => {
         reset();
         toast.success("Login successful!");
-        navigate("/")
-        console.log("User logged in successfully");
+        navigate("/");
+        console.log("User logged in successfully", data);
       },
       onError: () => {
         toast.error("Login failed!");
-      }
+      },
     });
+  };
+  const handleDemoUser = () => {
+    setValue("email", "rony19@gmail.com");
+    setValue("password", "Adnan@1999");
+  };
+
+  const handleDemoAdmin = () => {
+    setValue("email", "sompod@gmail.com");
+    setValue("password", "Adnan@1999");
   };
 
   return (
@@ -30,6 +38,24 @@ const Login = () => {
         <div className="space-y-2 text-center">
           <p className="text-3xl font-semibold">Welcome Back!</p>
         </div>
+        {/* Demo Buttons */}
+        <div className="flex justify-center gap-4 mb-4 my-4">
+          <button
+            type="button"
+            onClick={handleDemoUser}
+            className="px-4 py-2 text-sm bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition"
+          >
+            Demo User
+          </button>
+          <button
+            type="button"
+            onClick={handleDemoAdmin}
+            className="px-4 py-2 text-sm bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition"
+          >
+            Demo Admin
+          </button>
+        </div>
+
         <hr className="my-2" />
 
         <form onSubmit={handleSubmit(onSubmit)} className="my-6 p-2">

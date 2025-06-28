@@ -10,13 +10,11 @@ import { UseCurrentUser } from "../features/users/userQueries.js";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-    const { data: user, isLoading: userLoading } = UseCurrentUser();
+  const { data: user, isLoading: userLoading } = UseCurrentUser();
   const { mutate: addToWishlist, isPending } = UseWishlistCreate();
   const [hovered, setHovered] = useState(false);
 
   const handleWishlistAdd = () => {
-  
-
     if (!user) {
       Swal.fire({
         title: "Not Logged In",

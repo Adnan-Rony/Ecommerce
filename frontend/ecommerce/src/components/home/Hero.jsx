@@ -1,8 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import img1 from "../../assets/apple-black-friday-promo.WEBP";
-import img2 from "../../assets/discount-on-all-smart-appliances.WEBP";
-import img3 from "../../assets/pre-order-g-pixel-7.WEBP";
+import img1 from "../../assets/oldest_apple_products_2024_hero.webp";
+
 import headset from "../../assets/instant-cameras.jpg";
 import dualsense from "../../assets/new-dualsense.jpg";
 import camera from "../../assets/logitech-aurora-headset-opt-760x312.jpg";
@@ -10,6 +9,7 @@ import camera from "../../assets/logitech-aurora-headset-opt-760x312.jpg";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Scrollbar, Autoplay } from "swiper/modules";
+import { Link } from "react-router";
 
 const Hero = () => {
   return (
@@ -37,9 +37,11 @@ const Hero = () => {
 
           {/* Overlay with button */}
           <div className="absolute inset-0 z-10 flex items-end mr-2 mb-4 justify-end pr-6 sm:pr-12">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+            <Link to="/allcategories">
+            <button className="btn btn-outline text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-700 transition">
               Shop Now
             </button>
+            </Link>
           </div>
         </div>
       </SwiperSlide>

@@ -2,7 +2,6 @@ import {
   FaMobileAlt,
   FaLaptop,
   FaMicrochip,
- 
   FaHeadphonesAlt,
 } from "react-icons/fa";
 import { MdDevices } from "react-icons/md";
@@ -30,14 +29,14 @@ const categories = [
   },
 ];
 
-const CategoriesSection = () => {
+const CategoriesOnly = () => {
   return (
-    <section className=" py-10 px-4">
+    <section className="py-10 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className=" mb-8 text-center">
-        <h2 className="text-2xl font-semibold text-gray-800">Categories</h2>
-        <p className="text-gray-500">Explore some categories</p>
-      </div>
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-semibold text-gray-800">Categories</h2>
+          <p className="text-gray-500">Explore some categories</p>
+        </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
           {categories.map((cat, index) => (
             <div
@@ -54,4 +53,4 @@ const CategoriesSection = () => {
   );
 };
 
-export default CategoriesSection;
+export default CategoriesOnly;

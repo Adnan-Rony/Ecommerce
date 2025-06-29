@@ -149,7 +149,7 @@ const AllCategories = () => {
 
         {/* Product Grid */}
         <div className="flex-1">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 lg:gap-6 gap-2">
             {paginatedProducts.length === 0 ? (
               <p>No products found</p>
             ) : (

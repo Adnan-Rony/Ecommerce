@@ -8,7 +8,7 @@ export const NewsLetter = () => {
       className="flex flex-col justify-center
      items-center space-y-8
      bg-gradient-to-r from-[#f6cece] to-[#e4efff]
-      py-16 my-12
+      py-16 mt-12
       "
     >
       <div

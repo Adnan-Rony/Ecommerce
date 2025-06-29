@@ -22,12 +22,12 @@ const WishlistPage = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">My Wishlist</h1>
+      {/* <h1 className="text-2xl font-bold mb-6">My Wishlist</h1> */}
 
       {wishlistItems.length === 0 ? (
         <p className="text-gray-600">Your wishlist is empty.</p>
       ) : (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {wishlistItems.map((item) => (
             <div
               key={item._id}

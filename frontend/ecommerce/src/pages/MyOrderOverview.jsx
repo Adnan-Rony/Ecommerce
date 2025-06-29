@@ -22,11 +22,11 @@ const MyOrderOverview = () => {
 
   return (
     <div className="max-w-screen-xl  mx-auto">
-      <div className="p-6  min-h-screen">
-        <h2 className="text-2xl font-semibold mb-1">Order Overview</h2>
-        <p className="text-gray-500 mb-6">Monthly performance metrics</p>
+      <div className="lg:p-6  min-h-screen">
+        {/* <h2 className="text-2xl font-semibold mb-1">Order Overview</h2>
+        <p className="text-gray-500 mb-6">Monthly performance metrics</p> */}
 
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <div className="bg-white rounded-lg my-2 shadow overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="text-xs uppercase bg-gray-50 text-gray-500">
               <tr>

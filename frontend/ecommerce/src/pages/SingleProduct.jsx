@@ -71,12 +71,12 @@ const SingleProduct = () => {
       </div>
 
       <hr className="my-4" />
-      <div>
+      {/* <div>
         <ReviewSection
           reviews={products.reviews}
          
         ></ReviewSection>
-      </div>
+      </div> */}
       <hr className="my-2" />
       <div className="my-4"><RecommendedProducts></RecommendedProducts></div>
     </div>

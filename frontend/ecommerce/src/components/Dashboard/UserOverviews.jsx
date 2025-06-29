@@ -12,7 +12,7 @@ const UserOverviews = () => {
   const { mutate: makeAdmin, isPending } = UseMakeAdmin();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 6; // Change as needed
+  const usersPerPage = 10; // Change as needed
 
 const handleMakeAdmin = (userId) => {
     Swal.fire({
@@ -46,10 +46,10 @@ const handleMakeAdmin = (userId) => {
   const totalPages = Math.ceil(users.length / usersPerPage);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4 lg:p-6">
-      <h2 className="text-xl md:text-2xl font-semibold mb-2">User Overview</h2>
+    <div className="bg-gray-100 min-h-screen ">
+      {/* <h2 className="text-xl md:text-2xl font-semibold mb-2">User Overview</h2> */}
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
+      <div className="bg-white rounded-lg shadow overflow-x-auto lg:my-10 my-4">
         <table className="w-full text-sm text-left text-gray-700 min-w-[500px]">
           <thead className="text-xs uppercase bg-gray-50 text-gray-500">
             <tr>

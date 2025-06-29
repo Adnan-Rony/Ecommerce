@@ -7,8 +7,8 @@ const BlogSection = () => {
   const { data: blogs = [], isLoading } = UseFetchBlog();
   const ecommerceBlogs = blogs.filter(
     (blog) =>
-      blog.categories?.some((cat) => cat.toLowerCase() === "anime") ||
-      blog.tags?.some((tag) => tag.toLowerCase().includes("anime"))
+      blog.categories?.some((cat) => cat.toLowerCase() === "e-commerce ") ||
+      blog.tags?.some((tag) => tag.toLowerCase().includes("e-commerce "))
   );
 
   const topFourBlogs = ecommerceBlogs.slice(0, 4);

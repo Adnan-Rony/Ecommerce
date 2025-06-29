@@ -15,7 +15,7 @@ const Footer = () => {
         {/* Logo + About */}
         <div>
           <Link to="/" className="text-2xl font-bold text-blue-600 mb-4 block">
-            Tech<span className="text-black">Dev.</span>
+            Tech<span className="text-yellow-400">Dev.</span>
           </Link>
           <p className="text-sm mb-4">
             Discover the best tech products, get support, and enjoy seamless shopping.

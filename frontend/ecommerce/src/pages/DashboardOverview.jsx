@@ -1,58 +1,156 @@
-import React from "react";
-import { FiShoppingCart, FiUsers, FiPackage, FiDollarSign } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "./../api/axiosInstance";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import AllConfirmOrders from "../components/Dashboard/AllConfirmOrder.jsx";
+import RecentOrder from "../components/Dashboard/RecentOrder.jsx";
+
+const COLORS = ["#3b82f6", "#22c55e", "#facc15", "#f97316"]; // Tailwind colors
 
 const DashboardOverview = () => {
- 
-  const metrics = [
-    {
-      title: "Total Sales",
-      value: "$20400",
-      icon: <FiDollarSign className="w-6 h-6 text-green-600" />,
-      description: "15% increase from last month",
-    },
-    {
-      title: "Total Orders",
-      value: "15",
-      icon: <FiShoppingCart className="w-6 h-6 text-blue-600" />,
-      description: "5% increase from last month",
-    },
-    {
-      title: "Total Users",
-      value: "08",
-      icon: <FiUsers className="w-6 h-6 text-purple-600" />,
-      description: "New registrations increased",
-    },
-    {
-      title: "Total Products",
-      value: "19",
-      icon: <FiPackage className="w-6 h-6 text-orange-600" />,
-      description: "Stock is well-managed",
-    },
-  ];
+  const [stats, setStats] = useState(null);
+  const [salesReport, setSalesReport] = useState([]);
+  const [pieData, setPieData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [statsRes, reportRes] = await Promise.all([
+          axiosInstance.get("/admin/stats"),
+          axiosInstance.get("/admin/stats-report?type=daily"),
+        ]);
+
+        setStats(statsRes.data.data);
+        setSalesReport(reportRes.data.report);
+
+        const pieTransformed = [
+          { name: "Users", value: statsRes.data.data.totalUsers },
+          { name: "Orders", value: statsRes.data.data.totalOrders },
+          { name: "Products", value: statsRes.data.data.totalProducts },
+        ];
+        setPieData(pieTransformed);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error loading dashboard data", err);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
-    <div className="">
-   <div className="p-4 md:p-6 bg-gray-100">
-      <h2 className="text-xl md:text-2xl font-semibold mb-4">Dashboard Overview</h2>
+    <div className="space-y-6 p-4">
+      <h2 className="text-3xl font-bold">Admin Dashboard Overview</h2>
+
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {metrics.map((metric, index) => (
-          <div key={index} className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center">
-              <div className="bg-gray-100 p-2 rounded-full mr-4">
-                {metric.icon}
-              </div>
-              <div>
-                <p className="font-semibold text-gray-700">{metric.title}</p>
-                <p className="text-2xl font-bold text-gray-800">{metric.value}</p>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="card bg-base-200 shadow animate-pulse h-28"
+            ></div>
+          ))
+        ) : (
+          <>
+            <div className="card bg-base-200 shadow">
+              <div className="card-body p-4">
+                <p className="text-sm text-gray-600">Total Sales</p>
+                <h3 className="text-2xl font-bold">
+                  ${stats.totalSales.toFixed(2)}
+                </h3>
               </div>
             </div>
-            <p className="text-sm text-gray-500 mt-2">{metric.description}</p>
+
+            <div className="card bg-base-200 shadow">
+              <div className="card-body p-4">
+                <p className="text-sm text-gray-600">Orders</p>
+                <h3 className="text-2xl font-bold">{stats.totalOrders}</h3>
+              </div>
+            </div>
+
+            <div className="card bg-base-200 shadow">
+              <div className="card-body p-4">
+                <p className="text-sm text-gray-600">Users</p>
+                <h3 className="text-2xl font-bold">{stats.totalUsers}</h3>
+              </div>
+            </div>
+
+            <div className="card bg-base-200 shadow">
+              <div className="card-body p-4">
+                <p className="text-sm text-gray-600">Products</p>
+                <h3 className="text-2xl font-bold">{stats.totalProducts}</h3>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="card bg-base-200 shadow">
+          <div className="card-body">
+            <h4 className="text-xl font-semibold mb-4">Sales Trend (Daily)</h4>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={salesReport}>
+                <XAxis dataKey="_id" tick={{ fontSize: 12 }} />
+                <YAxis />
+                <Tooltip />
+                <Bar
+                  dataKey="totalSales"
+                  fill="#3b82f6"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
-        ))}
+        </div>
+
+        <div className="card bg-base-200 shadow">
+          <div className="card-body">
+            <h4 className="text-xl font-semibold mb-4">System Breakdown</h4>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label
+                >
+                  {pieData.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Table Placeholder */}
+      {/* ... inside your DashboardOverview render ... */}
+      <div className="card bg-base-200 shadow">
+        <div className="card-body">
+          <h4 className="text-xl font-semibold mb-4">Recent Orders</h4>
+          <RecentOrder />
+
+        </div>
       </div>
     </div>
-    </div>
- 
   );
 };
 

@@ -7,6 +7,10 @@ import PromoBanner from "../components/home/PromoBanner.jsx";
 import FeaturesBar from "../components/home/FeaturesBar.jsx";
 import Feature from "../components/home/ExtraFeature02.jsx";
 import Categories from "../components/home/Categories.jsx";
+import ContactUs from "./ContactUs.jsx";
+import BannerGrid from "../components/home/BannerGrid.jsx";
+import TabletBanner from "../components/home/TabletBanner.jsx";
+import HeadphonePromo from "../components/home/HeadphonePromo.jsx";
 
 const Home = () => {
   return (
@@ -20,7 +24,7 @@ const Home = () => {
       </section>
 
       {/* Product Cards */}
-      <section className="max-w-7xl mx-auto ">
+      <section className="max-w-7xl mx-auto lg:p-0 p-2">
         <Card />
       </section>
       <section className="max-w-7xl mx-auto ">
@@ -28,25 +32,26 @@ const Home = () => {
       </section>
 
       {/* Blog Section */}
-      <section className="bg-gray-50 ">
+      <section className="bg-gray-50 lg:p-0 p-2">
         <BlogSection />
       </section>
 
+
+       <section className="w-full ">
+        <HeadphonePromo/>
+      </section>
+
+
+      
+      <section className="max-w-7xl mx-auto ">
+        <BannerGrid />
+      </section>
       {/* Newsletter Full Width */}
       <section className="w-full">
         <NewsLetter />
       </section>
-      {/* <section className="max-w-7xl mx-auto">
-        <PromoBanner />
-      </section> */}
-
-      {/* Hero / About */}
-      {/* <section className="max-w-7xl mx-auto ">
-        <Hero />
-      </section> */}
-      <section className="max-w-7xl mx-auto ">
-        <Feature />
-      </section>
+     
+      
     </div>
   );
 };

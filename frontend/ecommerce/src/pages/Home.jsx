@@ -1,15 +1,14 @@
-import Hero from "../components/home/Hero.jsx";
 import Card from "../components/home/Card.jsx";
 import BlogSection from "../components/home/BlogSection.jsx";
 import ExtraFeature01 from "../components/home/ExtraFeature01.jsx";
 import { NewsLetter } from "../components/home/NewsLetter.jsx";
-import PromoBanner from "../components/home/PromoBanner.jsx";
+
 import FeaturesBar from "../components/home/FeaturesBar.jsx";
-import Feature from "../components/home/ExtraFeature02.jsx";
+
 import Categories from "../components/home/Categories.jsx";
-import ContactUs from "./ContactUs.jsx";
+
 import BannerGrid from "../components/home/BannerGrid.jsx";
-import TabletBanner from "../components/home/TabletBanner.jsx";
+
 import HeadphonePromo from "../components/home/HeadphonePromo.jsx";
 
 const Home = () => {
@@ -36,13 +35,10 @@ const Home = () => {
         <BlogSection />
       </section>
 
-
-       <section className="w-full ">
-        <HeadphonePromo/>
+      <section className="w-full ">
+        <HeadphonePromo />
       </section>
 
-
-      
       <section className="max-w-7xl mx-auto ">
         <BannerGrid />
       </section>
@@ -50,8 +46,6 @@ const Home = () => {
       <section className="w-full">
         <NewsLetter />
       </section>
-     
-      
     </div>
   );
 };

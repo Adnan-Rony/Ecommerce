@@ -5,7 +5,8 @@ import "swiper/css/scrollbar";
 import { Scrollbar, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { UseFetchProducts } from "../../features/products/ProductsQuery.js";
-import BannerCardLoader from "../loader/bannerCardLoader.jsx";
+import BannerCardLoader from './../loader/BannerCardLoader';
+
 
 const ExtraFeature01 = () => {
   const { data: products, isLoading } = UseFetchProducts();

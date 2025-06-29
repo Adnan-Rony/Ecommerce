@@ -24,6 +24,7 @@ const corsOptions = {
     "https://ttechdev.vercel.app",
     "https://ecommerce-gfii.vercel.app/",
      "http://localhost:5173",
+     "https://techdevecommerce.vercel.app/"
     
     
     

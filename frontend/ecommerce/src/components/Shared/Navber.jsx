@@ -39,8 +39,6 @@ const Navbar = () => {
             <Link to="/blogs">Blog</Link>
             <Link to="/contact">Contact</Link>
 
-            
-
             {/* Show only for non-admin */}
             {user && user.role !== "admin" && (
               <>
@@ -69,7 +67,7 @@ const Navbar = () => {
                       <Link to="/login">Login</Link>
                     </li>
                     <li>
-                      <Link to="/signup">Sign Up</Link>
+                      <Link to="/SingUp">Sign Up</Link>
                     </li>
                   </>
                 )}
@@ -104,8 +102,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          
-
           {/* Mobile Profile Icon */}
           <div className="lg:hidden">
             <img
@@ -114,8 +110,6 @@ const Navbar = () => {
               onClick={() => setSidebarOpen(true)}
               className="w-9 h-9 rounded-full object-cover cursor-pointer"
             />
-
-           
           </div>
         </div>
       </header>

@@ -21,10 +21,12 @@ app.use(cookieParser())
 
 const corsOptions = {
   origin: [
+    "https://ecommercetechdev.vercel.app",
     "https://ttechdev.vercel.app",
-    "https://ecommerce-gfii.vercel.app/",
+    
      "http://localhost:5173",
-     "https://techdevecommerce.vercel.app/"
+
+    
     
     
     

@@ -10,6 +10,7 @@ import Categories from "../components/home/Categories.jsx";
 import BannerGrid from "../components/home/BannerGrid.jsx";
 
 import HeadphonePromo from "../components/home/HeadphonePromo.jsx";
+import FaqSection from "../components/home/FAQ.jsx";
 
 const Home = () => {
   return (
@@ -45,6 +46,9 @@ const Home = () => {
       {/* Newsletter Full Width */}
       <section className="w-full">
         <NewsLetter />
+      </section>
+      <section className="w-full">
+        <FaqSection />
       </section>
     </div>
   );

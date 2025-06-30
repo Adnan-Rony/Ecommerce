@@ -16,6 +16,7 @@ import ContactUs from "../pages/ContactUs.jsx";
 
 import AllBlogsPage from "../pages/AllBlogsPage.jsx";
 import UserDashboard from "../components/Dashboard/UserDashboard.jsx";
+import NotFound from "../pages/NotFound.jsx";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -59,13 +60,14 @@ export const AppRouter = createBrowserRouter([
         element: <ContactUs />,
       },
       {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/SingUp",
-    element: <SingUp />,
-  },
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/SingUp",
+        element: <SingUp />,
+      },
+      { path: "*", element: <NotFound /> },
     ],
   },
 

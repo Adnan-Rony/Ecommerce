@@ -1,99 +1,35 @@
-# 🛍️ TechDev – eCommerce Frontend
+# 🛍️ TechDev – Full-Stack eCommerce Web Application
 
-This is the frontend of **TechDev**, a full-featured eCommerce website built with **React.js** and **Tailwind CSS**. Users can browse products, add them to cart, checkout via Cash on Delivery or Stripe, and view their orders.
-
-## 🌐 Live Site
-
-[https://ecommercetechdev.vercel.app](https://ecommercetechdev.vercel.app)
+TechDev is a modern, full-featured eCommerce web application where users can browse products, add them to cart, place orders with Cash on Delivery or Stripe, and manage purchases. Admins have a full dashboard with statistics, sales charts, and product/order management.
 
 ---
 
-## 🚀 Features
+## 🌐 Live Demo
 
-- 🛒 Product Listing with Filters (Category, Price, Ratings, Search)
-- 📦 Add to Cart, Update Quantity, Remove Item
-- 🧾 Checkout Page with:
-  - ✅ Cash on Delivery
-  - 💳 Stripe Online Payment
-- 🔐 JWT Authentication & Role-based Access
-- 📜 Order History
-- 📚 FAQ and Tech Blog Sections
-- 📉 Admin Dashboard with:
-  - Overview Cards
-  - Sales & Product Charts
-  - Product/Order Management
+🖥️ **Frontend:** [https://ecommercetechdev.vercel.app](https://ecommercetechdev.vercel.app)  
+🔧 **Backend API:** [https://techdevvv.vercel.app/api/v1](https://techdevvv.vercel.app/api/v1)
 
 ---
 
-## 🧰 Tech Stack
+## 🧩 Tech Stack
 
-- **React.js**
-- **Tailwind CSS**
-- **React Router DOM**
-- **React Hook Form**
-- **Axios + Axios Interceptors**
-- **React Query / Context API**
-- **Stripe.js**
-- **Cloudinary (image hosting)**
+| Frontend                    | Backend                              |
+|----------------------------|--------------------------------------|
+| React.js                   | Node.js + Express.js                 |
+| Tailwind CSS               | MongoDB + Mongoose                   |
+| React Router DOM           | JWT Authentication                   |
+| React Hook Form            | Stripe Payment Integration           |
+| React Query / Context API  | Multer + Cloudinary (Image Uploads)  |
+| Axios + Interceptors       | dotenv, cookie-parser, helmet        |
+| Stripe.js                  | CORS Configuration                   |
 
 ---
 
-## 📦 Installation
+## 📦 Installation Guide
+
+### 🚀 Frontend Setup
 
 ```bash
 git clone https://github.com/Adnan-Rony/ecommerce-frontend.git
 cd ecommerce-frontend
-npm install
-
-
-# 🛍️ TechDev – eCommerce Backend
-
-
-
----
-
-## 🧰 Tech Stack
-
-- **Node.js** + **Express.js**
-- **MongoDB** + **Mongoose**
-- **JWT Authentication**
-- **Stripe Integration**
-- **Multer & Cloudinary** (Image Upload & Hosting)
-- **CORS** Configuration
-- **dotenv**, **cookie-parser**, **helmet**, etc.
-
----
-
-## 🚀 Core Features
-
-### 🛍️ Product Features
-- Create, Read, Update, Delete Products (Admin Only)
-- Fetch products with filters (search, category, etc.)
-- Cloudinary-based product image upload
-
-### 🛒 Cart & Orders
-- Add to cart
-- Place orders using:
-  - 🛵 Cash on Delivery
-  - 💳 Online (Stripe PaymentElement Integration)
-- Order history per user
-- Admin: View all orders with filtering
-
-### 🔐 Authentication
-- Register / Login with JWT token
-- Secure protected routes using middleware
-- Role-based access (User / Admin)
-
-### 📊 Admin Dashboard APIs
-- Get total counts (users, orders, sales)
-- Monthly sales report (MongoDB Aggregation)
-- Admin-only access to products, orders, and user management
-
----
-
-## 📦 Installation
-
-```bash
-git clone https://github.com/Adnan-Rony/ecommerce-backend.git
-cd ecommerce-backend
 npm install

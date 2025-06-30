@@ -63,7 +63,7 @@ const ProductCard = ({ product }) => {
       <p className="text-xs text-gray-500 mb-1">{product.brand}</p>
 
       <div className="flex items-center text-yellow-400 text-sm mb-1">
-        {product.review || "☆ ☆"}
+        {product.review || "☆ ☆ ☆"}
       </div>
 
       <p className="text-green-600 text-sm mb-1">

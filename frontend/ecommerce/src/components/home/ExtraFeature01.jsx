@@ -83,7 +83,7 @@ const ExtraFeature01 = () => {
                           {product.name}
                         </h3>
                         <p className="text-yellow-500 text-lg leading-none select-none">
-                          ☆ ☆ ☆ ☆
+                          ☆ ☆ ☆ 
                         </p>
                         <p className="text-blue-600 font-semibold mt-1">
                           ${product.price.toFixed(2)}

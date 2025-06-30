@@ -21,7 +21,7 @@ const SingleProduct = () => {
   if (isError) return <p>Error loading product</p>;
 
   return (
-    <div className="max-w-screen-xl  mx-auto">
+    <div className="max-w-screen-xl  mx-auto p-2">
       <div className="grid lg:grid-cols-2 justify-center grid-cols-1 gap- p-4">
         <div className="p-4 flex justify-center">
           {products.images &&
@@ -58,8 +58,8 @@ const SingleProduct = () => {
           <div className="mt-2">
             <p>{products.description}</p>
 
-            <div className="my-2">
-              <p className="text-xl font-semibold">Detailed Specification:</p>
+            <div className="my-4">
+              <p className="text-xl font-semibold my-2">Detailed Specification:</p>
               <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
                 <li>Brand: {products.brand}</li>
                 <li>Category: {products.category}</li>
@@ -77,7 +77,7 @@ const SingleProduct = () => {
          
         ></ReviewSection>
       </div> */}
-      <hr className="my-2" />
+    
       <div className="my-4"><RecommendedProducts></RecommendedProducts></div>
     </div>
   );

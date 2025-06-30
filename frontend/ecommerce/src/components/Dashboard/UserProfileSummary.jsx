@@ -10,13 +10,13 @@ const UserProfileSummary = () => {
   if (isError || !user) return <p className="text-red-500">Failed to load user info.</p>;
 
   return (
-    <div className="card bg-white shadow-lg rounded-lg mb-6 max-w-md mx-auto">
+    <div className="card bg-white shadow-lg rounded-lg mb-6 w-full mx-auto">
       <div className="card-body p-6">
-        <h4 className="text-2xl font-bold mb-6 text-center text-gray-800">My Profile</h4>
+        <h4 className="text-xl capitalize font-semibold mb-6 text-center text-gray-800">My Profile</h4>
 
         {/* Avatar */}
         <div className="flex justify-center mb-6">
-          <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-4xl font-semibold uppercase select-none">
+          <div className="w-24  h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-4xl font-semibold uppercase select-none">
             {user.name ? user.name.charAt(0) : "U"}
           </div>
         </div>

@@ -14,7 +14,7 @@ const BlogSection = () => {
   const topFourBlogs = ecommerceBlogs.slice(0, 4);
 
   return (
-    <section className="my-10 bg-gray-50 max-w-screen-xl  mx-auto">
+    <section className="my-10 bg-gray-50 max-w-screen-xl p-2  mx-auto">
       <div className="  text-center">
         <h2 className="text-2xl font-semibold text-gray-800">Latest Blogs</h2>
         <p className="text-gray-500">Explore recent blog posts from our writers</p>

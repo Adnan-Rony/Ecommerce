@@ -7,7 +7,7 @@ const BlogSection = () => {
   const { data: blogs = [], isLoading } = UseFetchBlog();
   const ecommerceBlogs = blogs.filter(
     (blog) =>
-      blog.categories?.some((cat) => cat.toLowerCase() === "e-commerce ") ||
+    
       blog.tags?.some((tag) => tag.toLowerCase().includes("e-commerce "))
   );
 

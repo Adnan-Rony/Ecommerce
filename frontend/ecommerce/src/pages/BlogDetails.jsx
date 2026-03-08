@@ -4,14 +4,20 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchBlogById = async (id) => {
-  const res = await axios.get(`https://devthroughts.vercel.app/api/v1/blogs/${id}`);
+  const res = await axios.get(
+    `https://devthroughts.vercel.app/api/v1/blogs/${id}`
+  );
   return res.data; // Direct blog object
 };
 
 const BlogDetails = () => {
   const { id } = useParams();
 
-  const { data: blog, isLoading, isError } = useQuery({
+  const {
+    data: blog,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["singleBlog", id],
     queryFn: () => fetchBlogById(id),
   });

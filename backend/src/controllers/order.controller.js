@@ -105,6 +105,33 @@ export const getSingleOrder = async (req, res) => {
   }
 };
 
+export const trackOrderByPhone = async (req, res) => {
+  const { phone } = req.params;
+
+  if (!phone) {
+    return res.status(400).json({ success: false, message: "Phone number required." });
+  }
+
+  try {
+    const orders = await OrderModel.find({
+      "shippingAddress.phone": phone
+    })
+      .populate("items.product", "name price images")
+      .sort({ createdAt: -1 });
+
+    if (!orders.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No orders found with this phone number."
+      });
+    }
+
+    res.status(200).json({ success: true, orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
+  }
+};
+
 export const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
 

@@ -5,7 +5,8 @@ import {
   getUserAllOrders,
   getUserOrders,
   placeOrder,
-  updateOrderStatus
+  updateOrderStatus,
+  trackOrderByPhone
 } from "../controllers/order.controller.js";
 import { checkAdmin } from "../middleware/checkAdmin.js";
 
@@ -21,5 +22,7 @@ router.put("/status/:id", verifyToken, checkAdmin, updateOrderStatus);
 // Logged-in only — /:id must be LAST
 router.get("/my-orders", verifyToken, getUserOrders);
 router.get("/:id", verifyToken, getSingleOrder);
+
+router.get("/track/:phone", trackOrderByPhone);
 
 export default router;

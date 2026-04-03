@@ -13,7 +13,7 @@ import MyOrderOverview from "../pages/MyOrderOverview.jsx";
 import AllCategories from "../pages/ProductsPage/AllCategories.jsx";
 import WishlistPage from "../pages/WishlistPage.jsx";
 import ContactUs from "../pages/ContactUs.jsx";
-
+import TrackOrder from "../pages/TrackOrder.jsx";
 import AllBlogsPage from "../pages/AllBlogsPage.jsx";
 import UserDashboard from "../components/Dashboard/UserDashboard.jsx";
 import NotFound from "../pages/NotFound.jsx";
@@ -26,6 +26,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/track-order",
+        element: <TrackOrder />,
       },
       {
         path: "/product/:id",
@@ -90,4 +94,5 @@ export const AppRouter = createBrowserRouter([
     element: <UserDashboard />,
     children: [],
   },
+  
 ]);

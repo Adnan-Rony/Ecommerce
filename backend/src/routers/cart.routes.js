@@ -1,20 +1,22 @@
 import express from "express";
-import { verifyToken } from './../middleware/verifyToken.js';
-import { addToCart, removeCartItem, getCart, updateCartItem } from "../controllers/cart.controller.js";
-
-
+import { verifyToken } from "../middleware/verifyToken.js";
+import {
+  addToCart,
+  removeCartItem,
+  getCart,
+  updateCartItem,
+  clearCart
+} from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
+// Guest & logged-in users — no verifyToken
+router.post("/add", addToCart);
+router.get("/", getCart);
+router.put("/:id", updateCartItem);
+router.delete("/item", removeCartItem);
 
-router.post("/add",verifyToken,addToCart)
-router.get("/",verifyToken,getCart)
-router.put("/:id",verifyToken,updateCartItem)
-router.delete("/item",verifyToken,removeCartItem)
-
-
-
-
-
+// Logged-in only
+router.delete("/clear", verifyToken, clearCart);
 
 export default router;

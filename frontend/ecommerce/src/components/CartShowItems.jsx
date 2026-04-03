@@ -2,13 +2,17 @@ import React from "react";
 import { IoCartOutline } from "react-icons/io5";
 import CartItemsAll from "./CartItemsAll";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
+import { UseCurrentUser } from "../features/users/userQueries.js";
+import { useCart } from "../contex/CartContext.jsx";
 import { Link } from "react-router";
 
 const CartShowItems = () => {
   const { data, isLoading, isError, refetch } = UseFetchAllCart();
+  const { data: user } = UseCurrentUser();
+  const { cart: localCart } = useCart();
 
   // Get the number of items in the cart
-  const cartItemsCount = data?.cart?.products?.length || 0;
+  const cartItemsCount = user ? (data?.cart?.products?.length || 0) : localCart.length;
 
   return (
     <div className="z-50">

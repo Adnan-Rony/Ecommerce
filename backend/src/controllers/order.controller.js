@@ -1,24 +1,28 @@
-
-
 import CartModel from "../models/Cart.model.js";
 import OrderModel from "../models/Order.model.js";
 
-
-
 export const placeOrder = async (req, res) => {
-  const userId = req.user.id;
-  const { shippingAddress, paymentMethod } = req.body;
+  const userId = req.user?.id || null;
+  const { shippingAddress, paymentMethod, guestId } = req.body;
 
-  if (!shippingAddress || !shippingAddress.address || !shippingAddress.city || !shippingAddress.country || !shippingAddress.name || !shippingAddress.email || !shippingAddress.phone) {
+  if (!shippingAddress?.address || !shippingAddress?.city ||
+      !shippingAddress?.phone || !shippingAddress?.name) {
     return res.status(400).json({ success: false, message: "Shipping address is incomplete." });
   }
 
-  if (!paymentMethod || !['COD', 'Online'].includes(paymentMethod)) {
-    return res.status(400).json({ success: false, message: "Invalid or missing payment method." });
+  if (!paymentMethod || !["COD", "Online"].includes(paymentMethod)) {
+    return res.status(400).json({ success: false, message: "Invalid payment method." });
+  }
+
+  if (!userId && !guestId) {
+    return res.status(400).json({ success: false, message: "guestId required for guest users." });
   }
 
   try {
-    const cart = await CartModel.findOne({ user: userId }).populate("products.product");
+    const cart = await (userId
+      ? CartModel.findOne({ user: userId })
+      : CartModel.findOne({ guestId })
+    ).populate("products.product");
 
     if (!cart || cart.products.length === 0) {
       return res.status(400).json({ success: false, message: "Cart is empty." });
@@ -29,7 +33,12 @@ export const placeOrder = async (req, res) => {
     }, 0);
 
     const order = new OrderModel({
-      user: userId,
+      user: userId || undefined,
+      guestInfo: userId ? undefined : {
+        name: shippingAddress.name,
+        phone: shippingAddress.phone,
+        email: shippingAddress.email || ""
+      },
       items: cart.products.map(item => ({
         product: item.product._id,
         quantity: item.quantity,
@@ -37,15 +46,14 @@ export const placeOrder = async (req, res) => {
       shippingAddress,
       totalAmount,
       paymentMethod,
-      paymentStatus: paymentMethod === 'COD' ? 'pending' : 'paid' // You may enhance this using Stripe webhook for real-time status
+      paymentStatus: paymentMethod === "COD" ? "pending" : "paid"
     });
 
     await order.save();
 
-    
-    cart.products = [];
-    cart.totalPrice = 0; 
-    await cart.save();
+    // Clear cart after order placed
+    if (userId) await CartModel.findOneAndDelete({ user: userId });
+    else await CartModel.findOneAndDelete({ guestId });
 
     res.status(201).json({
       success: true,
@@ -54,22 +62,15 @@ export const placeOrder = async (req, res) => {
     });
   } catch (err) {
     console.error("Order placement failed:", err);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: err.message
-    });
+    res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
-
-
-
 
 export const getUserOrders = async (req, res) => {
   try {
     const orders = await OrderModel.find({ user: req.user.id })
-    .populate("items.product")
-    .populate("user","name email")
+      .populate("items.product")
+      .populate("user", "name email");
     res.status(200).json({ success: true, orders });
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
@@ -80,15 +81,13 @@ export const getUserAllOrders = async (req, res) => {
   try {
     const orders = await OrderModel.find({})
       .populate("user", "name email")
-      .populate("items.product");
-
+      .populate("items.product")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, orders });
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
-
-
 
 export const getSingleOrder = async (req, res) => {
   try {
@@ -106,11 +105,10 @@ export const getSingleOrder = async (req, res) => {
   }
 };
 
-
 export const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
 
-  if (!["pending", "shipped", "delivered", "cancelled"].includes(status)) {
+  if (!["pending", "confirmed", "shipped", "delivered", "cancelled"].includes(status)) {
     return res.status(400).json({ success: false, message: "Invalid status value" });
   }
 
@@ -129,5 +127,3 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
-
-

@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { AddToCart, AllCart, DeleteCart } from "./CartsApi.js";
-
-
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AddToCart, AllCart, DeleteCart, UpdateCart } from "./CartsApi.js";
+import { getGuestId } from "../../utils/guestSession.js";
 
 export const UseAddToCart = () => {
   const queryClient = useQueryClient();
@@ -9,22 +8,18 @@ export const UseAddToCart = () => {
   return useMutation({
     mutationFn: AddToCart,
     onSuccess: () => {
-      // Invalidate the cartItems query so it refetches
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
   });
 };
 
-
-export const UseFetchAllCart=()=>{
-    return useQuery({
-        queryKey:['cartItems'],
-        queryFn:AllCart,
-         refetchOnWindowFocus: true,
-        
-    })
-}
-
+export const UseFetchAllCart = () => {
+  return useQuery({
+    queryKey: ['cartItems'],
+    queryFn: AllCart,
+    refetchOnWindowFocus: true,
+  });
+};
 
 export const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
@@ -35,5 +30,15 @@ export const useDeleteCartItem = () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
   });
-}
+};
 
+export const useUpdateCartItem = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: UpdateCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    },
+  });
+};

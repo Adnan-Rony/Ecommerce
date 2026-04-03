@@ -23,8 +23,15 @@ export const LogoutUser = async () => {
 };
 
 export const CurrentUser = async () => {
-  const res = await axiosInstance.get('/users/profile');
-  return res.data;
+  try {
+    const res = await axiosInstance.get('/users/profile');
+    return res.data;
+  } catch (err) {
+    if (err.response?.status === 401) {
+      return null; 
+    }
+    throw err;
+  }
 };
 
 

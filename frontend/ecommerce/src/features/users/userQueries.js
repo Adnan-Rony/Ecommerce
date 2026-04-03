@@ -21,12 +21,14 @@ export const Uselogout=()=>useMutation({
 
 
 
-export const UseCurrentUser=()=>
-    useQuery({
-    queryKey:["currentUser"],
-    queryFn:CurrentUser
-    
-})
+export const UseCurrentUser = () => {
+  return useQuery({
+    queryKey: ['currentUser'],
+    queryFn: CurrentUser,
+    retry: false,        
+    staleTime: 1000 * 60 * 5, 
+  });
+};
 
 
 export const useFetchUsers = () =>

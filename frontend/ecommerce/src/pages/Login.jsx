@@ -1,18 +1,30 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { UseLogin } from "../features/users/userQueries.js";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../contex/CartContext.jsx";
+import { UseAddToCart } from "../features/carts/CardQuery.js";
+import { UseLogin } from "../features/users/userQueries.js";
 
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, reset, setValue } = useForm();
   const { mutate: loginUser, isPending } = UseLogin();
+  const { mutate: addCart } = UseAddToCart();
+  const { cart: localCart, clearCart } = useCart();
 
   const onSubmit = (data) => {
     loginUser(data, {
       onSuccess: () => {
         reset();
         toast.success("Login successful!");
+        // Sync local cart to server
+        if (localCart.length > 0) {
+          localCart.forEach(item => {
+            addCart({ productId: item._id, quantity: item.quantity });
+          });
+          clearCart();
+          toast.success("Cart synced from local storage!");
+        }
         navigate("/");
       },
       onError: () => {

@@ -16,7 +16,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "baseline-browser-mapping": "^2.10.13",
     "bcryptjs": "^3.0.2",
+    "caniuse-lite": "^1.0.30001784",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

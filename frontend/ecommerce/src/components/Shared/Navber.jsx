@@ -38,7 +38,8 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="font-extrabold text-xl whitespace-nowrap tracking-tight">
-            ZapZone<span className="text-yellow-300">BD</span>
+            Zap<span className="text-yellow-300">Zone</span>
+              <span className="text-xs ml-1 bg-yellow-300 text-blue-900 px-1.5 py-0.5 rounded">BD</span>
           </Link>
 
           {/* Search Bar — center */}
@@ -54,12 +55,7 @@ const Navbar = () => {
             >
               Products
             </Link>
-            <Link
-              to="/blogs"
-              className="hover:text-yellow-300 transition"
-            >
-              Blog
-            </Link>
+            
             <Link
               to="/contact"
               className="hover:text-yellow-300 transition"
@@ -200,7 +196,7 @@ const Navbar = () => {
           {/* Sidebar Header */}
           <div className="bg-[#1d4c9e] text-white flex justify-between items-center px-5 py-4">
             <Link to="/" className="font-extrabold text-lg">
-              ZapZone<span className="text-yellow-300">BD</span>
+              ZapZone<span className="text-xs ml-1 bg-blue-600 text-white px-1.5 py-0.5 rounded">BD</span>
             </Link>
             <button onClick={() => setSidebarOpen(false)}>
               <FiX size={24} />
@@ -229,7 +225,7 @@ const Navbar = () => {
             {[
               { to: "/", label: "🏠 Home" },
               { to: "/allcategories", label: "📦 Products" },
-              { to: "/blogs", label: "📝 Blog" },
+              
               { to: "/contact", label: "📞 Contact" },
             ].map((item) => (
               <li key={item.to}>

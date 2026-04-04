@@ -32,7 +32,10 @@ const { data, isLoading, isError } = UseAllOrderFetch();
               <tr key={item._id} className="border-b hover:bg-gray-50">
                 <td className="p-3">{index + 1}</td>
                 <td className="px-4 py-3 font-medium text-gray-900">
-                  {item.user?.name}
+                  {item.user?.name || item.guestInfo?.name
+                  || item.shippingAddress?.name
+                  || "Guest"}
+                  
                 </td>
                 <td className="px-4 py-3">{item.shippingAddress?.phone}</td>
                 <td className="px-4 py-3 font-semibold text-green-600">

@@ -43,3 +43,10 @@ export const fetchRecommendedProductById = async (id) => {
   const res = await axiosInstance.get(`/product/recommendations/${id}`);
   return res.data;
 };
+
+
+
+export const updateProductById = async ({ productId, updatedData }) => {
+  const res = await axiosInstance.put(`/product/${productId}`, updatedData);
+  return res.data;
+};

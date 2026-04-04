@@ -4,46 +4,39 @@ import ProductCard from "../ProductCard.jsx";
 import ProductsCardLoading from "../loader/ProductsCardLoading.jsx";
 
 const Card = () => {
-  const { data: products, isLoading, isError } = UseFetchProducts();
-
-  if (isError) return <p className="text-center text-red-500">Error fetching products</p>;
-
+  const { data: products = [], isLoading, isError } = UseFetchProducts();
+ 
+  if (isError) return null;
+ 
+  // Take last 4 (newest) — reverse so newest is first
+  const newArrivals = [...products].reverse().slice(0, 4);
+ 
   return (
-    <div className="my-6 sm:my-10 bg-gray-50 px-3 sm:px-6 py-4 sm:py-6 rounded-xl">
-      
-      {/* Header */}
-      <div className="mb-6 sm:mb-8 text-center">
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-          New Arrivals
-        </h2>
-        <p className="text-sm sm:text-base text-gray-500">
-          Explore New Arrivals products
-        </p>
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
-        {isLoading
-          ? Array.from({ length: 4 }).map((_, index) => (
-              <ProductsCardLoading key={index} />
-            ))
-          : products
-              ?.slice(0, 4)
-              .map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-      </div>
-
-      {/* Button */}
-      <div className="text-center mt-6 sm:mt-10">
-        <Link to="/allcategories">
-          <button className="px-5 sm:px-6 py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded-full hover:bg-[#1d4c9e] hover:text-white transition">
-            More Products
-          </button>
+    <div>
+      {/* Section Header */}
+      <div className="flex items-center justify-between mb-5 py-4">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">New Arrivals</h2>
+          <p className="text-xs text-gray-400 mt-0.5">Just landed — fresh stock</p>
+        </div>
+        <Link
+          to="/allcategories"
+          className="text-xs font-medium text-[#1d4c9e] hover:underline"
+        >
+          View all →
         </Link>
+      </div>
+ 
+      {/* 4-column grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, i) => <ProductsCardLoading key={i} />)
+          : newArrivals.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
       </div>
     </div>
   );
 };
-
+ 
 export default Card;

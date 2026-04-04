@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Uselogout } from "../features/users/userQueries.js";
 import Swal from "sweetalert2";
+import FlashSaleManagement from "../components/Dashboard/FlashSaleManagement.jsx";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -56,6 +57,7 @@ const AdminDashboard = () => {
     { id: "Orders",   label: "Orders",       icon: <ClipboardList size={18} /> },
     { id: "create",   label: "Post Products",icon: <PlusCircle size={18} /> },
     { id: "coupons",  label: "Coupons",      icon: <Tag size={18} /> },
+    { id: "flash-sale", label: "Flash Sale",   icon: <Tag size={18} /> },
   ];
 
   const handleNavClick = (id) => {
@@ -155,6 +157,7 @@ const AdminDashboard = () => {
         {activeTab === "Orders"   && <AllConfirmOrders />}
         {activeTab === "create"   && <CreateProducts />}
         {activeTab === "coupons"  && <CouponManagement />}
+        {activeTab === "flash-sale" && <FlashSaleManagement />}
       </main>
 
     </div>

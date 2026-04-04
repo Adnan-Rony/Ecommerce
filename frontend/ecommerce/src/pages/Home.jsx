@@ -11,6 +11,7 @@ import BannerGrid from "../components/home/BannerGrid.jsx";
 
 import HeadphonePromo from "../components/home/HeadphonePromo.jsx";
 import FaqSection from "../components/home/FAQ.jsx";
+import AllCards from "../components/home/AllCards.jsx";
 
 const Home = () => {
   return (
@@ -24,17 +25,17 @@ const Home = () => {
       </section>
 
       {/* Product Cards */}
-      <section className="max-w-7xl mx-auto lg:p-0 p-2">
+      {/* <section className="max-w-7xl mx-auto lg:p-0 p-2">
         <Card />
-      </section>
+      </section> */}
+      {/* <section className="max-w-7xl mx-auto lg:p-0 p-2">
+        <AllCards />
+      </section> */}
       <section className="max-w-7xl mx-auto ">
         <Categories />
       </section>
 
-      {/* Blog Section */}
-      <section className="bg-gray-50 lg:p-0 p-2">
-        <BlogSection />
-      </section>
+      
 
       <section className="w-full ">
         <HeadphonePromo />

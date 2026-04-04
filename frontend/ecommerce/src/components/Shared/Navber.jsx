@@ -38,7 +38,7 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="font-extrabold text-xl whitespace-nowrap tracking-tight">
-            Tech<span className="text-yellow-300">Dev</span>
+            ZapZone<span className="text-yellow-300">BD</span>
           </Link>
 
           {/* Search Bar — center */}
@@ -200,7 +200,7 @@ const Navbar = () => {
           {/* Sidebar Header */}
           <div className="bg-[#1d4c9e] text-white flex justify-between items-center px-5 py-4">
             <Link to="/" className="font-extrabold text-lg">
-              Tech<span className="text-yellow-300">Dev</span>
+              ZapZone<span className="text-yellow-300">BD</span>
             </Link>
             <button onClick={() => setSidebarOpen(false)}>
               <FiX size={24} />

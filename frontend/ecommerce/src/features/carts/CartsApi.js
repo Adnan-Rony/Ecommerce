@@ -33,3 +33,8 @@ export const DeleteCart = async (productId) => {
     data: { productId, guestId },
   });
 };
+
+export const applyCoupon = async ({ code, orderAmount }) => {
+  const res = await axiosInstance.post('/coupon/apply', { code, orderAmount });
+  return res.data;
+};

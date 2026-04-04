@@ -2,30 +2,35 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import img2 from "../assets/card-pay.png";
 import img3 from "../assets/cod-pay.png";
 import CheckoutPageSkeleton from "../components/loader/CheckoutPageSkeleton.jsx";
 import { UseFetchAllCart } from "../features/carts/CardQuery.js";
+import { applyCoupon } from "../features/carts/CartsApi.js";
 import axiosInstance from "./../api/axiosInstance";
 import { getGuestId, clearGuestId } from "../utils/guestSession.js";
 import { useCart } from "../contex/CartContext.jsx";
 import { UseCurrentUser } from "../features/users/userQueries.js";
 
 const Checkout = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const { data, isLoading } = UseFetchAllCart();
   const { data: user } = UseCurrentUser();
   const { cart: localCart, clearCart } = useCart();
   const navigate = useNavigate();
-  const [isPending, setIsPending] = useState(false);
 
-  const selectedPayment = watch("paymentMethod");
+  const [isPending, setIsPending]       = useState(false);
+  const [couponCode, setCouponCode]     = useState("");
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError]   = useState("");
 
-  // Cart items — guest or logged in
   const cartItems = user ? (data?.cart?.products || []) : localCart;
-  const totalPrice = user
+  const subtotal  = user
     ? (data?.cart?.totalPrice || 0)
     : localCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const discount    = appliedCoupon?.discountAmount || 0;
+  const totalPrice  = Math.max(0, subtotal - discount);
 
   if (isLoading && user) return <CheckoutPageSkeleton />;
 
@@ -33,23 +38,45 @@ const Checkout = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <p className="text-xl font-semibold text-gray-500">Your cart is empty.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="mt-4 btn bg-blue-600 text-white"
-        >
+        <button onClick={() => navigate("/")} className="mt-4 btn bg-blue-600 text-white">
           Continue Shopping
         </button>
       </div>
     );
   }
 
-  const onSubmit = async (formData) => {
-    if (formData.paymentMethod !== "COD") {
-      toast.error("Only Cash on Delivery is available.");
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) {
+      setCouponError("Please enter a coupon code.");
       return;
     }
+    setCouponLoading(true);
+    setCouponError("");
+    setAppliedCoupon(null);
 
+    try {
+      const res = await applyCoupon({ code: couponCode, orderAmount: subtotal });
+      setAppliedCoupon(res.coupon);
+      toast.success(`Coupon applied! You saved ৳${res.coupon.discountAmount}`);
+    } catch (err) {
+      setCouponError(err?.response?.data?.message || "Invalid coupon code.");
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    setCouponError("");
+  };
+
+  const onSubmit = async (formData) => {
     setIsPending(true);
+
+  console.log("Cart items:", cartItems);
+  console.log("Guest ID:", getGuestId());
+  console.log("User:", user);
 
     const payload = {
       shippingAddress: {
@@ -63,9 +90,10 @@ const Checkout = () => {
         note: formData.note || "",
       },
       paymentMethod: "COD",
+      totalAmount: totalPrice,
+      couponCode: appliedCoupon?.code || null,
     };
 
-    // Add guestId if not logged in
     if (!user) {
       payload.guestId = getGuestId();
     }
@@ -73,14 +101,11 @@ const Checkout = () => {
     try {
       await axiosInstance.post("/order/create", payload);
       toast.success("✅ Order Placed Successfully!");
-
-      // Clear cart
       if (!user) {
         clearCart();
         clearGuestId();
       }
-
-      navigate("/");
+      navigate("/track-order");
     } catch (err) {
       toast.error(err?.response?.data?.message || "Order failed. Try again.");
     } finally {
@@ -97,9 +122,10 @@ const Checkout = () => {
           <h2 className="text-2xl font-semibold mb-6">Checkout Info</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+
             {/* Contact Info */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Contact Info</h3>
+              <h3 className="font-semibold text-gray-700">Contact Info</h3>
               <input
                 {...register("fullName", { required: "Name is required" })}
                 type="text"
@@ -109,7 +135,6 @@ const Checkout = () => {
               {errors.fullName && (
                 <p className="text-red-500 text-sm">{errors.fullName.message}</p>
               )}
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   {...register("email")}
@@ -131,7 +156,7 @@ const Checkout = () => {
 
             {/* Shipping Info */}
             <div className="space-y-4 mt-6">
-              <h3 className="font-semibold">Shipping Info</h3>
+              <h3 className="font-semibold text-gray-700">Shipping Info</h3>
               <input
                 {...register("address", { required: "Address is required" })}
                 type="text"
@@ -141,7 +166,6 @@ const Checkout = () => {
               {errors.address && (
                 <p className="text-red-500 text-sm">{errors.address.message}</p>
               )}
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   {...register("city", { required: "City is required" })}
@@ -156,7 +180,6 @@ const Checkout = () => {
                   className="input input-bordered w-full"
                 />
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   {...register("country")}
@@ -173,99 +196,155 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Payment Method */}
+            {/* Coupon Section */}
+            <div className="mt-6">
+              <h3 className="font-semibold text-gray-700 mb-2">Coupon Code</h3>
+
+              {!appliedCoupon ? (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value.toUpperCase());
+                      setCouponError("");
+                    }}
+                    placeholder="Enter coupon code (e.g. WELCOME20)"
+                    className="input input-bordered flex-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleApplyCoupon}
+                    disabled={couponLoading}
+                    className="btn bg-blue-600 text-white px-6"
+                  >
+                    {couponLoading ? "..." : "Apply"}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+                  <div>
+                    <p className="font-bold text-green-700">
+                      {appliedCoupon.code} applied!
+                    </p>
+                    <p className="text-sm text-green-600">
+                      You saved ৳{appliedCoupon.discountAmount}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="text-red-500 text-sm font-semibold hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
+
+              {couponError && (
+                <p className="text-red-500 text-sm mt-2">{couponError}</p>
+              )}
+            </div>
+
+            {/* Payment */}
             <div className="my-4">
               <p className="font-semibold mb-2">Payment Options</p>
-              <div className="grid grid-cols-2 gap-4">
-                <label
-                  className={`flex items-center justify-center border rounded p-4 cursor-pointer hover:shadow ${
-                    selectedPayment === "COD" ? "border-blue-500 shadow" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    value="COD"
-                    {...register("paymentMethod", { required: true })}
-                    className="hidden"
-                  />
-                  <img src={img3} alt="Cash on Delivery" className="h-8" />
-                </label>
+              <div className="flex items-center gap-3 border rounded-xl p-4 bg-orange-50 border-orange-200">
+                <img src={img3} alt="COD" className="h-8" />
+                <div>
+                  <p className="font-semibold text-sm">Cash on Delivery</p>
+                  <p className="text-xs text-gray-500">Pay when you receive</p>
+                </div>
               </div>
-              <p className="text-sm text-gray-500 mt-2">
-                ✅ Cash on Delivery — pay when you receive.
-              </p>
             </div>
 
             <button
               type="submit"
               disabled={isPending}
-              className="btn bg-green-600 text-white w-full my-4"
+              className="btn bg-green-600 text-white w-full my-4 text-base"
             >
               {isPending ? "Processing..." : "Place Order (COD)"}
             </button>
+
           </form>
         </div>
 
         {/* Right — Order Summary */}
-        <div className="bg-gray-100 p-6 rounded-md shadow-sm">
+        <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
           <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
-          <hr className="border-t-2 border-gray-300 my-2" />
+          <hr className="mb-4" />
 
           {cartItems.map((item) => {
-            const name = user ? item.product?.name : item.name;
+            const name  = user ? item.product?.name  : item.name;
             const image = user ? item.product?.images?.[0] : item.images?.[0];
             const price = user ? item.product?.price : item.price;
 
             return (
-              <div key={item._id} className="flex items-center gap-4 my-4">
+              <div key={item._id} className="flex items-center gap-4 mb-4">
                 <img
                   src={image}
                   alt={name}
-                  className="w-20 h-20 rounded-lg object-cover"
+                  className="w-16 h-16 rounded-lg object-cover"
                 />
                 <div className="flex-1">
                   <p className="font-medium text-sm">{name}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    {/* Quantity counter */}
-                    <span className="bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded text-sm">
+                    <span className="bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded text-xs">
                       x{item.quantity}
                     </span>
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 text-xs">
                       ৳{price} each
                     </span>
                   </div>
-                  <p className="text-green-600 font-semibold mt-1">
-                    ৳{price * item.quantity}
-                  </p>
                 </div>
+                <p className="font-semibold text-green-600 text-sm">
+                  ৳{price * item.quantity}
+                </p>
               </div>
             );
           })}
 
-          <hr className="border-t-2 border-gray-300 my-4" />
+          <hr className="my-4" />
 
+          {/* Price Breakdown */}
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="font-semibold">
-                Total Items:
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">
+                Subtotal ({cartItems.reduce((s, i) => s + i.quantity, 0)} items):
               </span>
-              <span className="font-bold">
-                {cartItems.reduce((sum, item) => sum + item.quantity, 0)} pcs
-              </span>
+              <span className="font-semibold">৳{subtotal}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Subtotal:</span>
-              <span className="text-green-600 font-semibold">৳{totalPrice}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Shipping:</span>
+
+            {appliedCoupon && (
+              <div className="flex justify-between text-sm">
+                <span className="text-green-600 font-medium">
+                  Discount ({appliedCoupon.code}):
+                </span>
+                <span className="text-green-600 font-semibold">
+                  - ৳{appliedCoupon.discountAmount}
+                </span>
+              </div>
+            )}
+
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">Shipping:</span>
               <span className="text-green-600 font-semibold">FREE</span>
             </div>
-            <hr className="border-t-2 py-2 border-gray-300" />
+
+            <hr className="my-2" />
+
             <div className="flex justify-between text-xl font-bold">
               <span>Total Payable:</span>
               <span className="text-green-600">৳{totalPrice}</span>
             </div>
+
+            {appliedCoupon && (
+              <div className="bg-green-50 rounded-lg p-2 text-center">
+                <p className="text-green-600 text-sm font-semibold">
+                  🎉 You saved ৳{appliedCoupon.discountAmount}!
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

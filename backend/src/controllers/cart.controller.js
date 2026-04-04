@@ -8,6 +8,7 @@ const findCart = async (userId, guestId) => {
 };
 
 export const addToCart = async (req, res) => {
+  console.log("Cart add body:", req.body);
   const userId = req.user?.id || null;
   const { productId, quantity, size, guestId } = req.body;
 
@@ -21,8 +22,10 @@ export const addToCart = async (req, res) => {
 
   try {
     let cart = await findCart(userId, guestId);
+    console.log("Existing cart:", cart); // DEBUG
 
     if (!cart) {
+      console.log("Creating new cart..."); // DEBUG
       cart = new CartModel({
         user: userId || undefined,
         guestId: userId ? undefined : guestId,
@@ -39,9 +42,12 @@ export const addToCart = async (req, res) => {
       }
     }
 
+    console.log("Saving cart..."); // DEBUG
     await cart.save();
+    console.log("Cart saved!"); // DEBUG
     res.status(200).json({ success: true, cart });
   } catch (err) {
+    console.error("Cart save error:", err.message); // DEBUG
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };

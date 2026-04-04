@@ -10,7 +10,7 @@ import { UseCurrentUser } from "../features/users/userQueries.js";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const { data: user, isLoading: userLoading } = UseCurrentUser();
+  const { data: user } = UseCurrentUser();
   const { mutate: addToWishlist, isPending } = UseWishlistCreate();
   const [hovered, setHovered] = useState(false);
 
@@ -21,12 +21,9 @@ const ProductCard = ({ product }) => {
         text: "You need to log in to add to your wishlist.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, Login",
-        cancelButtonText: "No",
+        confirmButtonText: "Login",
       }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
+        if (result.isConfirmed) navigate("/login");
       });
       return;
     }
@@ -35,7 +32,7 @@ const ProductCard = ({ product }) => {
       { productId: product._id },
       {
         onSuccess: () => toast.success("Added to wishlist"),
-        onError: () => toast.error("Failed to add to wishlist"),
+        onError: () => toast.error("Failed to add"),
       }
     );
   };
@@ -45,44 +42,64 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
-      className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between min-h-[380px]"
+      className="
+        bg-white rounded-xl shadow-sm hover:shadow-md
+        transition duration-300
+        flex flex-col justify-between
+        p-2 sm:p-4
+      "
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {/* Image */}
       <Link to={`/product/${product._id}`}>
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden rounded-lg">
           <img
-            className="w-full h-40 object-contain mb-3 transform transition-transform duration-300 hover:scale-110"
             src={hovered ? secondaryImage : primaryImage}
             alt={product.name}
+            className="
+              w-full h-28 sm:h-40
+              object-contain
+              transition-transform duration-300
+              hover:scale-105
+            "
           />
         </div>
       </Link>
 
-      <h3 className="text-sm font-semibold text-gray-900">{product.name}</h3>
-      <p className="text-xs text-gray-500 mb-1">{product.brand}</p>
+      {/* Title */}
+      <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mt-2 line-clamp-2">
+        {product.name}
+      </h3>
 
-      <div className="flex items-center text-yellow-400 text-sm mb-1">
-        {product.review || "☆ ☆ ☆"}
-      </div>
-
-      <p className="text-green-600 text-sm mb-1">
-        ✔ In stock ({product.stock})
+      {/* Brand */}
+      <p className="text-[10px] sm:text-xs text-gray-500">
+        {product.brand}
       </p>
 
-      <div className="text-sm text-gray-800 justify-between mb-2 flex items-center gap-2">
-        <p className="text-[#1d4c9e] font-bold">${product.price}</p>
+      {/* Stock */}
+      <p className="text-[10px] sm:text-xs text-green-600 mt-1">
+        ✔ {product.stock > 0 ? `In stock (${product.stock})` : "Out of stock"}
+      </p>
+
+      {/* Price + Wishlist */}
+      <div className="flex items-center justify-between mt-2">
+        <p className="text-sm sm:text-base font-bold text-[#1d4c9e]">
+          ${product.price}
+        </p>
+
         <button
           onClick={handleWishlistAdd}
           disabled={isPending}
-          title="Add to Wishlist"
+          className="p-1 rounded-full hover:bg-gray-100 transition"
         >
-          <MdBookmarkAdd className="text-xl text-[#1d4c9e] hover:text-blue-700" />
+          <MdBookmarkAdd className="text-lg sm:text-xl text-[#1d4c9e]" />
         </button>
       </div>
 
-      <div className="mt-auto">
-        <AddToCart product={product} key={product._id} />
+      {/* Add to Cart */}
+      <div className="mt-2">
+        <AddToCart product={product} />
       </div>
     </div>
   );

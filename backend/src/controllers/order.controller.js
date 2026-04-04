@@ -2,6 +2,12 @@ import CartModel from "../models/Cart.model.js";
 import OrderModel from "../models/Order.model.js";
 
 export const placeOrder = async (req, res) => {
+
+  // DEBUG
+  console.log("Order body:", JSON.stringify(req.body, null, 2));
+  // DEBUG END
+
+
   const userId = req.user?.id || null;
   const { shippingAddress, paymentMethod, guestId } = req.body;
 

@@ -11,7 +11,7 @@ import orderRoutes from './routers/order.routes.js';
 import wishRoutes from './routers/wishlistRoutes.js';
 import adminRoutes from './routers/admin.routes.js';
 import reviewRoutes from './routers/review.routes.js';
-
+import couponRoutes from './routers/coupon.routes.js';
 dotenv.config()
 const app =express()
 
@@ -46,7 +46,7 @@ app.use("/api/v1/order",orderRoutes)
 app.use("/api/v1/wishlist",wishRoutes)
 app.use("/api/v1/admin",adminRoutes)
 app.use("/api/v1/review",reviewRoutes)
-
+app.use("/api/v1/coupon", couponRoutes);
 
 
 export default app;

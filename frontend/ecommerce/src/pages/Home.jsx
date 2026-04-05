@@ -9,9 +9,10 @@ import Categories from "../components/home/Categories.jsx";
 
 import BannerGrid from "../components/home/BannerGrid.jsx";
 
-import HeadphonePromo from "../components/home/HeadphonePromo.jsx";
+
 import FaqSection from "../components/home/FAQ.jsx";
 import AllCards from "../components/home/AllCards.jsx";
+import FlashHotSalePromo from "../components/home/FlashHotSalePromo.jsx";
 
 const Home = () => {
   return (
@@ -38,19 +39,20 @@ const Home = () => {
       
 
       <section className="w-full ">
-        <HeadphonePromo />
+        <FlashHotSalePromo />
       </section>
 
-      <section className="max-w-7xl mx-auto ">
+      {/* <section className="max-w-7xl mx-auto ">
         <BannerGrid />
-      </section>
+      </section> */}
       {/* Newsletter Full Width */}
-      <section className="w-full">
-        <NewsLetter />
-      </section>
       <section className="w-full">
         <FaqSection />
       </section>
+      <section className="w-full">
+        <NewsLetter />
+      </section>
+      
     </div>
   );
 };

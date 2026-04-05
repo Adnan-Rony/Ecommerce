@@ -21,15 +21,24 @@ const orderSchema = new mongoose.Schema({
     }
   ],
   shippingAddress: {
-    address: String,
-    city: String,
-    postalCode: String,
-    country: String,
-    name: String,
-    email: String,
-    phone: String,
-    note: String
-  },
+  name: String,
+  email: String,
+  phone: String,
+
+  division: String,   
+  district: String,   
+
+  address: String,
+  postalCode: String,
+  landmark: String,   
+  note: String,
+  deliveryTime: String, 
+
+  country: {
+    type: String,
+    default: "Bangladesh"
+  }
+},
   totalAmount: Number,
   status: {
     type: String,

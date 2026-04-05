@@ -67,16 +67,16 @@ const ProductSection = ({ title, subtitle, products, emptyText }) => (
       </div>
       <Link
         to="/allcategories"
-        className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+        className="text-blue-600 hover:text-blue-800 btn text-sm font-semibold"
       >
-        View All →
+        View All
       </Link>
     </div>
 
     {products.length === 0 ? (
       <div className="text-center py-10 text-gray-400">
         <p>{emptyText}</p>
-        <p className="text-xs mt-1">Admin dashboard থেকে product mark করো।</p>
+        <p className="text-xs mt-1">Server Problem!</p>
       </div>
     ) : (
       <Swiper
@@ -216,7 +216,7 @@ const ExtraFeature01 = () => {
       {!isLoading && (
         <div className="bg-blue-50">
           <ProductSection
-            title="⭐ Featured Products"
+            title=" Featured Products"
             
             products={featuredProducts.length > 0 ? featuredProducts : allProducts}
             emptyText="কোনো featured product নেই।"

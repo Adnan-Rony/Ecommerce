@@ -75,9 +75,9 @@ const Navbar = () => {
             {/* Non-admin links */}
             {user && user.role !== "admin" && (
               <>
-                <Link to="/wishlist" className="hover:text-yellow-300 transition">
+                {/* <Link to="/wishlist" className="hover:text-yellow-300 transition">
                   Wishlist
-                </Link>
+                </Link> */}
                 <Link to="/myorder" className="hover:text-yellow-300 transition">
                   My Orders
                 </Link>
@@ -125,8 +125,8 @@ const Navbar = () => {
                 ) : (
                   <>
                     <li className="px-3 py-2 border-b border-gray-100">
-                      <div>
-                        <p className="font-bold text-gray-800">{user.name}</p>
+                      <div className="">
+                        {/* <p className="font-bold text-gray-800">{user.name}</p> */}
                         <p className="text-xs text-gray-400">{user.email}</p>
                         <span className={`text-xs px-2 py-0.5 rounded-full mt-1 inline-block font-semibold ${
                           user.role === "admin"

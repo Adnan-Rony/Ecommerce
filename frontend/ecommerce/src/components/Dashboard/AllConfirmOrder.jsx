@@ -2,7 +2,9 @@ import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner.jsx";
 import { UseAllOrderFetch, UseUpdateOrderStatus } from "../../features/order/OrderQuery";
 import toast from "react-hot-toast";
+import OrderDetailModal from "./OrderDetailModal.jsx";
 
+export { STATUS_COLORS };
 const STATUS_COLORS = {
   pending:   "bg-yellow-100 text-yellow-700",
   confirmed: "bg-blue-100 text-blue-700",
@@ -283,161 +285,22 @@ const AllConfirmOrders = () => {
       )}
 
       {/* Order Detail Modal */}
-      {selectedOrder && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center p-5 border-b">
-              <h3 className="text-lg font-bold text-gray-800">Order Details</h3>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-              >
-                ✕
-              </button>
-            </div>
+      {/* Order Detail Modal */}
+{selectedOrder && (
+  <OrderDetailModal
+    order={selectedOrder}
+    onClose={() => setSelectedOrder(null)}
+    onStatusChange={(id, status) => {
+      handleStatusChange(id, status);
+      setSelectedOrder(prev => ({ ...prev, status }));
+    }}
+    STATUS_FLOW={STATUS_FLOW}
+    isUpdating={isUpdating}
+  />
+)}
 
-            <div className="p-5 space-y-4">
-              {/* Order ID */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400">Order ID</p>
-                <p className="text-sm font-mono font-semibold text-gray-700">
-                  {selectedOrder._id}
-                </p>
-              </div>
 
-              {/* Customer Info */}
-              <div className="bg-blue-50 rounded-lg p-3">
-                <p className="text-xs font-semibold text-blue-700 mb-2">
-                  CUSTOMER INFO
-                </p>
-                <div className="space-y-1 text-sm">
-                  <p>
-                    <span className="text-gray-500">Name: </span>
-                    <span className="font-semibold">
-                      {selectedOrder.user?.name
-                        || selectedOrder.guestInfo?.name
-                        || selectedOrder.shippingAddress?.name}
-                    </span>
-                    {!selectedOrder.user && (
-                      <span className="ml-2 text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">
-                        Guest
-                      </span>
-                    )}
-                  </p>
-                  <p>
-                    <span className="text-gray-500">Phone: </span>
-                    <span className="font-semibold">
-                      {selectedOrder.shippingAddress?.phone}
-                    </span>
-                  </p>
-                  {(selectedOrder.user?.email || selectedOrder.guestInfo?.email) && (
-                    <p>
-                      <span className="text-gray-500">Email: </span>
-                      {selectedOrder.user?.email || selectedOrder.guestInfo?.email}
-                    </p>
-                  )}
-                </div>
-              </div>
 
-              {/* Shipping Address */}
-              <div className="bg-purple-50 rounded-lg p-3">
-                <p className="text-xs font-semibold text-purple-700 mb-2">
-                  SHIPPING ADDRESS
-                </p>
-                <div className="text-sm space-y-1">
-                  <p>{selectedOrder.shippingAddress?.address}</p>
-                  <p>
-                    {selectedOrder.shippingAddress?.city}
-                    {selectedOrder.shippingAddress?.postalCode && ` - ${selectedOrder.shippingAddress.postalCode}`}
-                  </p>
-                  <p>{selectedOrder.shippingAddress?.country || "Bangladesh"}</p>
-                  {selectedOrder.shippingAddress?.note && (
-                    <p className="text-yellow-600 italic">
-                      Note: {selectedOrder.shippingAddress.note}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Products */}
-              <div className="bg-green-50 rounded-lg p-3">
-                <p className="text-xs font-semibold text-green-700 mb-2">
-                  ORDERED PRODUCTS ({selectedOrder.items?.length || 0} items)
-                </p>
-                <div className="space-y-2">
-                  {selectedOrder.items?.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white rounded p-2">
-                      {item.product?.images?.[0] && (
-                        <img
-                          src={item.product.images[0]}
-                          alt={item.product?.name}
-                          className="w-12 h-12 object-cover rounded"
-                        />
-                      )}
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">
-                          {item.product?.name || "Product"}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          ৳{item.product?.price} × {item.quantity} =
-                          <span className="font-semibold text-green-600 ml-1">
-                            ৳{(item.product?.price || 0) * item.quantity}
-                          </span>
-                        </p>
-                      </div>
-                      <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">
-                        x{item.quantity}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Order Summary */}
-              <div className="flex justify-between items-center bg-gray-800 text-white rounded-lg p-4">
-                <div>
-                  <p className="text-xs text-gray-400">Total Amount</p>
-                  <p className="text-2xl font-bold text-green-400">
-                    ৳{selectedOrder.totalAmount?.toLocaleString()}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-400">Payment</p>
-                  <p className="font-semibold">{selectedOrder.paymentMethod}</p>
-                  <span className={`text-xs px-2 py-0.5 rounded-full mt-1 inline-block capitalize ${STATUS_COLORS[selectedOrder.status]}`}>
-                    {selectedOrder.status}
-                  </span>
-                </div>
-              </div>
-
-              {/* Update Status from Modal */}
-              <div>
-                <p className="text-sm font-semibold text-gray-600 mb-2">
-                  Update Order Status:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {STATUS_FLOW.map(s => (
-                    <button
-                      key={s}
-                      onClick={() => {
-                        handleStatusChange(selectedOrder._id, s);
-                        setSelectedOrder({ ...selectedOrder, status: s });
-                      }}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition border ${
-                        selectedOrder.status === s
-                          ? "bg-blue-600 text-white border-blue-600"
-                          : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

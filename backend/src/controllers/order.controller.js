@@ -3,53 +3,83 @@ import OrderModel from "../models/Order.model.js";
 
 export const placeOrder = async (req, res) => {
 
-  // DEBUG
   console.log("Order body:", JSON.stringify(req.body, null, 2));
-  // DEBUG END
-
 
   const userId = req.user?.id || null;
   const { shippingAddress, paymentMethod, guestId } = req.body;
 
-  if (!shippingAddress?.address || !shippingAddress?.city ||
-      !shippingAddress?.phone || !shippingAddress?.name) {
-    return res.status(400).json({ success: false, message: "Shipping address is incomplete." });
+  
+  if (
+    !shippingAddress?.address ||
+    !shippingAddress?.division ||
+    !shippingAddress?.district ||
+    !shippingAddress?.phone ||
+    !shippingAddress?.name
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Shipping address is incomplete."
+    });
   }
 
   if (!paymentMethod || !["COD", "Online"].includes(paymentMethod)) {
-    return res.status(400).json({ success: false, message: "Invalid payment method." });
+    return res.status(400).json({
+      success: false,
+      message: "Invalid payment method."
+    });
   }
 
   if (!userId && !guestId) {
-    return res.status(400).json({ success: false, message: "guestId required for guest users." });
+    return res.status(400).json({
+      success: false,
+      message: "guestId required for guest users."
+    });
   }
 
   try {
+   
     const cart = await (userId
       ? CartModel.findOne({ user: userId })
       : CartModel.findOne({ guestId })
     ).populate("products.product");
 
     if (!cart || cart.products.length === 0) {
-      return res.status(400).json({ success: false, message: "Cart is empty." });
+      return res.status(400).json({
+        success: false,
+        message: "Cart is empty."
+      });
     }
 
+   
     const totalAmount = cart.products.reduce((total, item) => {
       return total + item.product.price * item.quantity;
     }, 0);
 
+   
+    const formattedAddress = {
+      ...shippingAddress,
+      fullAddress: `${shippingAddress.address}, ${shippingAddress.district}, ${shippingAddress.division}`,
+      country: "Bangladesh"
+    };
+
+    
     const order = new OrderModel({
       user: userId || undefined,
-      guestInfo: userId ? undefined : {
-        name: shippingAddress.name,
-        phone: shippingAddress.phone,
-        email: shippingAddress.email || ""
-      },
+
+      guestInfo: userId
+        ? undefined
+        : {
+            name: shippingAddress.name,
+            phone: shippingAddress.phone,
+            email: shippingAddress.email || ""
+          },
+
       items: cart.products.map(item => ({
         product: item.product._id,
         quantity: item.quantity,
       })),
-      shippingAddress,
+
+      shippingAddress: formattedAddress,
       totalAmount,
       paymentMethod,
       paymentStatus: paymentMethod === "COD" ? "pending" : "paid"
@@ -57,18 +87,27 @@ export const placeOrder = async (req, res) => {
 
     await order.save();
 
-    // Clear cart after order placed
-    if (userId) await CartModel.findOneAndDelete({ user: userId });
-    else await CartModel.findOneAndDelete({ guestId });
+   
+    if (userId) {
+      await CartModel.findOneAndDelete({ user: userId });
+    } else {
+      await CartModel.findOneAndDelete({ guestId });
+    }
 
+    
     res.status(201).json({
       success: true,
       message: "Order placed successfully.",
       order
     });
+
   } catch (err) {
     console.error("Order placement failed:", err);
-    res.status(500).json({ success: false, message: "Server error", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: err.message
+    });
   }
 };
 

@@ -13,6 +13,7 @@ import adminRoutes from './routers/admin.routes.js';
 import reviewRoutes from './routers/review.routes.js';
 import couponRoutes from './routers/coupon.routes.js';
 import flashSaleRoutes from './routers/flashSale.routes.js';
+import sslRoutes from './routers/Ssl.routes.js';
 dotenv.config()
 const app =express()
 
@@ -49,5 +50,5 @@ app.use("/api/v1/admin",adminRoutes)
 app.use("/api/v1/review",reviewRoutes)
 app.use("/api/v1/coupon", couponRoutes);
 app.use("/api/v1/flashsale", flashSaleRoutes);
-
+app.use('/api/v1/payment/ssl', sslRoutes);
 export default app;

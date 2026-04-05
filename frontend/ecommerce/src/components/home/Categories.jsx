@@ -42,19 +42,19 @@ const categories = [
 ];
 
 const Categories = () => (
-  <div className="py-8">
+  <div className="py-8 sm:p-4">
 
     {/* Header */}
-    <div className="flex items-center justify-between mb-6 px-1">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800">Shop by Category</h2>
+    <div className="flex items-center justify-between mb-6 px-1 sm:px-4">
+      <div className="p-2">
+        <h2 className="text-2xl font-bold text-gray-800 ">Shop by Category</h2>
         <p className="text-gray-500 text-sm mt-1">যা খুঁজছেন সহজে খুঁজে নিন</p>
       </div>
       <Link
         to="/allcategories"
-        className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
+        className="text-blue-600 btn hover:text-blue-800 text-sm font-semibold"
       >
-        সব দেখুন →
+        See More
       </Link>
     </div>
 

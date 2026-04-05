@@ -15,7 +15,7 @@ export const NewsLetter = () => {
     }
     setLoading(true);
     setTimeout(() => {
-      toast.success("✅ Successfully subscribed!");
+      toast.success(" Successfully subscribed!");
       setEmail("");
       setLoading(false);
     }, 1000);

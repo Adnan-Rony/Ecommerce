@@ -17,8 +17,6 @@ import TrackOrder from "../pages/TrackOrder.jsx";
 import AllBlogsPage from "../pages/AllBlogsPage.jsx";
 import UserDashboard from "../components/Dashboard/UserDashboard.jsx";
 import NotFound from "../pages/NotFound.jsx";
-import PaymentSuccess from "../pages/Paymentsuccess.Jsx";
-import PaymentFailed from "../pages/Paymentfailed.jsx";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -74,8 +72,6 @@ export const AppRouter = createBrowserRouter([
         element: <SingUp />,
       },
       { path: "*", element: <NotFound /> },
-      { path: "payment/success", element: <PaymentSuccess /> },
-      { path: "payment/failed", element: <PaymentFailed /> },
     ],
   },
 

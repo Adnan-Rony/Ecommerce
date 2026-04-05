@@ -1,11 +1,5 @@
 import express from 'express';
-import {
-  initiateSSLPayment,
-  sslSuccess,
-  sslFail,
-  sslCancel,
-  sslIPN,
-} from '../controllers/sslPaymentController.js';
+import { initiateSSLPayment, sslSuccess, sslFail, sslCancel, sslIPN } from '../controllers/Sslpaymentcontroller.js';
 import { verifyToken } from '../middleware/verifyToken.js';
 
 const router = express.Router();

@@ -6,12 +6,10 @@
     "node": "20.x"
   },
   "type": "module",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "build": " tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "scripts": {
+  "start": "node src/server.js",
+  "dev": "nodemon src/server.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

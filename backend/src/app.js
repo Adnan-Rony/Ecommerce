@@ -22,25 +22,18 @@ app.use(express.json())
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: [
-    "https://ecommercetechdev.vercel.app",
-    "https://ttechdev.vercel.app",
-    
-     "http://localhost:5173",
+    origin: ["http://localhost:5173",
+        "https://zapzonebd.vercel.app"
+    ],
 
-    
-    
-    
-    
-  ],
-  credentials: true,
-  methods:["GET","POST","PUT","DELETE"]
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
-
 app.use(cors(corsOptions));
 
-  
-app.use("/api/v1",indexRoutes); //base route for all api routes
+// Routes
+app.use("/api/v1", indexRoutes);//base route for all api routes
 app.use("/api/v1/users",userRoutes)
 app.use("/api/v1/product",productRoutes)
 app.use("/api/v1/cart",cartRoutes)

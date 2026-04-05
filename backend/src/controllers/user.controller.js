@@ -3,9 +3,21 @@ import usersModel from "../models/user.model.js";
 import { generateToken } from './../utils/generateToken.js';
 import { validatePassword } from './../utils/validatePassword.js';
 
+// ── Consistent cookie options ─────────────────────────────────────────────
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,       // always true — both Render and Vercel are HTTPS
+  sameSite: 'none',   // required for cross-domain (Render → Vercel)
+  maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days
+};
 
+const clearCookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+};
 
-//public User
+// ── Register ──────────────────────────────────────────────────────────────
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -17,11 +29,10 @@ export const registerUser = async (req, res) => {
 
     let user;
     if (password) {
-      const passwordError = validatePassword(password); // Ensure this function exists
+      const passwordError = validatePassword(password);
       if (passwordError) {
         return res.status(400).json({ success: false, message: passwordError });
       }
-      
       const hashedPassword = await bcrypt.hash(password, 10);
       user = await usersModel.create({ name, email, password: hashedPassword });
     } else {
@@ -29,18 +40,11 @@ export const registerUser = async (req, res) => {
     }
 
     const token = generateToken(user);
-
- res.cookie('token', token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  maxAge: 5 * 24 * 60 * 60 * 1000,
-});
-
+    res.cookie('token', token, cookieOptions);
 
     return res.status(201).json({
       success: true,
-      message: password ? 'User registered with email/password' : 'User registered successfully (Google Sign-In)',
+      message: password ? 'User registered with email/password' : 'User registered successfully',
       user: {
         _id: user._id,
         name: user.name,
@@ -54,6 +58,7 @@ sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   }
 };
 
+// ── Login ─────────────────────────────────────────────────────────────────
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -67,18 +72,11 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
 
     const token = generateToken(user);
-
-res.cookie('token', token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  maxAge: 5 * 24 * 60 * 60 * 1000,
-});
-
+    res.cookie('token', token, cookieOptions);
 
     console.log("✅ Logged in user:", user.email);
     res.status(200).json({
-      success: true, // Added for frontend compatibility
+      success: true,
       message: 'Login successful',
       user: {
         _id: user._id,
@@ -87,36 +85,24 @@ res.cookie('token', token, {
         role: user.role,
         createdAt: user.createdAt,
       },
-      token
+      token,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Login failed', error: err.message });
   }
 };
 
+// ── Logout ────────────────────────────────────────────────────────────────
 export const logoutUser = (req, res) => {
-     console.log("✅ User logged out");
-res.clearCookie("token", {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-});
-
-
-  return res.status(200).json({
-    success: true,
-    message: "Logged out successfully",
-  });
- 
+  console.log("✅ User logged out");
+  res.clearCookie("token", clearCookieOptions);
+  return res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
-
-
-
-
+// ── Get Profile ───────────────────────────────────────────────────────────
 export const getUserProfile = async (req, res) => {
- try {
-    const user = await usersModel.findById(req.user.id).select('-password'); // Exclude password
+  try {
+    const user = await usersModel.findById(req.user.id).select('-password');
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -127,7 +113,6 @@ export const getUserProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-       
         createdAt: user.createdAt,
       },
     });
@@ -136,6 +121,7 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+// ── Update Profile ────────────────────────────────────────────────────────
 export const updateUserProfile = async (req, res) => {
   const { name, password } = req.body;
   try {
@@ -152,27 +138,21 @@ export const updateUserProfile = async (req, res) => {
   }
 };
 
-
-
-//admin route
+// ── Admin: Get All Users ──────────────────────────────────────────────────
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await usersModel.find({}).select('-password'); // Exclude password from the response
+    const users = await usersModel.find({}).select('-password');
     res.status(200).json(users);
   } catch (err) {
     console.error("Error fetching users:", err);
     res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
+// ── Admin: Make Admin ─────────────────────────────────────────────────────
 export const makeAdmin = async (req, res) => {
-
   const { id } = req.params;
 
-  console.log('Current user:', req.user);  
-
-
-  // Only allow if current user is an admin
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Access denied: Admins only' });
   }
@@ -183,30 +163,21 @@ export const makeAdmin = async (req, res) => {
       { role: 'admin' },
       { new: true }
     );
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
+    if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json({ message: 'User promoted to admin', user });
   } catch (err) {
     res.status(500).json({ message: 'Failed to update role', error: err.message });
   }
 };
 
+// ── Admin: Delete User ────────────────────────────────────────────────────
 export const deleteUser = async (req, res) => {
   const userId = req.params.id;
-
   try {
     const deletedUser = await usersModel.findByIdAndDelete(userId);
-
     if (!deletedUser) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-
     return res.status(200).json({
       success: true,
       message: "User deleted successfully",
@@ -214,13 +185,9 @@ export const deleteUser = async (req, res) => {
         _id: deletedUser._id,
         name: deletedUser.name,
         email: deletedUser.email,
-      }
+      },
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Error deleting user",
-      error: err.message,
-    });
+    return res.status(500).json({ success: false, message: "Error deleting user", error: err.message });
   }
 };

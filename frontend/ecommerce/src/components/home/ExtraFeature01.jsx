@@ -40,21 +40,31 @@ const ProductCard = ({ product }) => (
       </div>
     </Link>
     <div className="p-3 space-y-2">
-      <p className="text-xs font-semibold text-gray-700 line-clamp-2 leading-tight">
-        {product.name}
-      </p>
-      <div className="flex items-center gap-1.5">
-        <span className="text-green-600 font-bold text-sm">
-          ৳{product.price}
-        </span>
-        {product.originalPrice > 0 && (
-          <span className="text-gray-400 line-through text-xs">
-            ৳{product.originalPrice}
-          </span>
-        )}
-      </div>
-      <AddToCart product={product} />
-    </div>
+  {/* Product Name */}
+  <p className="text-xs font-semibold text-gray-700 line-clamp-2 leading-tight">
+    {product.name}
+  </p>
+
+  {/* Price Section */}
+  <div className="flex items-center gap-2">
+    
+    {/* Selling Price */}
+    <span className="text-green-600 font-bold text-sm">
+      ৳{product.price}
+    </span>
+
+    {/* Original Price (Strikethrough) */}
+    {product.originalPrice && product.originalPrice > product.price && (
+      <span className="text-gray-400 line-through text-xs">
+        ৳{product.originalPrice}
+      </span>
+    )}
+
+  </div>
+
+  {/* Add to Cart */}
+  <AddToCart product={product} />
+</div>
   </div>
 );
 

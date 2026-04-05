@@ -4,114 +4,115 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../contex/CartContext.jsx";
 import { UseAddToCart } from "../features/carts/CardQuery.js";
 import { UseLogin } from "../features/users/userQueries.js";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const { mutate: loginUser, isPending } = UseLogin();
   const { mutate: addCart } = UseAddToCart();
   const { cart: localCart, clearCart } = useCart();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {
     loginUser(data, {
       onSuccess: () => {
         reset();
         toast.success("Login successful!");
-        // Sync local cart to server
+
         if (localCart.length > 0) {
           localCart.forEach(item => {
             addCart({ productId: item._id, quantity: item.quantity });
           });
           clearCart();
-          toast.success("Cart synced from local storage!");
+          toast.success("Cart synced!");
         }
+
         navigate("/");
       },
       onError: () => {
-        toast.error("Login failed!");
+        toast.error("Invalid email or password");
       },
     });
   };
 
-  const handleDemoUser = () => {
-    setValue("email", "rony19@gmail.com");
-    setValue("password", "Adnan@1999");
-  };
-
-  const handleDemoAdmin = () => {
-    setValue("email", "sompod@gmail.com");
-    setValue("password", "Adnan@1999");
-  };
-
   return (
-    <div className="bg-gradient-to-r from-[#f6cece] to-[#e4efff] min-h-screen  flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6 md:p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+
+      {/* Card */}
+      <div className="w-full max-w-md bg-white/80 backdrop-blur-md border border-gray-100 shadow-xl rounded-3xl p-8">
+
         {/* Title */}
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-semibold text-gray-800">Welcome Back!</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Welcome Back</h2>
+          <p className="text-gray-500 text-sm mt-1">
+            Login to your account
+          </p>
         </div>
 
-        {/* Demo Buttons */}
-        <div className="flex justify-center gap-3 mb-4">
-          <button
-            onClick={handleDemoUser}
-            className="px-4 py-2 text-sm bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition"
-          >
-            Demo User
-          </button>
-          <button
-            onClick={handleDemoAdmin}
-            className="px-4 py-2 text-sm bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition"
-          >
-            Demo Admin
-          </button>
-        </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-        <hr className="my-4" />
-
-        {/* Login Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Email */}
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Email
-            </label>
+            <label className="text-sm font-medium text-gray-600">Email</label>
             <input
               {...register("email")}
               type="email"
               required
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="you@example.com"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
 
+          {/* Password */}
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Password
-            </label>
-            <input
-              {...register("password")}
-              type="password"
-              required
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
+            <label className="text-sm font-medium text-gray-600">Password</label>
+
+            <div className="relative mt-1">
+              <input
+                {...register("password")}
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            <div className="text-right mt-1">
+              <Link to="/forgot-password" className="text-xs text-blue-600 hover:underline">
+                Forgot password?
+              </Link>
+            </div>
           </div>
 
+          {/* Button */}
           <button
             type="submit"
             disabled={isPending}
-            className="w-full bg-[#1d4c9e] hover:bg-blue-700 text-white py-2 rounded-full transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-60"
           >
             {isPending ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center text-sm mt-4">
-          Don&apos;t have an account?
-          <Link to="/SingUp" className="text-blue-600 ml-1 hover:underline">
+        {/* Footer */}
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Don’t have an account?
+          <Link to="/SingUp" className="text-blue-600 ml-1 font-medium hover:underline">
             Sign Up
           </Link>
         </p>
+
       </div>
     </div>
   );

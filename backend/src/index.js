@@ -19,9 +19,9 @@ async function main() {
     });
     console.log("✅ Connected to MongoDB");
 
-    // app.listen(PORT, () => {
-    //   console.log(`✅ App listening on port ${PORT}`);
-    // });
+    app.listen(PORT, () => {
+      console.log(`✅ App listening on port ${PORT}`);
+    });
   } catch (err) {
     console.error("Failed to connect to the database", err);
     process.exit(1);

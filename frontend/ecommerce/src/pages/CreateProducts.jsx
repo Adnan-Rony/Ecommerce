@@ -9,7 +9,7 @@ const CLOUD_NAME = "dnpycgwch";
 const UPLOAD_PRESET = "blogging";
 
 const CATEGORIES = [
-  "Smartphones", "Laptops", "Tablets", "Headphones", "Cameras",
+  "Gadgets", "Cameras","Kitchen accessories","Home Appliances","pet items","pet foods",
   "Smart Watches", "Gaming", "Accessories", "TVs", "Audio", "Other"
 ];
 

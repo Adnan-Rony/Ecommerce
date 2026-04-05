@@ -59,9 +59,9 @@ const FaqSection = () => {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          {/* <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <FaQuestionCircle className="text-2xl text-blue-600" />
-          </div>
+          </div> */}
           <h2 className="text-3xl font-extrabold text-gray-800">FAQ</h2>
           <p className="text-gray-500 mt-2 text-sm">
             আপনার মনে যা প্রশ্ন আসছে — এখানে উত্তর পাবেন

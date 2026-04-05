@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import usersModel from "../models/Users.model.js";
-import { validatePassword } from './../utils/validatePassword.js';
+import usersModel from "../models/user.model.js";
 import { generateToken } from './../utils/generateToken.js';
+import { validatePassword } from './../utils/validatePassword.js';
 
 
 

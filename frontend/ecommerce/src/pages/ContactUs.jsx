@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import { FiMapPin, FiMail, FiPhone, FiSend, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useSEO from "../hooks/useSEO.js";
 
 // ── Contact info items ────────────────────────────────────────────────────
 const INFO = [
@@ -40,6 +41,11 @@ const inputClass =
 
 // ── Main Component ────────────────────────────────────────────────────────
 const ContactUs = () => {
+
+  useSEO({
+  title: "Contact Us",
+  description: "Contact ZapZoneBD for any queries. We are available 7 days a week. Call: +880 1747 430447",
+});
   const formRef   = useRef();
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
 

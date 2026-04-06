@@ -1,34 +1,46 @@
 import { useState } from "react";
 import axiosInstance from "../api/axiosInstance.js";
-import { MdLocalShipping, MdCheckCircle, MdPending, MdCancel } from "react-icons/md";
+import {
+  MdLocalShipping,
+  MdCheckCircle,
+  MdPending,
+  MdCancel,
+} from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa";
+import useSEO from "../hooks/useSEO.js";
 
 const STATUS_STEPS = ["pending", "confirmed", "shipped", "delivered"];
 
 const STATUS_ICON = {
-  pending:   <MdPending className="text-yellow-500 text-2xl" />,
+  pending: <MdPending className="text-yellow-500 text-2xl" />,
   confirmed: <MdCheckCircle className="text-blue-500 text-2xl" />,
-  shipped:   <MdLocalShipping className="text-purple-500 text-2xl" />,
+  shipped: <MdLocalShipping className="text-purple-500 text-2xl" />,
   delivered: <MdCheckCircle className="text-green-500 text-2xl" />,
   cancelled: <MdCancel className="text-red-500 text-2xl" />,
 };
 
 const STATUS_COLOR = {
-  pending:   "bg-yellow-100 text-yellow-700",
+  pending: "bg-yellow-100 text-yellow-700",
   confirmed: "bg-blue-100 text-blue-700",
-  shipped:   "bg-purple-100 text-purple-700",
+  shipped: "bg-purple-100 text-purple-700",
   delivered: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
 };
 
 const TrackOrder = () => {
-  const [phone, setPhone]     = useState("");
-  const [orders, setOrders]   = useState([]);
+  useSEO({
+      title: "Track Your Order",
+      description:
+        "Track your ZapZoneBD order status in real time using your phone number.",
+    });
+  const [phone, setPhone] = useState("");
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState("");
+  const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
 
   const handleTrack = async () => {
+    
     if (!phone.trim()) {
       setError("Please enter your phone number.");
       return;
@@ -44,7 +56,8 @@ const TrackOrder = () => {
       setSearched(true);
     } catch (err) {
       setError(
-        err?.response?.data?.message || "No orders found with this phone number."
+        err?.response?.data?.message ||
+          "No orders found with this phone number.",
       );
       setSearched(true);
     } finally {
@@ -57,7 +70,6 @@ const TrackOrder = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-2xl mx-auto">
-
         {/* Header */}
         <div className="text-center mb-8">
           <FaBoxOpen className="text-5xl text-blue-600 mx-auto mb-3" />
@@ -106,8 +118,10 @@ const TrackOrder = () => {
             </p>
 
             {orders.map((order, idx) => (
-              <div key={order._id} className="bg-white rounded-2xl shadow overflow-hidden">
-
+              <div
+                key={order._id}
+                className="bg-white rounded-2xl shadow overflow-hidden"
+              >
                 {/* Order Header */}
                 <div className="bg-gray-800 text-white px-5 py-4 flex justify-between items-center">
                   <div>
@@ -127,7 +141,6 @@ const TrackOrder = () => {
                 </div>
 
                 <div className="p-5 space-y-5">
-
                   {/* Progress Bar */}
                   {order.status !== "cancelled" && (
                     <div>
@@ -140,25 +153,32 @@ const TrackOrder = () => {
                         <div
                           className="absolute top-4 left-0 h-1 bg-blue-500 z-0 transition-all"
                           style={{
-                            width: `${(getStepIndex(order.status) / (STATUS_STEPS.length - 1)) * 100}%`
+                            width: `${(getStepIndex(order.status) / (STATUS_STEPS.length - 1)) * 100}%`,
                           }}
                         />
 
                         {STATUS_STEPS.map((step, i) => {
-                          const isDone    = i <= getStepIndex(order.status);
+                          const isDone = i <= getStepIndex(order.status);
                           const isCurrent = i === getStepIndex(order.status);
                           return (
-                            <div key={step} className="flex flex-col items-center z-10">
-                              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition ${
-                                isDone
-                                  ? "bg-blue-600 border-blue-600 text-white"
-                                  : "bg-white border-gray-300 text-gray-400"
-                              } ${isCurrent ? "ring-4 ring-blue-100" : ""}`}>
+                            <div
+                              key={step}
+                              className="flex flex-col items-center z-10"
+                            >
+                              <div
+                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition ${
+                                  isDone
+                                    ? "bg-blue-600 border-blue-600 text-white"
+                                    : "bg-white border-gray-300 text-gray-400"
+                                } ${isCurrent ? "ring-4 ring-blue-100" : ""}`}
+                              >
                                 {i + 1}
                               </div>
-                              <p className={`text-xs mt-1 capitalize font-medium ${
-                                isDone ? "text-blue-600" : "text-gray-400"
-                              }`}>
+                              <p
+                                className={`text-xs mt-1 capitalize font-medium ${
+                                  isDone ? "text-blue-600" : "text-gray-400"
+                                }`}
+                              >
                                 {step}
                               </p>
                             </div>
@@ -171,7 +191,9 @@ const TrackOrder = () => {
                   {/* Status Badge */}
                   <div className="flex items-center gap-2">
                     {STATUS_ICON[order.status]}
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold capitalize ${STATUS_COLOR[order.status]}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-semibold capitalize ${STATUS_COLOR[order.status]}`}
+                    >
                       {order.status}
                     </span>
                     <span className="text-xs text-gray-400 ml-auto">
@@ -182,11 +204,15 @@ const TrackOrder = () => {
                   {/* Products */}
                   <div>
                     <p className="text-xs font-semibold text-gray-500 mb-2 uppercase">
-                      Items Ordered ({order.items?.reduce((s, i) => s + i.quantity, 0)} pcs)
+                      Items Ordered (
+                      {order.items?.reduce((s, i) => s + i.quantity, 0)} pcs)
                     </p>
                     <div className="space-y-2">
                       {order.items?.map((item, i) => (
-                        <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <div
+                          key={i}
+                          className="flex items-center gap-3 bg-gray-50 rounded-xl p-3"
+                        >
                           {item.product?.images?.[0] && (
                             <img
                               src={item.product.images[0]}
@@ -219,7 +245,8 @@ const TrackOrder = () => {
                       {order.shippingAddress?.name}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {order.shippingAddress?.address}, {order.shippingAddress?.city}
+                      {order.shippingAddress?.address},{" "}
+                      {order.shippingAddress?.city}
                     </p>
                     <p className="text-sm text-gray-500">
                       {order.shippingAddress?.phone}
@@ -230,7 +257,6 @@ const TrackOrder = () => {
                       </p>
                     )}
                   </div>
-
                 </div>
               </div>
             ))}
@@ -244,7 +270,6 @@ const TrackOrder = () => {
             <p>No orders found.</p>
           </div>
         )}
-
       </div>
     </div>
   );

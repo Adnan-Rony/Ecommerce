@@ -2,19 +2,23 @@ import Card from "../components/home/Card.jsx";
 import BlogSection from "../components/home/BlogSection.jsx";
 import ExtraFeature01 from "../components/home/ExtraFeature01.jsx";
 import { NewsLetter } from "../components/home/NewsLetter.jsx";
-
+import useSEO from "../hooks/useSEO.js";
 import FeaturesBar from "../components/home/FeaturesBar.jsx";
 
 import Categories from "../components/home/Categories.jsx";
 
 import BannerGrid from "../components/home/BannerGrid.jsx";
 
-
 import FaqSection from "../components/home/FAQ.jsx";
 import AllCards from "../components/home/AllCards.jsx";
 import FlashHotSalePromo from "../components/home/FlashHotSalePromo.jsx";
 
 const Home = () => {
+  useSEO({
+    title: "ZapZoneBD — Gadgets,Pet Items, Electronics & More",
+    description:
+      "Buy latest gadgets, electronics, kitchen accessories and pet items at best price in Bangladesh. Free delivery above ৳1000. bKash & Nagad accepted.",
+  });
   return (
     <div className="">
       {/* Full Width Section */}
@@ -36,8 +40,6 @@ const Home = () => {
         <Categories />
       </section>
 
-      
-
       <section className="w-full ">
         <FlashHotSalePromo />
       </section>
@@ -52,7 +54,6 @@ const Home = () => {
       <section className="w-full">
         <NewsLetter />
       </section>
-      
     </div>
   );
 };

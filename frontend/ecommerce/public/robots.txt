@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Block admin and dashboard pages from Google
+Disallow: /dashboard
+Disallow: /userdashboard
+Disallow: /checkout
+Disallow: /payment/
+
+# Sitemap location
+Sitemap: https://zapzonebd.vercel.app/sitemap.xml

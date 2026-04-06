@@ -6,8 +6,12 @@ import { UseAddToCart } from "../features/carts/CardQuery.js";
 import { UseLogin } from "../features/users/userQueries.js";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import useSEO from "../hooks/useSEO.js";
 
 const Login = () => {
+
+
+  useSEO({ title: "Login" });
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const { mutate: loginUser, isPending } = UseLogin();

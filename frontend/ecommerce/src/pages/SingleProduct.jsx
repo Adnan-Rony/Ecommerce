@@ -11,10 +11,22 @@ import AddToCart from "../components/AddToCart.jsx";
 import RecommendedProducts from "../components/Products/Recommadation.jsx";
 import DetailsPageLoading from "../components/loader/DetailsPageLoading.jsx";
 import ProductTabs from "./ProductTabs.jsx";
+import useSEO from "../hooks/useSEO.js";
 
 const WHATSAPP_NUMBER = "8801618094828";
 
 const SingleProduct = () => {
+
+
+
+  useSEO({
+  title: products?.name,
+  description: `Buy ${products?.name} at ৳${products?.price} in Bangladesh. Brand: ${products?.brand}.`,
+  image: products?.images?.[0],
+  url: `https://zapzonebd.vercel.app/product/${id}`,
+});
+
+
   const { id } = useParams();
   const { data: products, isLoading, isError } = UseFetchProductsById(id);
 

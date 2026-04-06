@@ -17,7 +17,8 @@ const WHATSAPP_NUMBER = "8801618094828";
 
 const SingleProduct = () => {
 
-
+const { id } = useParams();
+  const { data: products, isLoading, isError } = UseFetchProductsById(id);
 
   useSEO({
   title: products?.name,
@@ -27,8 +28,7 @@ const SingleProduct = () => {
 });
 
 
-  const { id } = useParams();
-  const { data: products, isLoading, isError } = UseFetchProductsById(id);
+  
 
   if (isLoading) return <DetailsPageLoading />;
   if (isError)

@@ -4,7 +4,7 @@ import ProductCard from "../../components/ProductCard.jsx";
 import CategorySectionLoading from "../../components/loader/CategorySectionLoading.jsx";
 import { UseFetchProducts } from "../../features/products/ProductsQuery.js";
 import { SlidersHorizontal, Search, ChevronLeft, ChevronRight, X, LayoutGrid, List } from "lucide-react";
-import useSEO from "../../hooks/useSEO.js";
+
 
 const ITEMS_PER_PAGE = 9;
 

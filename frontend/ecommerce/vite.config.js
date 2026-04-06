@@ -5,11 +5,10 @@ export default defineConfig({
   plugins: [react()],
 
   build: {
-    // ── Code splitting — each route loads only what it needs ──────────
+    // ── Code splitting ────────────────────────────────────────────────
     rollupOptions: {
       output: {
         manualChunks: {
-          // Vendor chunks — split large libraries into separate files
           'react-vendor':  ['react', 'react-dom', 'react-router-dom'],
           'query-vendor':  ['@tanstack/react-query'],
           'stripe-vendor': ['@stripe/stripe-js', '@stripe/react-stripe-js'],
@@ -19,29 +18,19 @@ export default defineConfig({
       },
     },
 
-    // ── Increase chunk size warning limit ─────────────────────────────
     chunkSizeWarningLimit: 1000,
 
-    // ── Minify ────────────────────────────────────────────────────────
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,   // removes console.log in production
-        drop_debugger: true,
-      },
-    },
+    // ── Use esbuild (built into Vite, no install needed) ──────────────
+    minify: 'esbuild',
 
-    // ── Source maps off in production (smaller files) ─────────────────
     sourcemap: false,
   },
 
-  // ── Dev server ────────────────────────────────────────────────────────
   server: {
     port: 5173,
     open: true,
   },
 
-  // ── Optimize deps — pre-bundle for faster dev startup ────────────────
   optimizeDeps: {
     include: [
       'react',
